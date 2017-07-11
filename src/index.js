@@ -1,4 +1,4 @@
-const horsey = require('horsey'); // Auto-complete
+// const horsey = require('horsey'); // Auto-complete
 const Fuse = require('fuse.js'); // Better fuzzy search
 const autoComplete = require('javascript-autocomplete'); // Trying another autocomplete
 
@@ -110,7 +110,8 @@ const classificationList = [
   { value: "899", text: "Miscellaneous Labourers"}
 ];
 
-var options = {
+
+var fuseOptions = {
   shouldSort: true,
   keys: ['value', 'text'],
   threshold: 0.6,
@@ -118,7 +119,7 @@ var options = {
   distance: 100,
 };
 
-const fuse = new Fuse(classificationList, options);
+const fuse = new Fuse(classificationList, fuseOptions);
 const fuseResult = fuse.search('query');
 
 const complete = new autoComplete({
@@ -126,105 +127,6 @@ const complete = new autoComplete({
   minChars: 2,
   source: function(term, suggest){
       term = term.toLowerCase();
-      var choices = [
-        "Chief Executives, General Managers and Legislators",
-        "Farmers and Farm Managers",
-        "Advertising, Public Relations and Sales Managers",
-        "Business Administration Managers",
-        "Construction, Distribution and Production Managers",
-        "Education, Health and Welfare Services Managers",
-        "ICT Managers",
-        "Miscellaneous Specialist Managers",
-        "Accommodation and Hospitality Managers",
-        "Retail Managers",
-        "Miscellaneous Hospitality, Retail and Service Managers",
-        "Arts Professionals",
-        "Media Professionals",
-        "Accountants, Auditors and Company Secretaries",
-        "Financial Brokers and Dealers, and Investment Advisers",
-        "Human Resource and Training Professionals",
-        "Information and Organisation Professionals",
-        "Sales, Marketing and Public Relations Professionals",
-        "Air and Marine Transport Professionals",
-        "Architects, Designers, Planners and Surveyors",
-        "Engineering Professionals",
-        "Natural and Physical Science Professionals",
-        "School Teachers",
-        "Tertiary Education Teachers",
-        "Miscellaneous Education Professionals",
-        "Health Diagnostic and Promotion Professionals",
-        "Health Therapy Professionals",
-        "Medical Practitioners",
-        "Midwifery and Nursing Professionals",
-        "Business and Systems Analysts, and Programmers",
-        "Database and Systems Administrators, and ICT Security Specialists",
-        "ICT Network and Support Professionals",
-        "Legal Professionals",
-        "Social and Welfare Professionals",
-        "Agricultural, Medical and Science Technicians",
-        "Building and Engineering Technicians",
-        "ICT and Telecommunications Technicians",
-        "Automotive Electricians and Mechanics",
-        "Fabrication Engineering Trades Workers",
-        "Mechanical Engineering Trades Workers",
-        "Panelbeaters, and Vehicle Body Builders, Trimmers and Painters",
-        "Bricklayers, and Carpenters and Joiners",
-        "Floor Finishers and Painting Trades Workers",
-        "Glaziers, Plasterers and Tilers",
-        "Plumbers",
-        "Electricians",
-        "Electronics and Telecommunications Trades Workers",
-        "Food Trades Workers",
-        "Animal Attendants and Trainers, and Shearers",
-        "Horticultural Trades Workers",
-        "Hairdressers",
-        "Printing Trades Workers",
-        "Textile, Clothing and Footwear Trades Workers",
-        "Wood Trades Workers",
-        "Miscellaneous Technicians and Trades Workers",
-        "Health and Welfare Support Workers",
-        "Child Carers",
-        "Education Aides",
-        "Personal Carers and Assistants",
-        "Hospitality Workers",
-        "Defence Force Members, Fire Fighters and Police",
-        "Prison and Security Officers",
-        "Personal Service and Travel Workers",
-        "Sports and Fitness Workers",
-        "Contract, Program and Project Administrators",
-        "Office and Practice Managers",
-        "Personal Assistants and Secretaries",
-        "General Clerks",
-        "Keyboard Operators",
-        "Call or Contact Centre Information Clerks",
-        "Receptionists",
-        "Accounting Clerks and Bookkeepers",
-        "Financial and Insurance Clerks",
-        "Clerical and Office Support Workers",
-        "Logistics Clerks",
-        "Miscellaneous Clerical and Administrative Workers",
-        "Insurance Agents and Sales Representatives",
-        "Real Estate Sales Agents",
-        "Sales Assistants and Salespersons",
-        "Checkout Operators and Office Cashiers",
-        "Miscellaneous Sales Support Workers",
-        "Machine Operators",
-        "Stationary Plant Operators",
-        "Mobile Plant Operators",
-        "Automobile, Bus and Rail Drivers",
-        "Delivery Drivers",
-        "Truck Drivers",
-        "Storepersons",
-        "Cleaners and Laundry Workers",
-        "Construction and Mining Labourers",
-        "Food Process Workers",
-        "Packers and Product Assemblers",
-        "Miscellaneous Factory Process Workers",
-        "Farm, Forestry and Garden Workers",
-        "Food Preparation Assistants",
-        "Freight Handlers and Shelf Fillers",
-        "Miscellaneous Labourers"
-      ];
       
       const fuseResult = fuse.search(term);
 
@@ -233,26 +135,26 @@ const complete = new autoComplete({
         fuseMatches.push(fuseResult[i].text);
       }
 
-      const matches = [];
+      // const matches = [];
 
-      for (let i=0; i<choices.length; i++) {
-        if (~choices[i].toLowerCase().indexOf(term)) matches.push(choices[i]);
-      }
-      console.log(fuseMatches);
+      // for (let i=0; i<choices.length; i++) {
+      //   if (~choices[i].toLowerCase().indexOf(term)) matches.push(choices[i]);
+      // }
+      // console.log(fuseMatches);
 
       suggest(fuseMatches);
   }
 });
 
 // Horsey does not highlight Uppercase letters so let's convert to lowercase
-const classificationListLower = [];
-for (var i = 0; i < classificationList.length; i++) {
-    classificationListLower[i] = 
-      {
-        value: classificationList[i].value,
-        text: classificationList[i].text.toLowerCase()
-      };
-}
+// const classificationListLower = [];
+// for (var i = 0; i < classificationList.length; i++) {
+//     classificationListLower[i] = 
+//       {
+//         value: classificationList[i].value,
+//         text: classificationList[i].text.toLowerCase()
+//       };
+// }
 
 // horsey(document.querySelector('#job-classification'), {
 //   source: [{
