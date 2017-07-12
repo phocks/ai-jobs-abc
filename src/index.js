@@ -50,9 +50,14 @@ const complete = new autoComplete({
   onSelect: function(e, term, item){
       // console.log(e);
       // console.log(term);
-      console.log(item);
+      // console.log(item);
+
+      const dataCodeEl = document.getElementById("data-code");
 
       const ANZSCO = item.getAttribute('search-code');
+
+      dataCodeEl.innerText = ANZSCO;
+
 
       console.log(ANZSCO);
   }
