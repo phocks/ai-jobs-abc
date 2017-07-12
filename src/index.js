@@ -4,7 +4,7 @@ const jobs = require('./job-data');
 
 const maxResults = 32;
 
-const classificationList = jobs.jobList;
+const jobList = jobs.jobList;
 
 const fuseOptions = {
   shouldSort: true,
@@ -14,11 +14,11 @@ const fuseOptions = {
   distance: 100,
 };
 
-const fuse = new Fuse(classificationList, fuseOptions);
+const fuse = new Fuse(jobList, fuseOptions);
 const fuseResult = fuse.search('query');
 
 const complete = new autoComplete({
-  selector: '#job-classification',
+  selector: '#job-search',
   minChars: 2,
   source: function(term, suggest) {
       term = term.toLowerCase();
@@ -48,8 +48,12 @@ const complete = new autoComplete({
         '</div>';
   },
   onSelect: function(e, term, item){
-      console.log(e);
-      console.log(term);
+      // console.log(e);
+      // console.log(term);
       console.log(item);
+
+      const ANZSCO = item.getAttribute('search-code');
+
+      console.log(ANZSCO);
   }
 });
