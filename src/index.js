@@ -5,6 +5,13 @@ const jobs = require('./job-data');
 const maxResults = 32;
 
 const jobList = jobs.jobList;
+const automationData = jobs.automationData;
+
+// Create a lookup object for searching
+const anzscoLookup = {};
+for (let i = 0, len = automationData.length; i < len; i++) {
+    anzscoLookup[automationData[i].anzsco] = automationData[i];
+}
 
 const fuseOptions = {
   shouldSort: true,
@@ -21,14 +28,14 @@ const complete = new autoComplete({
   selector: '#job-search',
   minChars: 2,
   source: function(term, suggest) {
-      term = term.toLowerCase();
-      
-      const fuseResult = fuse.search(term);
+    term = term.toLowerCase();
+    
+    const fuseResult = fuse.search(term);
 
-      // Limit number of results
-      let suggestionCount = (fuseResult.length > maxResults ) ? suggestionCount = maxResults : fuseResult.length;
+    // Limit number of results
+    let suggestionCount = (fuseResult.length > maxResults ) ? suggestionCount = maxResults : fuseResult.length;
 
-      const fuseMatches = [];
+    const fuseMatches = [];
       for (let i = 0; i < suggestionCount; i++) {
         fuseMatches.push(fuseResult[i].code + " " + fuseResult[i].title);
       }
@@ -48,17 +55,13 @@ const complete = new autoComplete({
         '</div>';
   },
   onSelect: function(e, term, item){
-      // console.log(e);
-      // console.log(term);
-      // console.log(item);
+      const groupTitleEl = document.getElementById("group-title");
+      const anzsco = item.getAttribute('search-code');
+      const selectedGroupData = anzscoLookup[anzsco];
 
-      const dataCodeEl = document.getElementById("data-code");
+      console.log(selectedGroupData);
 
-      const ANZSCO = item.getAttribute('search-code');
-
-      dataCodeEl.innerText = ANZSCO;
-
-
-      console.log(ANZSCO);
+      groupTitleEl.innerText = selectedGroupData.groupTitle;
+      document.getElementById("automation-info").classList.remove("hidden");
   }
 });
