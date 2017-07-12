@@ -1,16 +1,15 @@
-// const horsey = require('horsey'); // Auto-complete
-const Fuse = require('fuse.js'); // Better fuzzy search
-const autoComplete = require('javascript-autocomplete'); // Trying another autocomplete
+const Fuse = require('fuse.js'); // Nice and fuzzy search
+const autoComplete = require('javascript-autocomplete'); // Better autocomplete
 const jobs = require('./job-data');
 
-classificationList = jobs.classificationList;
+const classificationList = jobs.classificationList;
 
-var fuseOptions = {
+const fuseOptions = {
   shouldSort: true,
   keys: ['value', 'text'],
   threshold: 0.6,
   location: 0,
-  distance: 100,
+  distance: 100
 };
 
 const fuse = new Fuse(classificationList, fuseOptions);
@@ -24,6 +23,8 @@ const complete = new autoComplete({
       
       const fuseResult = fuse.search(term);
 
+      console.log(fuseResult);
+
       const fuseMatches = [];
       for (let i = 0; i < fuseResult.length; i++) {
         fuseMatches.push(fuseResult[i].text);
@@ -31,7 +32,14 @@ const complete = new autoComplete({
 
       suggest(fuseMatches);
   },
-  onSelect: function(){
-      console.log('item selected');
+  //   renderItem: function (item, search) {
+  //   search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  //   var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+  //   return '<div class="autocomplete-suggestion" data-val="' + item + '">' + item.replace(re, "<b>$1</b>") + '</div>';
+  // },
+  onSelect: function(e, term, item){
+      console.log(e);
+      console.log(term);
+      console.log(item);
   }
 });
