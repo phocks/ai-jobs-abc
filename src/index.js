@@ -49,7 +49,7 @@ const complete = new autoComplete({
       var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi"); // Highlight?
 
       // Remove title code from data
-      item = item.replace(/\s+\(S\)|\s\(P\)|\s\(A\)|\s\(N\)/g, "");
+      item = item.replace(/\s+\(S\)|\s\(P\)|\s\(A\)|\s\(N\)|\snec/g, "");
 
       // Return the element
       return '<div \
