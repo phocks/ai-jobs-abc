@@ -55,13 +55,23 @@ const complete = new autoComplete({
         '</div>';
   },
   onSelect: function(e, term, item){
-      const groupTitleEl = document.getElementById("group-title");
+      const groupTitleEl = document.getElementsByClassName("group-title");
       const anzsco = item.getAttribute('search-code');
       const selectedGroupData = anzscoLookup[anzsco];
 
       console.log(selectedGroupData);
 
-      groupTitleEl.innerText = selectedGroupData.groupTitle;
+
+      for (let i = 0; i < groupTitleEl.length; i++) {
+          groupTitleEl[i].innerText = selectedGroupData.groupTitle;
+      } 
+      document.getElementById("percent-less").innerText = selectedGroupData.percentLessSusceptible;
+      document.getElementById("percent-more").innerText = selectedGroupData.percentMoreSusceptible;
+      document.getElementById("task-less-1").innerText = selectedGroupData.taskLessAffected1;
+      document.getElementById("task-less-2").innerText = selectedGroupData.taskLessAffected2;
+      document.getElementById("task-more-1").innerText = selectedGroupData.taskMoreAffected1;
+      document.getElementById("task-more-2").innerText = selectedGroupData.taskMoreAffected2;
+
       document.getElementById("automation-info").classList.remove("hidden");
   }
 });
