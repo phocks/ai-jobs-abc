@@ -1,5 +1,7 @@
 const Fuse = require('fuse.js'); // Nice and fuzzy search
 const autoComplete = require('javascript-autocomplete'); // Better autocomplete
+const Vue = require('vue');
+
 const jobs = require('./job-data');
 
 const maxResults = 32;
@@ -24,6 +26,14 @@ const fuseOptions = {
 
 const fuse = new Fuse(jobList, fuseOptions);
 const fuseResult = fuse.search('query');
+
+// Trying out Vue
+var app = new Vue({
+  el: '#app',
+  data: {
+    message: 'Hello Vue!'
+  }
+})
 
 const complete = new autoComplete({
   selector: '#job-search',
@@ -103,7 +113,9 @@ const complete = new autoComplete({
       } else {
         document.getElementById("tasks-more").classList.add("hidden");
       }
-
-      document.getElementById("automation-info").classList.remove("hidden");
+      setTimeout(function () {
+        document.getElementById("automation-info").classList.remove("hidden");
+      }, 300);
+      
   }
 });
