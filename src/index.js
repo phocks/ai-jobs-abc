@@ -19,6 +19,7 @@ const fuseOptions = {
   threshold: 0.6,
   location: 0,
   distance: 100,
+  minMatchCharLength: 1,
 };
 
 const fuse = new Fuse(jobList, fuseOptions);
@@ -26,7 +27,8 @@ const fuseResult = fuse.search('query');
 
 const complete = new autoComplete({
   selector: '#job-search',
-  minChars: 2,
+  minChars: 1,
+  delay: 150,
   source: function(term, suggest) {
     term = term.toLowerCase();
     
@@ -45,6 +47,9 @@ const complete = new autoComplete({
     renderItem: function (item, search) {
       search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); // Escape special characters
       var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi"); // Highlight?
+
+      // Remove title code from data
+      item = item.replace(/\s+\(S\)|\s\(P\)|\s\(A\)|\s\(N\)/g, "");
 
       // Return the element
       return '<div \

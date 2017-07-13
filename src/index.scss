@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
 
 // Columns layout
 
@@ -117,7 +117,7 @@ html, body {
 }
 
 body, input, button, textarea {
-  font-family: Roboto, Georgia, Helvetica;
+  font-family: Roboto, Helvetica, sans-serif;
   font-size: 17px;
   color: #333;
 }
