@@ -66,16 +66,43 @@ const complete = new autoComplete({
 
       console.log(selectedGroupData);
 
-
+      // Replace all instances of Job Group Title
       for (let i = 0; i < groupTitleEl.length; i++) {
           groupTitleEl[i].innerText = selectedGroupData.groupTitle;
-      } 
+      }
+
+      // Display the percentages
       document.getElementById("percent-less").innerText = selectedGroupData.percentLessSusceptible;
       document.getElementById("percent-more").innerText = selectedGroupData.percentMoreSusceptible;
-      document.getElementById("task-less-1").innerText = selectedGroupData.taskLessAffected1;
-      document.getElementById("task-less-2").innerText = selectedGroupData.taskLessAffected2;
-      document.getElementById("task-more-1").innerText = selectedGroupData.taskMoreAffected1;
-      document.getElementById("task-more-2").innerText = selectedGroupData.taskMoreAffected2;
+
+      // If there are tasks display them
+      if (selectedGroupData.taskLessAffected1 !== "null") {
+        document.getElementById("task-less-1").innerText = selectedGroupData.taskLessAffected1;
+        document.getElementById("task-less-2").innerText = selectedGroupData.taskLessAffected2;
+
+        if (selectedGroupData.taskLessAffected2 === "null") {
+          document.getElementById("list-less-2").classList.add("hidden");
+        } else document.getElementById("list-less-2").classList.remove("hidden");
+
+        document.getElementById("tasks-less").classList.remove("hidden");
+
+      } else {
+        document.getElementById("tasks-less").classList.add("hidden");
+      }
+
+      if (selectedGroupData.taskMoreAffected1 !== "null") {
+        document.getElementById("task-more-1").innerText = selectedGroupData.taskMoreAffected1;
+        document.getElementById("task-more-2").innerText = selectedGroupData.taskMoreAffected2;
+
+        if (selectedGroupData.taskMoreAffected2 === "null") {
+          document.getElementById("list-more-2").classList.add("hidden");
+        } else document.getElementById("list-more-2").classList.remove("hidden");
+
+        document.getElementById("tasks-more").classList.remove("hidden");
+
+      } else {
+        document.getElementById("tasks-more").classList.add("hidden");
+      }
 
       document.getElementById("automation-info").classList.remove("hidden");
   }
