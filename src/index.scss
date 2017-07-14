@@ -93,13 +93,12 @@ $pad: 20px;
 }
 
 
-
-
 // Temporary development body styles
 body {
   background-color: white;
   margin: 0 auto;
   max-width: 760px;
+  line-height: 1.5em;
 }
 
 html, body {
@@ -166,11 +165,6 @@ sub {
   font-style: italic;
 }
 
-// ul {
-//   margin: 0;
-//   padding: 0;
-// }
-
 .parent {
   background-color: rgba(255, 255, 255, 0.2);
   margin: 50px 0;
@@ -230,85 +224,7 @@ button:hover {
   background-color: rgba(0,0,0,0.1);
 }
 
-/* Carbon */
 
-#carbonads {
-  position: absolute;
-  display: block;
-  overflow: hidden;
-  margin-left: -180px;
-  padding: 1em;
-  max-width: calc(130px + 2em);
-  background-color: hsla(0, 0%, 100%, 0.2);
-  text-align: center;
-  font-size: 12px;
-  font-family: Verdana, "Helvetica Neue", Helvetica, sans-serif;
-  line-height: 1.5;
-}
-
-#carbonads a {
-  color: inherit;
-  text-decoration: none;
-  font-weight: 400;
-  transition: color .2s ease-in-out;
-}
-
-#carbonads a:hover {
-  color: #ccc;
-}
-
-#carbonads span {
-  display: block;
-  overflow: hidden;
-}
-
-.carbon-img {
-  display: block;
-  margin: 0 auto 1em;
-}
-
-.carbon-text {
-  display: block;
-  margin-bottom: 1em;
-}
-
-.carbon-poweredby {
-  display: block;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 9px;
-}
-
-@media only screen and (min-width: 320px) and (max-width: 960px) {
-  #carbonads {
-    position: relative;
-    float: none;
-    margin: 0 auto -26px;
-    max-width: 330px;
-  }
-  #carbonads span {
-    position: relative;
-  }
-  #carbonads > span {
-    max-width: none;
-  }
-  .carbon-img {
-    float: left;
-    margin: 0 1em 0 0;
-  }
-  .carbon-text {
-    float: left;
-    margin-bottom: 0;
-    max-width: calc(100% - 130px - 1em);
-    text-align: left;
-  }
-  .carbon-poweredby {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    display: block;
-  }
-}
 
 // Hide Vue stuff until Vue is loaded
 [v-cloak] {

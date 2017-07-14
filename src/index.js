@@ -27,16 +27,15 @@ const fuseOptions = {
 const fuse = new Fuse(jobList, fuseOptions);
 const fuseResult = fuse.search('query');
 
-// Trying out Vue
+// Create our Vue instance
 const app = new Vue({
   el: '#app',
   data: {
     groupTitle: '',
-    percentLessSusceptible: "",
-    percentMoreSusceptible: "",
   }
 });
 
+// Create our autoComplete instance
 const complete = new autoComplete({
   selector: '#job-search',
   minChars: 1,
@@ -71,15 +70,14 @@ const complete = new autoComplete({
         item.substring(7).replace(re, "<b>$1</b>") + 
         '</div>';
   },
-  onSelect: function(e, term, item){
+  onSelect: function(e, term, item) {
       const groupTitleEl = document.getElementsByClassName("group-title");
       const anzsco = item.getAttribute('search-code');
       const selectedGroupData = anzscoLookup[anzsco];
 
-      
       console.log(selectedGroupData);
 
-
+      // Update Vue data - will reactively show up in broser
       app.groupTitle = selectedGroupData.groupTitle;
 
       app.percentLessSusceptible = selectedGroupData.percentLessSusceptible;
@@ -90,49 +88,5 @@ const complete = new autoComplete({
 
       app.taskMoreAffected1 = selectedGroupData.taskMoreAffected1;
       app.taskMoreAffected2 = selectedGroupData.taskMoreAffected2;
-
-
-
-      // // Replace all instances of Job Group Title
-      // for (let i = 0; i < groupTitleEl.length; i++) {
-      //     groupTitleEl[i].innerText = selectedGroupData.groupTitle;
-      // }
-
-      // // Display the percentages
-      // document.getElementById("percent-less").innerText = selectedGroupData.percentLessSusceptible;
-      // document.getElementById("percent-more").innerText = selectedGroupData.percentMoreSusceptible;
-
-      // // If there are tasks display them
-      // if (selectedGroupData.taskLessAffected1 !== "null") {
-      //   document.getElementById("task-less-1").innerText = selectedGroupData.taskLessAffected1;
-      //   document.getElementById("task-less-2").innerText = selectedGroupData.taskLessAffected2;
-
-      //   if (selectedGroupData.taskLessAffected2 === "null") {
-      //     document.getElementById("list-less-2").classList.add("hidden");
-      //   } else document.getElementById("list-less-2").classList.remove("hidden");
-
-      //   document.getElementById("tasks-less").classList.remove("hidden");
-
-      // } else {
-      //   document.getElementById("tasks-less").classList.add("hidden");
-      // }
-
-      // if (selectedGroupData.taskMoreAffected1 !== "null") {
-      //   document.getElementById("task-more-1").innerText = selectedGroupData.taskMoreAffected1;
-      //   document.getElementById("task-more-2").innerText = selectedGroupData.taskMoreAffected2;
-
-      //   if (selectedGroupData.taskMoreAffected2 === "null") {
-      //     document.getElementById("list-more-2").classList.add("hidden");
-      //   } else document.getElementById("list-more-2").classList.remove("hidden");
-
-      //   document.getElementById("tasks-more").classList.remove("hidden");
-
-      // } else {
-      //   document.getElementById("tasks-more").classList.add("hidden");
-      // }
-      // setTimeout(function () {
-      //   document.getElementById("automation-info").classList.remove("hidden");
-      // }, 300);
-      
   }
 });
