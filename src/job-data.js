@@ -68,7 +68,7 @@ module.exports = {
     "taskLessAffected1": "Advise customers on technical or procedural issues.",
     "taskLessAffected2": "Coordinate operational activities with external stakeholders.",
     "taskMoreAffected1": "Prepare operational progress or status reports.",
-    "taskMoreAffected2": "null"
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 139,
@@ -95,10 +95,10 @@ module.exports = {
     "groupTitle": "Retail Managers",
     "percentLessSusceptible": "77%",
     "percentMoreSusceptible": "23%",
-    "taskLessAffected1": "null",
-    "taskLessAffected2": "null",
-    "taskMoreAffected1": "null",
-    "taskMoreAffected2": "null"
+    "taskLessAffected1": null,
+    "taskLessAffected2": null,
+    "taskMoreAffected1": null,
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 149,
@@ -428,7 +428,7 @@ module.exports = {
     "taskLessAffected1": "Communicate with clients about products, procedures, and policies.",
     "taskLessAffected2": "Order construction or extraction materials or equipment.",
     "taskMoreAffected1": "Review blueprints or specifications to determine work requirements.",
-    "taskMoreAffected2": "null"
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 333,
@@ -436,9 +436,9 @@ module.exports = {
     "percentLessSusceptible": "15%",
     "percentMoreSusceptible": "85%",
     "taskLessAffected1": "Coordinate construction project activities.",
-    "taskLessAffected2": "null",
+    "taskLessAffected2": null,
     "taskMoreAffected1": "Review blueprints or specifications to determine work requirements.",
-    "taskMoreAffected2": "null"
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 334,
@@ -458,7 +458,7 @@ module.exports = {
     "taskLessAffected1": "Communicate with other construction or extraction personnel to discuss project details.",
     "taskLessAffected2": "Train construction or extraction personnel.",
     "taskMoreAffected1": "Prepare operational reports.",
-    "taskMoreAffected2": "null"
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 342,
@@ -485,20 +485,20 @@ module.exports = {
     "groupTitle": "Animal Attendants and Trainers, and Shearers",
     "percentLessSusceptible": "82%",
     "percentMoreSusceptible": "18%",
-    "taskLessAffected1": "null",
-    "taskLessAffected2": "null",
-    "taskMoreAffected1": "null",
-    "taskMoreAffected2": "null"
+    "taskLessAffected1": null,
+    "taskLessAffected2": null,
+    "taskMoreAffected1": null,
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 362,
     "groupTitle": "Horticultural Trades Workers",
     "percentLessSusceptible": "25%",
     "percentMoreSusceptible": "75%",
-    "taskLessAffected1": "null",
-    "taskLessAffected2": "null",
-    "taskMoreAffected1": "null",
-    "taskMoreAffected2": "null"
+    "taskLessAffected1": null,
+    "taskLessAffected2": null,
+    "taskMoreAffected1": null,
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 391,
@@ -575,10 +575,10 @@ module.exports = {
     "groupTitle": "Education Aides",
     "percentLessSusceptible": "66%",
     "percentMoreSusceptible": "34%",
-    "taskLessAffected1": "null",
-    "taskLessAffected2": "null",
-    "taskMoreAffected1": "null",
-    "taskMoreAffected2": "null"
+    "taskLessAffected1": null,
+    "taskLessAffected2": null,
+    "taskMoreAffected1": null,
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 423,
@@ -645,10 +645,10 @@ module.exports = {
     "groupTitle": "Contract, Program and Project Administrators",
     "percentLessSusceptible": "93%",
     "percentMoreSusceptible": "7%",
-    "taskLessAffected1": "null",
-    "taskLessAffected2": "null",
-    "taskMoreAffected1": "null",
-    "taskMoreAffected2": "null"
+    "taskLessAffected1": null,
+    "taskLessAffected2": null,
+    "taskMoreAffected1": null,
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 512,
@@ -675,10 +675,10 @@ module.exports = {
     "groupTitle": "General Clerks",
     "percentLessSusceptible": "79%",
     "percentMoreSusceptible": "21%",
-    "taskLessAffected1": "null",
-    "taskLessAffected2": "null",
-    "taskMoreAffected1": "null",
-    "taskMoreAffected2": "null"
+    "taskLessAffected1": null,
+    "taskLessAffected2": null,
+    "taskMoreAffected1": null,
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 532,
@@ -708,7 +708,7 @@ module.exports = {
     "taskLessAffected1": "Discuss goods or services information with customers or patrons.",
     "taskLessAffected2": "Supervise clerical or administrative personnel.",
     "taskMoreAffected1": "Maintain financial or account records.",
-    "taskMoreAffected2": "null"
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 551,
@@ -765,10 +765,10 @@ module.exports = {
     "groupTitle": "Insurance Agents and Sales Representatives",
     "percentLessSusceptible": "93%",
     "percentMoreSusceptible": "7%",
-    "taskLessAffected1": "null",
-    "taskLessAffected2": "null",
-    "taskMoreAffected1": "null",
-    "taskMoreAffected2": "null"
+    "taskLessAffected1": null,
+    "taskLessAffected2": null,
+    "taskMoreAffected1": null,
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 612,
@@ -855,10 +855,10 @@ module.exports = {
     "groupTitle": "Delivery Drivers",
     "percentLessSusceptible": "71%",
     "percentMoreSusceptible": "29%",
-    "taskLessAffected1": "null",
-    "taskLessAffected2": "null",
-    "taskMoreAffected1": "null",
-    "taskMoreAffected2": "null"
+    "taskLessAffected1": null,
+    "taskLessAffected2": null,
+    "taskMoreAffected1": null,
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 733,
@@ -925,10 +925,10 @@ module.exports = {
     "groupTitle": "Miscellaneous Factory Process Workers",
     "percentLessSusceptible": "51%",
     "percentMoreSusceptible": "49%",
-    "taskLessAffected1": "null",
-    "taskLessAffected2": "null",
-    "taskMoreAffected1": "null",
-    "taskMoreAffected2": "null"
+    "taskLessAffected1": null,
+    "taskLessAffected2": null,
+    "taskMoreAffected1": null,
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 841,
@@ -955,10 +955,10 @@ module.exports = {
     "groupTitle": "Freight Handlers and Shelf Fillers",
     "percentLessSusceptible": "56%",
     "percentMoreSusceptible": "44%",
-    "taskLessAffected1": "null",
-    "taskLessAffected2": "null",
-    "taskMoreAffected1": "null",
-    "taskMoreAffected2": "null"
+    "taskLessAffected1": null,
+    "taskLessAffected2": null,
+    "taskMoreAffected1": null,
+    "taskMoreAffected2": null
   },
   {
     "anzsco": 899,

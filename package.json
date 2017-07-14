@@ -20,5 +20,8 @@
     "fuse.js": "^3.0.5",
     "javascript-autocomplete": "^1.0.3",
     "vue": "^2.4.1"
+  },
+  "browser": {
+    "vue": "vue/dist/vue.common.js"
   }
 }

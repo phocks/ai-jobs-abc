@@ -28,12 +28,14 @@ const fuse = new Fuse(jobList, fuseOptions);
 const fuseResult = fuse.search('query');
 
 // Trying out Vue
-var app = new Vue({
+const app = new Vue({
   el: '#app',
   data: {
-    message: 'Hello Vue!'
+    groupTitle: '',
+    percentLessSusceptible: "",
+    percentMoreSusceptible: "",
   }
-})
+});
 
 const complete = new autoComplete({
   selector: '#job-search',
@@ -74,48 +76,63 @@ const complete = new autoComplete({
       const anzsco = item.getAttribute('search-code');
       const selectedGroupData = anzscoLookup[anzsco];
 
+      
       console.log(selectedGroupData);
 
-      // Replace all instances of Job Group Title
-      for (let i = 0; i < groupTitleEl.length; i++) {
-          groupTitleEl[i].innerText = selectedGroupData.groupTitle;
-      }
 
-      // Display the percentages
-      document.getElementById("percent-less").innerText = selectedGroupData.percentLessSusceptible;
-      document.getElementById("percent-more").innerText = selectedGroupData.percentMoreSusceptible;
+      app.groupTitle = selectedGroupData.groupTitle;
 
-      // If there are tasks display them
-      if (selectedGroupData.taskLessAffected1 !== "null") {
-        document.getElementById("task-less-1").innerText = selectedGroupData.taskLessAffected1;
-        document.getElementById("task-less-2").innerText = selectedGroupData.taskLessAffected2;
+      app.percentLessSusceptible = selectedGroupData.percentLessSusceptible;
+      app.percentMoreSusceptible = selectedGroupData.percentMoreSusceptible;
 
-        if (selectedGroupData.taskLessAffected2 === "null") {
-          document.getElementById("list-less-2").classList.add("hidden");
-        } else document.getElementById("list-less-2").classList.remove("hidden");
+      app.taskLessAffected1 = selectedGroupData.taskLessAffected1;
+      app.taskLessAffected2 = selectedGroupData.taskLessAffected2;
 
-        document.getElementById("tasks-less").classList.remove("hidden");
+      app.taskMoreAffected1 = selectedGroupData.taskMoreAffected1;
+      app.taskMoreAffected2 = selectedGroupData.taskMoreAffected2;
 
-      } else {
-        document.getElementById("tasks-less").classList.add("hidden");
-      }
 
-      if (selectedGroupData.taskMoreAffected1 !== "null") {
-        document.getElementById("task-more-1").innerText = selectedGroupData.taskMoreAffected1;
-        document.getElementById("task-more-2").innerText = selectedGroupData.taskMoreAffected2;
 
-        if (selectedGroupData.taskMoreAffected2 === "null") {
-          document.getElementById("list-more-2").classList.add("hidden");
-        } else document.getElementById("list-more-2").classList.remove("hidden");
+      // // Replace all instances of Job Group Title
+      // for (let i = 0; i < groupTitleEl.length; i++) {
+      //     groupTitleEl[i].innerText = selectedGroupData.groupTitle;
+      // }
 
-        document.getElementById("tasks-more").classList.remove("hidden");
+      // // Display the percentages
+      // document.getElementById("percent-less").innerText = selectedGroupData.percentLessSusceptible;
+      // document.getElementById("percent-more").innerText = selectedGroupData.percentMoreSusceptible;
 
-      } else {
-        document.getElementById("tasks-more").classList.add("hidden");
-      }
-      setTimeout(function () {
-        document.getElementById("automation-info").classList.remove("hidden");
-      }, 300);
+      // // If there are tasks display them
+      // if (selectedGroupData.taskLessAffected1 !== "null") {
+      //   document.getElementById("task-less-1").innerText = selectedGroupData.taskLessAffected1;
+      //   document.getElementById("task-less-2").innerText = selectedGroupData.taskLessAffected2;
+
+      //   if (selectedGroupData.taskLessAffected2 === "null") {
+      //     document.getElementById("list-less-2").classList.add("hidden");
+      //   } else document.getElementById("list-less-2").classList.remove("hidden");
+
+      //   document.getElementById("tasks-less").classList.remove("hidden");
+
+      // } else {
+      //   document.getElementById("tasks-less").classList.add("hidden");
+      // }
+
+      // if (selectedGroupData.taskMoreAffected1 !== "null") {
+      //   document.getElementById("task-more-1").innerText = selectedGroupData.taskMoreAffected1;
+      //   document.getElementById("task-more-2").innerText = selectedGroupData.taskMoreAffected2;
+
+      //   if (selectedGroupData.taskMoreAffected2 === "null") {
+      //     document.getElementById("list-more-2").classList.add("hidden");
+      //   } else document.getElementById("list-more-2").classList.remove("hidden");
+
+      //   document.getElementById("tasks-more").classList.remove("hidden");
+
+      // } else {
+      //   document.getElementById("tasks-more").classList.add("hidden");
+      // }
+      // setTimeout(function () {
+      //   document.getElementById("automation-info").classList.remove("hidden");
+      // }, 300);
       
   }
 });
