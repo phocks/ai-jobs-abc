@@ -1,7 +1,9 @@
 const Fuse = require('fuse.js'); // Nice and fuzzy search
 const autoComplete = require('javascript-autocomplete'); // Better autocomplete
 const Vue = require('vue');
+const d3 = require('d3');
 
+// Pull in the data
 const jobs = require('./job-data');
 
 const maxResults = 32;
@@ -31,7 +33,12 @@ const fuseResult = fuse.search('query');
 const app = new Vue({
   el: '#app',
   data: {
+    a: "Hello!",
     groupTitle: '',
+  },
+  created: function () {
+    // `this` points to the vm instance
+    console.log('a is: ' + this.a)
   }
 });
 
@@ -77,7 +84,7 @@ const complete = new autoComplete({
 
       console.log(selectedGroupData);
 
-      // Update Vue data - will reactively show up in broser
+      // Update Vue data - will reactively show up in browser
       app.groupTitle = selectedGroupData.groupTitle;
 
       app.percentLessSusceptible = selectedGroupData.percentLessSusceptible;
@@ -88,5 +95,41 @@ const complete = new autoComplete({
 
       app.taskMoreAffected1 = selectedGroupData.taskMoreAffected1;
       app.taskMoreAffected2 = selectedGroupData.taskMoreAffected2;
+
+      // Let's make a pie chart!
+      var dataset = [
+        { label: 'Less', count: +selectedGroupData.percentLessSusceptible },
+        { label: 'More', count: +selectedGroupData.percentMoreSusceptible }
+      ];
+  
+      var width = 200;
+      var height = 200;
+      var radius = Math.min(width, height) / 2;
+
+      var color = d3.scaleOrdinal(d3.schemeCategory20b);
+
+      var svg = d3.select('#chart')
+        .append('svg')
+        .attr('width', +width)
+        .attr('height', +height)
+        .append('g')
+        .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+      
+      var arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius);
+
+      var pie = d3.pie()
+        .value(function(d) { return d.count; })
+        .sort(null);
+
+      var path = svg.selectAll('path')
+        .data(pie(dataset))
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', function(d, i) {
+          return color(d.data.label);
+      });
   }
 });
