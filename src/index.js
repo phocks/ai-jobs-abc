@@ -4,30 +4,39 @@ const Vue = require('vue');
 const d3 = require('d3');
 
 // Pull in the data
-const jobs = require('./job-data');
+// const jobs = require('./job-data');
 
 const maxResults = 32;
 
-const jobList = jobs.jobList;
-const automationData = jobs.automationData;
+// Let's try to load the JSON asynchronously - maybe use Promises later
+loadJSON(function(response) {
+  // Parse JSON string into object
+    jobs = JSON.parse(response);
+    console.log(jobs);
 
-// Create a lookup object for searching
-const anzscoLookup = {};
-for (let i = 0, len = automationData.length; i < len; i++) {
-    anzscoLookup[automationData[i].anzsco] = automationData[i];
-}
+    const jobList = jobs.jobList;
+    const automationData = jobs.automationData;
 
-const fuseOptions = {
-  shouldSort: true,
-  keys: ['code', 'title'],
-  threshold: 0.6,
-  location: 0,
-  distance: 100,
-  minMatchCharLength: 1,
-};
+    // Create a lookup object for searching
+    anzscoLookup = {};
+    for (let i = 0, len = automationData.length; i < len; i++) {
+        anzscoLookup[automationData[i].anzsco] = automationData[i];
+    }
 
-const fuse = new Fuse(jobList, fuseOptions);
-const fuseResult = fuse.search('query');
+    const fuseOptions = {
+      shouldSort: true,
+      keys: ['code', 'title'],
+      threshold: 0.6,
+      location: 0,
+      distance: 100,
+      minMatchCharLength: 1,
+    };
+
+    fuse = new Fuse(jobList, fuseOptions);
+    const fuseResult = fuse.search('query');
+ });
+
+
 
 
 
@@ -35,8 +44,13 @@ const fuseResult = fuse.search('query');
 const app = new Vue({
   el: '#app',
   data: {
-    a: "Hello!",
-    groupTitle: ''
+    groupTitle: '',
+    percentLessSusceptible: '',
+    percentMoreSusceptible: '',
+    taskLessAffected1: '',
+    taskLessAffected2: '',
+    taskMoreAffected1: '',
+    taskMoreAffected2: ''
   }
 });
 
@@ -146,19 +160,19 @@ const complete = new autoComplete({
 
       suggest(fuseMatches);
   },
-    renderItem: function (item, search) {
-      search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); // Escape special characters
-      var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi"); // Highlight?
+  renderItem: function (item, search) {
+    search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); // Escape special characters
+    var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi"); // Highlight?
 
-      // Remove title code from data
-      item = item.replace(/\s+\(S\)|\s\(P\)|\s\(A\)|\s\(N\)|\snec/g, "");
+    // Remove title code from data
+    item = item.replace(/\s+\(S\)|\s\(P\)|\s\(A\)|\s\(N\)|\snec/g, "");
 
-      // Return the element
-      return '<div \
-        class="autocomplete-suggestion" \
-        search-code="' + item.substr(0,3) + '" \
-        data-val="' + item.substring(7) + '">' + 
-        item.substring(7).replace(re, "<b>$1</b>") + 
+    // Return the element
+    return '<div \
+      class="autocomplete-suggestion" \
+      search-code="' + item.substr(0,3) + '" \
+      data-val="' + item.substring(7) + '">' + 
+      item.substring(7).replace(re, "<b>$1</b>") + 
         '</div>';
   },
   onSelect: function(e, term, item) {
@@ -181,3 +195,18 @@ const complete = new autoComplete({
       app.taskMoreAffected2 = selectedGroupData.taskMoreAffected2;
   }
 });
+
+
+// Some functions
+function loadJSON(callback) {   
+   var xobj = new XMLHttpRequest();
+       xobj.overrideMimeType("application/json");
+   xobj.open('GET', 'job-data.json', true); 
+   xobj.onreadystatechange = function () {
+         if (xobj.readyState == 4 && xobj.status == "200") {
+           // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+           callback(xobj.responseText);
+         }
+   };
+   xobj.send(null);  
+}
