@@ -15,11 +15,13 @@
 
     <h2>{{ groupTitle }} spend...</h2>
 
+     <pie-chart v-bind:percent="percentLessSusceptible"></pie-chart> 
+
     <div class=col-1-2>
-      <p><strong>{{ percentLessSusceptible }}</strong> of work time on tasks that are <strong>less</strong> susceptible to automation.</p>
+      <p><strong>{{ percentLessSusceptible }}%</strong> of work time on tasks that are <strong>less</strong> susceptible to automation.</p>
     </div>
     <div class=col-1-2>
-      <p><strong>{{ percentMoreSusceptible }}</strong> of work time on tasks that are <strong>more</strong> susceptible to automation.</p>
+      <p><strong>{{ percentMoreSusceptible }}%</strong> of work time on tasks that are <strong>more</strong> susceptible to automation.</p>
     </div>
 
     <div v-if="taskLessAffected1" id="tasks-less">
