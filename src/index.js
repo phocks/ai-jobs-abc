@@ -29,22 +29,38 @@ const fuseOptions = {
 const fuse = new Fuse(jobList, fuseOptions);
 const fuseResult = fuse.search('query');
 
+
+
+// Create our Vue instance
+const app = new Vue({
+  el: '#app',
+  data: {
+    a: "Hello!",
+    groupTitle: ''
+  }
+});
+
+
 // Trying a Vue component for pie chart
 Vue.component('pie-chart', {
   props: ['percent'],
-  template: '<div></div>',
-  mounted() {
-    // Let's make a pie chart!
+  template: '<div style="text-align: center"></div>',
+  watch: {
+    percent: function (value) {
+      // Let's make a pie chart again
       var dataset = [
-        { label: 'Less', count: this.percent },
-        { label: 'More', count: 100 - this.percent }
+        { label: 'Less', count: value },
+        { label: 'More', count: 100 - value }
       ];
-  
+
       var width = 200;
       var height = 200;
       var radius = Math.min(width, height) / 2;
 
-      var color = d3.scaleOrdinal(d3.schemeCategory10);
+      var color = d3.scaleOrdinal(['black', 'white']);
+
+      // Get rid of the one already there
+      d3.select(this.$el).selectAll("svg").remove();
 
       var svg = d3.select(this.$el)
         .append('svg')
@@ -69,19 +85,44 @@ Vue.component('pie-chart', {
         .attr('fill', function(d, i) {
           return color(d.data.label);
       });
-  }
-});
-
-// Create our Vue instance
-const app = new Vue({
-  el: '#app',
-  data: {
-    a: "Hello!",
-    groupTitle: ''
+    }
   },
-  created: function () {
-    // `this` points to the vm instance (a test)
-    console.log('a is: ' + this.a);
+  mounted() {
+    // Draw pie chart
+      var dataset = [
+        { label: 'Less', count: this.percent },
+        { label: 'More', count: 100 - this.percent }
+      ];
+  
+      var width = 200;
+      var height = 200;
+      var radius = Math.min(width, height) / 2;
+
+      var color = d3.scaleOrdinal(['black', 'white']);
+
+      var svg = d3.select(this.$el)
+        .append('svg')
+        .attr('width', +width)
+        .attr('height', +height)
+        .append('g')
+        .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+      
+      var arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius);
+
+      var pie = d3.pie()
+        .value(function(d) { return d.count; })
+        .sort(null);
+
+      var path = svg.selectAll('path')
+        .data(pie(dataset))
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', function(d, i) {
+          return color(d.data.label);
+      });
   }
 });
 
@@ -138,7 +179,5 @@ const complete = new autoComplete({
 
       app.taskMoreAffected1 = selectedGroupData.taskMoreAffected1;
       app.taskMoreAffected2 = selectedGroupData.taskMoreAffected2;
-
-      
   }
 });
