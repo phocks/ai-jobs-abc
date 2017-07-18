@@ -51,20 +51,13 @@ const app = new Vue({
     groupTitle: '',
     percentLessSusceptible: '',
     percentMoreSusceptible: '',
-    taskLessAffected1: '',
-    taskLessAffected2: '',
-    taskMoreAffected1: '',
-    taskMoreAffected2: '',
-    moreTasks: [
-      'task 1',
-      'taks 2',
-      'task 3',
-    ],
-    lessTasks: [
-      'task 1',
-      'taks 2',
-      'task 3',
-    ]
+    // taskLessAffected1: '',
+    // taskLessAffected2: '',
+    // taskMoreAffected1: '',
+    // taskMoreAffected2: '',
+    lessTasks: [],
+    moreTasks: [],
+    
   }
 });
 
@@ -203,11 +196,24 @@ const complete = new autoComplete({
       app.percentLessSusceptible = selectedGroupData.percentLessSusceptible;
       app.percentMoreSusceptible = selectedGroupData.percentMoreSusceptible;
 
-      app.taskLessAffected1 = selectedGroupData.taskLessAffected1;
-      app.taskLessAffected2 = selectedGroupData.taskLessAffected2;
+      // app.taskLessAffected1 = selectedGroupData.taskLessAffected1;
+      // app.taskLessAffected2 = selectedGroupData.taskLessAffected2;
 
-      app.taskMoreAffected1 = selectedGroupData.taskMoreAffected1;
-      app.taskMoreAffected2 = selectedGroupData.taskMoreAffected2;
+      // app.taskMoreAffected1 = selectedGroupData.taskMoreAffected1;
+      // app.taskMoreAffected2 = selectedGroupData.taskMoreAffected2;
+
+      // Clear the lists for next search
+      app.lessTasks = [];
+      app.moreTasks = [];
+
+      app.lessTasks.push(selectedGroupData.taskLessAffected1);
+      app.lessTasks.push(selectedGroupData.taskLessAffected2);
+
+      app.moreTasks.push(selectedGroupData.taskMoreAffected1);
+      app.moreTasks.push(selectedGroupData.taskMoreAffected2);
+
+      // app.lessTasks = [selectedGroupData.taskLessAffected1, selectedGroupData.taskLessAffected2];
+      // app.moreTasks = [selectedGroupData.taskMoreAffected1, selectedGroupData.taskMoreAffected2]
   }
 });
 
