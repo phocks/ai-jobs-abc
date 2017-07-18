@@ -2,7 +2,9 @@
 <html>
 <head>
   <title>Job automation interactive</title>
-  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="css/normalize.css" />
+  <link rel="stylesheet" href="css/skeleton.css" />
+   <link rel="stylesheet" href="index.css" /> 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -15,9 +17,53 @@
 
     <h2>{{ groupTitle }} spend...</h2>
 
-     
+    <div class="row">
+      <div class="one-half column">
+        <pie-chart v-bind:percent="percentLessSusceptible"></pie-chart> 
+        
+        <p><strong>{{ percentLessSusceptible }}%</strong> of work time on tasks that are <strong>less</strong> susceptible to automation.</p>
 
-    <div class=col-1-2>
+        <div v-if="taskLessAffected1" id="tasks-less">
+        <p>Some typical things <strong>{{ groupTitle }}</strong> do that are <b>less affected</b> by automation are:</p>
+
+        <ul id="less-list">
+          <li id="list-less-1">{{ taskLessAffected1 }}</li>
+          <li v-if="taskLessAffected2" id="list-less-2">{{ taskLessAffected2 }}</li>
+        </ul>
+      </div>
+      </div>
+      <div class="one-half column">
+        <pie-chart v-bind:percent="percentMoreSusceptible"></pie-chart> 
+        <p><strong>{{ percentMoreSusceptible }}%</strong> of work time on tasks that are <strong>more</strong> susceptible to automation.</p>
+
+        <div v-if="taskMoreAffected1" id="tasks-more">
+        <p>Some typical things <strong><strong>{{ groupTitle }}</strong></strong> do that are <b>more affected</b> by automation are:</p>
+
+        <ul id="more-list">
+          <li id="list-more-1">{{ taskMoreAffected1 }}</li>
+          <li v-if="taskMoreAffected2" id="list-more-2">{{ taskMoreAffected2 }}</li>
+        </ul>
+
+        <ul id="example-1">
+          <li v-for="item in moreTasks">
+            {{ item }}
+          </li>
+        </ul>
+      </div>
+    </div>    
+  </div>
+
+</div>
+
+</div>
+<script src="index.js"></script>
+</body>
+</html>
+
+
+
+
+<!-- <div class=col-1-2>
       <pie-chart v-bind:percent="percentLessSusceptible"></pie-chart> 
       <p><strong>{{ percentLessSusceptible }}%</strong> of work time on tasks that are <strong>less</strong> susceptible to automation.</p>
     </div>
@@ -40,12 +86,4 @@
     <ul id="more-list">
       <li id="list-more-1">{{ taskMoreAffected1 }}</li>
       <li v-if="taskMoreAffected2" id="list-more-2">{{ taskMoreAffected2 }}</li>
-    </ul>
-  </div>
-
-  </div>
-
-</div>
-<script src="index.js"></script>
-</body>
-</html>
+    </ul> -->

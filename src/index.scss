@@ -114,8 +114,8 @@ html, body {
 }
 
 body, input, button, textarea {
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 17px;
+  // font-family: Helvetica, Arial, sans-serif;
+  // font-size: 17px;
   color: #333;
 }
 
@@ -229,4 +229,18 @@ button:hover {
 // Hide Vue stuff until Vue is loaded
 [v-cloak] {
   display: none;
+}
+
+
+.pie-chart {
+  text-align: center;
+  padding: 2em 0;
+}
+
+#app {
+  padding-top: 1em;
+}
+
+#app h2 {
+  font-size: 28px;
 }

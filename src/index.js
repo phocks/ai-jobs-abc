@@ -6,13 +6,17 @@ const d3 = require('d3');
 // Pull in the data
 // const jobs = require('./job-data');
 
+// Declare a few globals is maybe good
+let anzscoLookup,
+    fuse;
+
 const maxResults = 32;
 
 // Let's try to load the JSON asynchronously - maybe use Promises later
 loadJSON(function(response) {
   // Parse JSON string into object
-    jobs = JSON.parse(response);
-    console.log(jobs);
+    const jobs = JSON.parse(response);
+    // console.log(jobs);
 
     const jobList = jobs.jobList;
     const automationData = jobs.automationData;
@@ -50,15 +54,63 @@ const app = new Vue({
     taskLessAffected1: '',
     taskLessAffected2: '',
     taskMoreAffected1: '',
-    taskMoreAffected2: ''
+    taskMoreAffected2: '',
+    moreTasks: [
+      'task 1',
+      'taks 2',
+      'task 3',
+    ],
+    lessTasks: [
+      'task 1',
+      'taks 2',
+      'task 3',
+    ]
   }
 });
 
 
 // Trying a Vue component for pie chart
+// Need to streamline this
 Vue.component('pie-chart', {
   props: ['percent'],
-  template: '<div style="text-align: center"></div>',
+  template: '<div class="pie-chart"></div>',
+  mounted() {
+    // Draw pie chart
+      var dataset = [
+        { label: 'Less', count: this.percent },
+        { label: 'More', count: 100 - this.percent }
+      ];
+  
+      var width = 200;
+      var height = 200;
+      var radius = Math.min(width, height) / 2;
+
+      var color = d3.scaleOrdinal(['#3C6998', 'white']);
+
+      var svg = d3.select(this.$el)
+        .append('svg')
+        .attr('width', +width)
+        .attr('height', +height)
+        .append('g')
+        .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+      
+      var arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius);
+
+      var pie = d3.pie()
+        .value(function(d) { return d.count; })
+        .sort(null);
+
+      var path = svg.selectAll('path')
+        .data(pie(dataset))
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', function(d, i) {
+          return color(d.data.label);
+      });
+  },
   watch: {
     percent: function (value) {
       // Let's make a pie chart again
@@ -71,7 +123,7 @@ Vue.component('pie-chart', {
       var height = 200;
       var radius = Math.min(width, height) / 2;
 
-      var color = d3.scaleOrdinal(['black', 'white']);
+      var color = d3.scaleOrdinal(['#3C6998', 'white']);
 
       // Get rid of the one already there
       d3.select(this.$el).selectAll("svg").remove();
@@ -101,43 +153,6 @@ Vue.component('pie-chart', {
       });
     }
   },
-  mounted() {
-    // Draw pie chart
-      var dataset = [
-        { label: 'Less', count: this.percent },
-        { label: 'More', count: 100 - this.percent }
-      ];
-  
-      var width = 200;
-      var height = 200;
-      var radius = Math.min(width, height) / 2;
-
-      var color = d3.scaleOrdinal(['black', 'white']);
-
-      var svg = d3.select(this.$el)
-        .append('svg')
-        .attr('width', +width)
-        .attr('height', +height)
-        .append('g')
-        .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
-      
-      var arc = d3.arc()
-        .innerRadius(0)
-        .outerRadius(radius);
-
-      var pie = d3.pie()
-        .value(function(d) { return d.count; })
-        .sort(null);
-
-      var path = svg.selectAll('path')
-        .data(pie(dataset))
-        .enter()
-        .append('path')
-        .attr('d', arc)
-        .attr('fill', function(d, i) {
-          return color(d.data.label);
-      });
-  }
 });
 
 // Create our autoComplete instance
@@ -197,7 +212,7 @@ const complete = new autoComplete({
 });
 
 
-// Some functions
+// Various functions are below here
 function loadJSON(callback) {   
    var xobj = new XMLHttpRequest();
        xobj.overrideMimeType("application/json");
