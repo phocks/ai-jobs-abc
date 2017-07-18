@@ -67,49 +67,19 @@ const app = new Vue({
 Vue.component('pie-chart', {
   props: ['percent'],
   template: '<div class="pie-chart"></div>',
-  mounted() {
-    // Draw pie chart
-      var dataset = [
-        { label: 'Less', count: this.percent },
-        { label: 'More', count: 100 - this.percent }
-      ];
-  
-      var width = 200;
-      var height = 200;
-      var radius = Math.min(width, height) / 2;
-
-      var color = d3.scaleOrdinal(['#3C6998', 'white']);
-
-      var svg = d3.select(this.$el)
-        .append('svg')
-        .attr('width', +width)
-        .attr('height', +height)
-        .append('g')
-        .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
-      
-      var arc = d3.arc()
-        .innerRadius(0)
-        .outerRadius(radius);
-
-      var pie = d3.pie()
-        .value(function(d) { return d.count; })
-        .sort(null);
-
-      var path = svg.selectAll('path')
-        .data(pie(dataset))
-        .enter()
-        .append('path')
-        .attr('d', arc)
-        .attr('fill', function(d, i) {
-          return color(d.data.label);
-      });
+  mounted () {
+    this.drawPie(this.percent);
   },
   watch: {
     percent: function (value) {
-      // Let's make a pie chart again
+      this.drawPie(value);
+    }
+  },
+  methods: {
+    drawPie (percent) {
       var dataset = [
-        { label: 'Less', count: value },
-        { label: 'More', count: 100 - value }
+        { label: 'Less', count: percent },
+        { label: 'More', count: 100 - percent }
       ];
 
       var width = 200;
@@ -143,9 +113,18 @@ Vue.component('pie-chart', {
         .attr('d', arc)
         .attr('fill', function(d, i) {
           return color(d.data.label);
-      });
+        })
+        .transition()
+        .ease(d3.easeExpInOut)
+        .duration(750)
+        .attrTween("d", tweenPie);
+
+      function tweenPie(b) {
+        var i = d3.interpolate({startAngle: 0.1*Math.PI, endAngle: 0.1*Math.PI}, b);
+        return function(t) { return arc(i(t)); };
+        };
     }
-  },
+  }
 });
 
 // Create our autoComplete instance
