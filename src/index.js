@@ -3,12 +3,12 @@ const autoComplete = require('javascript-autocomplete'); // Better autocomplete
 const Vue = require('vue');
 const d3 = require('d3');
 
-// Pull in the data
-// const jobs = require('./job-data');
-
 // Declare a few globals is maybe good
 let anzscoLookup,
     fuse;
+
+// Pull in the data
+// const jobs = require('./job-data');
 
 const maxResults = 32;
 
@@ -16,7 +16,6 @@ const maxResults = 32;
 loadJSON(function(response) {
   // Parse JSON string into object
     const jobs = JSON.parse(response);
-    // console.log(jobs);
 
     const jobList = jobs.jobList;
     const automationData = jobs.automationData;
@@ -42,8 +41,6 @@ loadJSON(function(response) {
 
 
 
-
-
 // Create our Vue instance
 const app = new Vue({
   el: '#app',
@@ -51,19 +48,13 @@ const app = new Vue({
     groupTitle: '',
     percentLessSusceptible: '',
     percentMoreSusceptible: '',
-    // taskLessAffected1: '',
-    // taskLessAffected2: '',
-    // taskMoreAffected1: '',
-    // taskMoreAffected2: '',
     lessTasks: [],
     moreTasks: [],
-    
   }
 });
 
 
 // Trying a Vue component for pie chart
-// Need to streamline this
 Vue.component('pie-chart', {
   props: ['percent'],
   template: '<div class="pie-chart"></div>',
@@ -127,6 +118,7 @@ Vue.component('pie-chart', {
   }
 });
 
+
 // Create our autoComplete instance
 const complete = new autoComplete({
   selector: '#job-search',
@@ -137,7 +129,7 @@ const complete = new autoComplete({
     
     const fuseResult = fuse.search(term);
 
-    // Limit number of results
+    // Limit number of results to a sensible number
     let suggestionCount = (fuseResult.length > maxResults ) ? suggestionCount = maxResults : fuseResult.length;
 
     const fuseMatches = [];
@@ -163,23 +155,22 @@ const complete = new autoComplete({
         '</div>';
   },
   onSelect: function(e, term, item) {
-      const groupTitleEl = document.getElementsByClassName("group-title");
       const anzsco = item.getAttribute('search-code');
       const selectedGroupData = anzscoLookup[anzsco];
-
-      console.log(selectedGroupData);
 
       // Update Vue data - will reactively show up in browser
       app.groupTitle = selectedGroupData.groupTitle;
 
-      app.percentLessSusceptible = selectedGroupData.percentLessSusceptible;
-      app.percentMoreSusceptible = selectedGroupData.percentMoreSusceptible;
-
-      // app.taskLessAffected1 = selectedGroupData.taskLessAffected1;
-      // app.taskLessAffected2 = selectedGroupData.taskLessAffected2;
-
-      // app.taskMoreAffected1 = selectedGroupData.taskMoreAffected1;
-      // app.taskMoreAffected2 = selectedGroupData.taskMoreAffected2;
+      // Check if percentages are the same and redraw
+      if (app.percentLessSusceptible === selectedGroupData.percentLessSusceptible &&
+          app.percentMoreSusceptible === selectedGroupData.percentMoreSusceptible) {
+            app.$refs.pieLess.drawPie(selectedGroupData.percentLessSusceptible);
+            app.$refs.pieMore.drawPie(selectedGroupData.percentMoreSusceptible);
+          } 
+      else {
+        app.percentLessSusceptible = selectedGroupData.percentLessSusceptible;
+        app.percentMoreSusceptible = selectedGroupData.percentMoreSusceptible;
+      } 
 
       // Clear the lists for next search
       app.lessTasks = [];
@@ -190,9 +181,6 @@ const complete = new autoComplete({
 
       app.moreTasks.push(selectedGroupData.taskMoreAffected1);
       app.moreTasks.push(selectedGroupData.taskMoreAffected2);
-
-      // app.lessTasks = [selectedGroupData.taskLessAffected1, selectedGroupData.taskLessAffected2];
-      // app.moreTasks = [selectedGroupData.taskMoreAffected1, selectedGroupData.taskMoreAffected2]
   }
 });
 
