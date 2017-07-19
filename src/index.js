@@ -86,7 +86,7 @@ Vue.component('pie-chart', {
       var height = 200;
       var radius = Math.min(width, height) / 2;
 
-      var color = d3.scaleOrdinal(['#3C6998', '#f9f9f9']);
+      var color = d3.scaleOrdinal(['#3C6998', 'rgba(0, 0, 0, 0.0)']);
 
       // Get rid of the one already there
       d3.select(this.$el).selectAll("svg").remove();
