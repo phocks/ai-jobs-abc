@@ -1,21 +1,30 @@
 const Fuse = require('fuse.js'); // Nice and fuzzy search
-const autoComplete = require('javascript-autocomplete'); // Better autocomplete
+const autoComplete = require('js-autocomplete'); // Better autocomplete
 const Vue = require('vue');
 const d3 = require('d3');
+
+const template = require('./template');
 
 // Declare a few globals is maybe good
 let anzscoLookup,
     fuse;
 
 // Pull in the data
-// const jobs = require('./job-data');
+const jobs = require('./job-data.json');
+
+const placeholder = document.querySelector('#ai-jobs-abc');
+placeholder.innerHTML = template;
+
+const placeholderData = placeholder.dataset.data;
+
+console.log(placeholder.dataset);
 
 const maxResults = 32;
 
 // Let's try to load the JSON asynchronously - maybe use Promises later
-loadJSON(function(response) {
+// loadJSON(function(response) {
   // Parse JSON string into object
-    const jobs = JSON.parse(response);
+    // const jobs = JSON.parse(response);
 
     const jobList = jobs.jobList;
     const automationData = jobs.automationData;
@@ -37,7 +46,7 @@ loadJSON(function(response) {
 
     fuse = new Fuse(jobList, fuseOptions);
     const fuseResult = fuse.search('query');
- });
+//  });
 
 
 
@@ -77,7 +86,7 @@ Vue.component('pie-chart', {
       var height = 200;
       var radius = Math.min(width, height) / 2;
 
-      var color = d3.scaleOrdinal(['#3C6998', 'white']);
+      var color = d3.scaleOrdinal(['#3C6998', '#f9f9f9']);
 
       // Get rid of the one already there
       d3.select(this.$el).selectAll("svg").remove();
@@ -177,10 +186,12 @@ const complete = new autoComplete({
       app.moreTasks = [];
 
       app.lessTasks.push(selectedGroupData.taskLessAffected1);
-      app.lessTasks.push(selectedGroupData.taskLessAffected2);
+      if (selectedGroupData.taskLessAffected2)
+        app.lessTasks.push(selectedGroupData.taskLessAffected2);
 
       app.moreTasks.push(selectedGroupData.taskMoreAffected1);
-      app.moreTasks.push(selectedGroupData.taskMoreAffected2);
+      if (selectedGroupData.taskMoreAffected2)
+        app.moreTasks.push(selectedGroupData.taskMoreAffected2);
   }
 });
 
@@ -189,7 +200,7 @@ const complete = new autoComplete({
 function loadJSON(callback) {   
    var xobj = new XMLHttpRequest();
        xobj.overrideMimeType("application/json");
-   xobj.open('GET', 'job-data.json', true); 
+   xobj.open('GET', placeholderData, true); 
    xobj.onreadystatechange = function () {
          if (xobj.readyState == 4 && xobj.status == "200") {
            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode

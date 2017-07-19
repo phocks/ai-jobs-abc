@@ -19,7 +19,7 @@
   "dependencies": {
     "d3": "^4.9.1",
     "fuse.js": "^3.0.5",
-    "javascript-autocomplete": "^1.0.3",
+    "js-autocomplete": "^1.0.4",
     "vue": "^2.4.1"
   },
   "browser": {

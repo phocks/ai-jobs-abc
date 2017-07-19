@@ -418,3 +418,9 @@ there.
 
 /* Larger than Desktop HD */
 @media (min-width: 1200px) {}
+
+
+ /* just matching ABC background color */
+body {
+ background-color: #f9f9f9;
+}
