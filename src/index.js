@@ -1,51 +1,53 @@
 const Fuse = require('fuse.js'); // Nice and fuzzy search
 const autoComplete = require('js-autocomplete'); // Better autocomplete
-const Vue = require('vue');
-const d3 = require('d3');
+const Vue = require('vue'); // Handles reactivity 
+const d3 = require('d3'); // Pretty drawings
 
 const template = require('./template');
 
-// Declare a few globals is maybe good
+// Declare a few globals
 let anzscoLookup,
     fuse;
 
-// Pull in the data
-const jobs = require('./job-data.json');
-
+// Inject our template
 const placeholder = document.querySelector('#ai-jobs-abc');
 placeholder.innerHTML = template;
 
-const placeholderData = placeholder.dataset.data;
+// const placeholderData = placeholder.dataset.data;
 
-console.log(placeholder.dataset);
+// console.log(placeholder.dataset);
 
 const maxResults = 32;
 
 // Let's try to load the JSON asynchronously - maybe use Promises later
+// Loading async wasn't working so falling back to requiring json
 // loadJSON(function(response) {
-  // Parse JSON string into object
-    // const jobs = JSON.parse(response);
+// Parse JSON string into object
+// const jobs = JSON.parse(response);
 
-    const jobList = jobs.jobList;
-    const automationData = jobs.automationData;
+// Pull in the data
+const jobs = require('./job-data.json');
 
-    // Create a lookup object for searching
-    anzscoLookup = {};
-    for (let i = 0, len = automationData.length; i < len; i++) {
-        anzscoLookup[automationData[i].anzsco] = automationData[i];
-    }
+const jobList = jobs.jobList;
+const automationData = jobs.automationData;
 
-    const fuseOptions = {
-      shouldSort: true,
-      keys: ['code', 'title'],
-      threshold: 0.6,
-      location: 0,
-      distance: 100,
-      minMatchCharLength: 1,
-    };
+// Create a lookup object for searching by code eg. anzscolookup[111]
+anzscoLookup = {};
+for (let i = 0, len = automationData.length; i < len; i++) {
+  anzscoLookup[automationData[i].anzsco] = automationData[i];
+}
 
-    fuse = new Fuse(jobList, fuseOptions);
-    const fuseResult = fuse.search('query');
+const fuseOptions = {
+  shouldSort: true,
+  keys: ['code', 'title'],
+  threshold: 0.6,
+  location: 0,
+  distance: 100,
+  minMatchCharLength: 1,
+};
+
+fuse = new Fuse(jobList, fuseOptions);
+const fuseResult = fuse.search('query');
 //  });
 
 
@@ -63,7 +65,7 @@ const app = new Vue({
 });
 
 
-// Trying a Vue component for pie chart
+// D3 seeems to play well with Vue components 
 Vue.component('pie-chart', {
   props: ['percent'],
   template: '<div class="pie-chart"></div>',
@@ -197,15 +199,15 @@ const complete = new autoComplete({
 
 
 // Various functions are below here
-function loadJSON(callback) {   
-   var xobj = new XMLHttpRequest();
-       xobj.overrideMimeType("application/json");
-   xobj.open('GET', placeholderData, true); 
-   xobj.onreadystatechange = function () {
-         if (xobj.readyState == 4 && xobj.status == "200") {
-           // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-           callback(xobj.responseText);
-         }
-   };
-   xobj.send(null);  
-}
+// function loadJSON(callback) {   
+//    var xobj = new XMLHttpRequest();
+//        xobj.overrideMimeType("application/json");
+//    xobj.open('GET', placeholderData, true); 
+//    xobj.onreadystatechange = function () {
+//          if (xobj.readyState == 4 && xobj.status == "200") {
+//            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+//            callback(xobj.responseText);
+//          }
+//    };
+//    xobj.send(null);  
+// }
