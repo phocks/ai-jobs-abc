@@ -198,6 +198,55 @@ const complete = new autoComplete({
 });
 
 
+
+// A D3 chart comparison of job automation
+automationList = d3.select('#automation-list');
+
+d3.select("button").on("click", () => { render('hello') } );
+
+const ascend = true;
+
+function render (action) {
+  console.log(ascend);
+  
+  d3.selectAll('div.parent-bar')
+  .sort(function (a, b) {
+    if (ascend) {
+      return d3.ascending(a.percentLessSusceptible, b.percentLessSusceptible);
+    }
+    else {
+      return d3.descending(a.percentLessSusceptible, b.percentLessSusceptible);
+    }
+  })
+  ascend = !ascend;
+};
+
+const data = jobs.automationData;
+  
+
+automationList.selectAll('div')
+  .data(data) 
+  .enter().append('div')
+  .attr('class', 'parent-bar')
+  .style('background-color', '#aaa')
+  .append('div')
+  .style('width', (d) => d.percentLessSusceptible + '%')
+  .style('background-color', '#ddd')
+  .style('margin-bottom', '2px')
+  .style('white-space', 'nowrap')
+  .style('padding', '1px 5px')
+  .text(function (d) {
+    return d.groupTitle;
+  });
+
+  
+  
+
+// automationChart.text("Automation is cool");
+
+
+
+
 // Various functions are below here
 // function loadJSON(callback) {   
 //    var xobj = new XMLHttpRequest();

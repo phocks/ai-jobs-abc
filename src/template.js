@@ -5,7 +5,7 @@ module.exports = `<div class='parent'>
   <!-- Our Reactive Vue App -->
   <div id="app" v-if="groupTitle" v-cloak>
 
-    <h2>{{ groupTitle }} spend...</h2>
+    <h3>{{ groupTitle }} spend...</h3>
 
     <div class="row">
       <div class="one-half column">
@@ -42,6 +42,15 @@ module.exports = `<div class='parent'>
     </div>    
   </div>
 
+</div>
+
+
+
+<div id="automation-comparison-chart">
+  <h2>Automation comparison</h2>
+  <button>Sort</button>
+  <div id="automation-list">
+  </div>
 </div>
 
 </div>`

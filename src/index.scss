@@ -136,6 +136,16 @@ $pad: 20px;
 }
 
 
+/* Self Clearing Goodness */
+.container:after,
+.row:after,
+.u-cf {
+  content: "";
+  display: table;
+  clear: both; }
+
+
+
 
 // js-autocomplete styles
 .autocomplete-suggestions {
@@ -179,77 +189,7 @@ $pad: 20px;
 }
 
 
-// Temporary development body styles
-// body {
-//   background-color: white;
-//   margin: 0 auto;
-//   max-width: 760px;
-//   // line-height: 1.5em;
-// }
 
-// html, body {
-//   -webkit-box-sizing: border-box;
-//   -moz-box-sizing: border-box;
-//   box-sizing: border-box;
-// }
-
-// *, *:before, *:after {
-//   -webkit-box-sizing: inherit;
-//   -moz-box-sizing: inherit;
-//   box-sizing: inherit;
-// }
-
-// body, input, button, textarea {
-//   // font-family: Helvetica, Arial, sans-serif;
-//   // font-size: 17px;
-//   color: #333;
-// }
-
-// textarea {
-//   border: none;
-//   padding: 10px;
-//   width: 100%;
-//   background-color: #14204f;
-//   min-height: 400px;
-// }
-
-// h1 {
-//   margin-top: 20px;
-//   // text-align: center;
-// }
-
-// h3 {
-//   background-color: rgba(255, 255, 255, 0.2);
-//   padding: 20px;
-//   // text-align: center;
-// }
-
-// a,
-// a:hover {
-//   color: #ecf0f1;
-// }
-
-// pre code {
-//   color: #fff;
-//   font-size: 18px;
-// }
-
-// pre {
-//   overflow-x: auto;
-// }
-
-// label {
-//   display: block;
-//   margin-bottom: 15px;
-// }
-
-// sub {
-//   display: block;
-//   margin-top: -10px;
-//   margin-bottom: 15px;
-//   font-size: 11px;
-//   font-style: italic;
-// }
 
 .parent {
   // background-color: rgba(255, 255, 255, 0.2);
@@ -272,46 +212,7 @@ input {
   width: 100%;
 }
 
-// button {
-//   background-color: #ecf0f1;
-//   color: #14204f;
-//   border: 0;
-//   padding: 18px 12px;
-//   margin-left: 6px;
-//   cursor: pointer;
-//   outline: none;
-// }
 
-// button:hover {
-//   background-color: #e74c3c;
-//   color: #ecf0f1;
-// }
-
-// .nsg-tag {
-//   border-color: #14204f;
-// }
-
-// .inline {
-//   display: inline-block;
-// }
-
-// .gh-fork {
-//   position: fixed;
-//   top: 0;
-//   right: 0;
-//   border: 0;
-// }
-
-// .autofruit {
-//   width: 16px;
-//   margin-right: 3px;
-// }
-
-// #ddl {
-//   cursor: pointer;
-//   padding: 10px;
-//   background-color: rgba(0,0,0,0.1);
-// }
 
 
 
@@ -332,4 +233,8 @@ input {
 
 #app h2 {
   font-size: 28px;
+}
+
+ul#automation-list {
+    list-style: none;
 }
