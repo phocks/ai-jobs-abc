@@ -137,7 +137,7 @@ const complete = new autoComplete({
   delay: 150,
   source: function(term, suggest) {
     term = term.toLowerCase();
-    
+
     const fuseResult = fuse.search(term);
 
     // Limit number of results to a sensible number
@@ -212,7 +212,7 @@ function render (action) {
   d3.selectAll('div.parent-bar')
   .sort(function (a, b) {
     if (ascend) {
-      return d3.ascending(a.percentLessSusceptible, b.percentLessSusceptible);
+      return d3.ascending(a.groupTitle, b.groupTitle);
     }
     else {
       return d3.descending(a.percentLessSusceptible, b.percentLessSusceptible);

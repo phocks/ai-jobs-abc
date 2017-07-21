@@ -420,7 +420,14 @@ there.
 @media (min-width: 1200px) {}
 
 
- /* just matching ABC background color */
-/* body {
- background-color: #f9f9f9;
-} */
+
+
+/* Some custom styles just for the prototype */
+
+#search-group {
+  margin-bottom: 2em;
+}
+
+header .subheading {
+  font-size: 18px;
+}
