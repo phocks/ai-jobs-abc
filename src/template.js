@@ -50,7 +50,10 @@ module.exports = `<div class='parent'>
 
 <div id="automation-comparison-chart">
   <h2>Automation comparison</h2>
-  <button>Sort</button>
+  <div class="sort-buttons">
+    <button class="ascending">Most susceptible</button>
+    <button class="descending">Least susceptible</button>
+  </div>
   <div id="automation-list">
   </div>
 </div>

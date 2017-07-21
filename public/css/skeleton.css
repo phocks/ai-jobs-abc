@@ -431,3 +431,7 @@ there.
 header .subheading {
   font-size: 18px;
 }
+
+div.sort-buttons {
+  text-align: right;
+}

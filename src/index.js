@@ -202,45 +202,48 @@ const complete = new autoComplete({
 // A D3 chart comparison of job automation
 automationList = d3.select('#automation-list');
 
-d3.select("button").on("click", () => { render('hello') } );
 
-const ascend = true;
-
-function render (action) {
-  console.log(ascend);
-  
-  d3.selectAll('div.parent-bar')
+const data = jobs.automationData
   .sort(function (a, b) {
-    if (ascend) {
-      return d3.ascending(a.groupTitle, b.groupTitle);
-    }
-    else {
-      return d3.descending(a.percentLessSusceptible, b.percentLessSusceptible);
-    }
-  })
-  ascend = !ascend;
-};
+    return d3.ascending(a.groupTitle, b.groupTitle);
+  });
 
-const data = jobs.automationData;
-  
 
 automationList.selectAll('div')
   .data(data) 
   .enter().append('div')
   .attr('class', 'parent-bar')
-  .style('background-color', '#aaa')
+  .style('background-color', '#B05154')
   .append('div')
   .style('width', (d) => d.percentLessSusceptible + '%')
-  .style('background-color', '#ddd')
-  .style('margin-bottom', '2px')
+  .style('background-color', '#1B7A7D')
+  .style('margin-bottom', '1px')
   .style('white-space', 'nowrap')
   .style('padding', '1px 5px')
+  .style('color', 'white')
   .text(function (d) {
     return d.groupTitle;
   });
 
-  
-  
+  d3.select("button.ascending").on("click", () => { reorder('ascending') } );
+  d3.select("button.descending").on("click", () => { reorder('descending') } );
+
+
+
+  function reorder (sortOrder) {
+    d3.selectAll('div.parent-bar')
+    .sort(function (a, b) {
+      switch (sortOrder) {
+        case "ascending":
+          return d3.ascending(a.percentLessSusceptible, b.percentLessSusceptible);
+          break;
+        case "descending":
+          return d3.descending(a.percentLessSusceptible, b.percentLessSusceptible);
+      }
+    })
+  };
+
+
 
 // automationChart.text("Automation is cool");
 
