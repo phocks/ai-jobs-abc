@@ -428,6 +428,10 @@ there.
   margin-bottom: 2em;
 }
 
+header h2 {
+  margin-bottom: 0;
+}
+
 header .subheading {
   font-size: 18px;
 }

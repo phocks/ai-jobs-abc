@@ -194,13 +194,22 @@ const complete = new autoComplete({
       app.moreTasks.push(selectedGroupData.taskMoreAffected1);
       if (selectedGroupData.taskMoreAffected2)
         app.moreTasks.push(selectedGroupData.taskMoreAffected2);
+
+      // Render the comparison chart
+      if (app.groupTitle) {
+        comparisonChart.classed('hidden', false);
+      }
   }
 });
 
 
 
 // A D3 chart comparison of job automation
+comparisonChart = d3.select('#automation-comparison-chart');
 automationList = d3.select('#automation-list');
+
+comparisonChart.classed('hidden', true);
+
 
 
 const data = jobs.automationData

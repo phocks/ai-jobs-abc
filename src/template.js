@@ -7,7 +7,7 @@ module.exports = `<div class='parent'>
 <!-- Our Reactive Vue App -->
 <div id="app" v-if="groupTitle" v-cloak>
 
-  <h3>{{ groupTitle }} spend ...</h3>
+  <div class="group-title">{{ groupTitle }} spend...</div>
 
   <div class="row">
     <div class="one-half column">
@@ -50,12 +50,18 @@ module.exports = `<div class='parent'>
 
 <div id="automation-comparison-chart">
   <h2>Automation comparison</h2>
+  <p>When we take a look at all the employment groups we see that...</p>
   <div class="sort-buttons">
+    Order by: 
     <button class="ascending">Most susceptible</button>
     <button class="descending">Least susceptible</button>
   </div>
-  <div id="automation-list">
+
+  <div class="chart-container">
+    <div class="more-key">More susceptible</div> 
+    <div class="less-key">Less susceptible</div>
   </div>
+  <div id="automation-list"></div>
 </div>
 
 </div>`
