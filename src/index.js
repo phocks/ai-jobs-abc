@@ -248,13 +248,13 @@ automationList.selectAll('div')
           if (a.percentLessSusceptible !== b.percentLessSusceptible)
             return d3.ascending(a.percentLessSusceptible, b.percentLessSusceptible);
           else
-            return d3.ascending(a.groupTitle, b.groupTitle);
+            return a.groupTitle.localeCompare(b.groupTitle);
           break;
         case "descending":
           if (a.percentLessSusceptible !== b.percentLessSusceptible)
             return d3.descending(a.percentLessSusceptible, b.percentLessSusceptible);
           else
-            return d3.ascending(a.groupTitle, b.groupTitle);
+            return a.groupTitle.localeCompare(b.groupTitle);
       }
     })
   };
