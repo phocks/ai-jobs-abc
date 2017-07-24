@@ -244,10 +244,17 @@ automationList.selectAll('div')
     .sort(function (a, b) {
       switch (sortOrder) {
         case "ascending":
-          return d3.ascending(a.percentLessSusceptible, b.percentLessSusceptible);
+          // Prevent unpredictable behaviour when values are identical
+          if (a.percentLessSusceptible !== b.percentLessSusceptible)
+            return d3.ascending(a.percentLessSusceptible, b.percentLessSusceptible);
+          else
+            return d3.ascending(a.groupTitle, b.groupTitle);
           break;
         case "descending":
-          return d3.descending(a.percentLessSusceptible, b.percentLessSusceptible);
+          if (a.percentLessSusceptible !== b.percentLessSusceptible)
+            return d3.descending(a.percentLessSusceptible, b.percentLessSusceptible);
+          else
+            return d3.ascending(a.groupTitle, b.groupTitle);
       }
     })
   };
@@ -270,5 +277,5 @@ automationList.selectAll('div')
 //            callback(xobj.responseText);
 //          }
 //    };
-//    xobj.send(null);  
+//    xobj.send(null);
 // }
