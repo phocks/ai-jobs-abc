@@ -127,6 +127,77 @@ Vue.component('pie-chart', {
   }
 });
 
+Vue.component('waffle-chart', {
+  props: ['percent'],
+  template: '<div class="waffle-chart"></div>',
+  mounted () {
+    this.drawWaffle(this.percent);
+  },
+  watch: {
+    percent: function (value) {
+      this.drawWaffle(value);
+    }
+  },
+  methods: {
+    drawWaffle (percent) {
+      var dataset = [
+        { label: 'Less', count: percent },
+        { label: 'More', count: 100 - percent }
+      ];
+
+      var chartWidth = 200;
+      var chartHeight = 200;
+      var radius = Math.min(width, height) / 2;
+
+      // Setup for waffle
+      var xNumOfUnits = 10,
+        yNumOfUnits = 10,
+        unitSize = chartHeight / yNumOfUnits,
+        gap = 1,
+        unitData = []; // Data for individual squares
+
+      var color = d3.scaleOrdinal(['#3C6998', 'aquamarine']); // or transparent: rgba(0, 0, 0, 0.0)
+
+      // Get rid of the one already there
+      d3.select(this.$el).selectAll("svg").remove();
+
+      var svg = d3.select(this.$el)
+        .append('svg')
+        .attr('width', +width)
+        .attr('height', +height)
+
+        waffleGroup = svg.append('g')
+        .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+      
+      var arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius);
+
+      var pie = d3.pie()
+        .value(function(d) { return d.count; })
+        .sort(null);
+
+      var path = waffleGroup.selectAll('path')
+        .data(pie(dataset))
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', function(d, i) {
+          return color(d.data.label);
+        })
+        .transition()
+        .ease(d3.easeExpInOut)
+        .duration(750)
+        .attrTween("d", tweenPie);
+
+      function tweenPie(b) {
+        var i = d3.interpolate({startAngle: 0.1*Math.PI, endAngle: 0.1*Math.PI}, b);
+        return function(t) { return arc(i(t)); };
+        };
+    }
+  }
+});
+
 
 // Create our autoComplete instance
 const complete = new autoComplete({
