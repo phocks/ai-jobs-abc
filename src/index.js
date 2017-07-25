@@ -238,7 +238,7 @@ automationList.selectAll('div')
   .style('cursor', 'pointer')
   .text(function (d) {
     return d.groupTitle;
-}).on("click", (groupData, second, third) => {
+}).on("click", (groupData) => {
     selectGroup(groupData);
     const searchInput = document.getElementById('job-search');
     searchInput.value = groupData.groupTitle;
