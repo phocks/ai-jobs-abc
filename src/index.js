@@ -14,13 +14,12 @@ const placeholder = document.querySelector('#ai-jobs-abc');
 placeholder.innerHTML = template;
 
 // const placeholderData = placeholder.dataset.data;
-
 // console.log(placeholder.dataset);
 
 const maxResults = 32;
 
 // Let's try to load the JSON asynchronously - maybe use Promises later
-// Loading async wasn't working so falling back to requiring json
+// Loading async failed cross site headers so falling back to requiring json
 // loadJSON(function(response) {
 // Parse JSON string into object
 // const jobs = JSON.parse(response);
@@ -49,7 +48,6 @@ const fuseOptions = {
 fuse = new Fuse(jobList, fuseOptions);
 const fuseResult = fuse.search('query');
 //  });
-
 
 
 // Create our Vue instance
