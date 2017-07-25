@@ -167,38 +167,43 @@ const complete = new autoComplete({
       const anzsco = item.getAttribute('search-code');
       const selectedGroupData = anzscoLookup[anzsco];
 
-      // Update Vue data - will reactively show up in browser
-      app.groupTitle = selectedGroupData.groupTitle;
-
-      // Check if percentages are the same and redraw
-      if (app.percentLessSusceptible === selectedGroupData.percentLessSusceptible &&
-          app.percentMoreSusceptible === selectedGroupData.percentMoreSusceptible) {
-            app.$refs.pieLess.drawPie(selectedGroupData.percentLessSusceptible);
-            app.$refs.pieMore.drawPie(selectedGroupData.percentMoreSusceptible);
-          } 
-      else {
-        app.percentLessSusceptible = selectedGroupData.percentLessSusceptible;
-        app.percentMoreSusceptible = selectedGroupData.percentMoreSusceptible;
-      } 
-
-      // Clear the lists for next search
-      app.lessTasks = [];
-      app.moreTasks = [];
-
-      app.lessTasks.push(selectedGroupData.taskLessAffected1);
-      if (selectedGroupData.taskLessAffected2)
-        app.lessTasks.push(selectedGroupData.taskLessAffected2);
-
-      app.moreTasks.push(selectedGroupData.taskMoreAffected1);
-      if (selectedGroupData.taskMoreAffected2)
-        app.moreTasks.push(selectedGroupData.taskMoreAffected2);
-
-      // Render the comparison chart
-      if (app.groupTitle) {
-        comparisonChart.classed('hidden', false);
-      }
+      selectGroup(selectedGroupData);
   }
 });
+
+
+function selectGroup (selectedGroupData) {
+    // Update Vue data - will reactively show up in browser
+    app.groupTitle = selectedGroupData.groupTitle;
+
+    // Check if percentages are the same and redraw
+    if (app.percentLessSusceptible === selectedGroupData.percentLessSusceptible &&
+        app.percentMoreSusceptible === selectedGroupData.percentMoreSusceptible) {
+          app.$refs.pieLess.drawPie(selectedGroupData.percentLessSusceptible);
+          app.$refs.pieMore.drawPie(selectedGroupData.percentMoreSusceptible);
+        } 
+    else {
+      app.percentLessSusceptible = selectedGroupData.percentLessSusceptible;
+      app.percentMoreSusceptible = selectedGroupData.percentMoreSusceptible;
+    } 
+
+    // Clear the lists for next search
+    app.lessTasks = [];
+    app.moreTasks = [];
+
+    app.lessTasks.push(selectedGroupData.taskLessAffected1);
+    if (selectedGroupData.taskLessAffected2)
+      app.lessTasks.push(selectedGroupData.taskLessAffected2);
+
+    app.moreTasks.push(selectedGroupData.taskMoreAffected1);
+    if (selectedGroupData.taskMoreAffected2)
+      app.moreTasks.push(selectedGroupData.taskMoreAffected2);
+
+    // Render the comparison chart
+    if (app.groupTitle) {
+      comparisonChart.classed('hidden', false);
+    }
+}
 
 
 
@@ -228,9 +233,15 @@ automationList.selectAll('div')
   .style('white-space', 'nowrap')
   .style('padding', '1px 5px')
   .style('color', 'white')
+  .style('cursor', 'pointer')
   .text(function (d) {
     return d.groupTitle;
-  });
+}).on("click", (groupData) => {
+    selectGroup(groupData);
+    const searchInput = document.getElementById('job-search');
+    searchInput.value = groupData.groupTitle;
+    window.scrollTo(0,searchInput.offsetTop);
+});
 
   d3.select("button.ascending").on("click", () => { reorder('ascending') } );
   d3.select("button.descending").on("click", () => { reorder('descending') } );
