@@ -140,21 +140,26 @@ Vue.component('waffle-chart', {
   },
   methods: {
     drawWaffle (percent) {
-      var dataset = [
-        { label: 'Less', count: percent },
-        { label: 'More', count: 100 - percent }
-      ];
+      // Make a data set of 100 units
+      const dataset = [];
 
-      var chartWidth = 200;
-      var chartHeight = 200;
-      var radius = Math.min(width, height) / 2;
+      for (let i = 0; i < percent; i++) {
+        dataset.push({ label: 'Less', count: i + 1})
+      }
+
+      for (let i = 0; i < (100 - percent); i++) {
+        dataset.push({ label: 'More', count: +percent + i + 1})
+      }
+
+      var chartWidth = 210;
+      var chartHeight = 210;
+      var radius = Math.min(chartWidth, radius) / 2;
 
       // Setup for waffle
       var xNumOfUnits = 10,
         yNumOfUnits = 10,
-        unitSize = chartHeight / yNumOfUnits,
-        gap = 1,
-        unitData = []; // Data for individual squares
+        unitSize = 10,
+        gap = 1;
 
       var color = d3.scaleOrdinal(['#3C6998', 'aquamarine']); // or transparent: rgba(0, 0, 0, 0.0)
 
@@ -163,37 +168,30 @@ Vue.component('waffle-chart', {
 
       var svg = d3.select(this.$el)
         .append('svg')
-        .attr('width', +width)
-        .attr('height', +height)
+        .attr('width', +chartWidth)
+        .attr('height', +chartHeight)
 
-        waffleGroup = svg.append('g')
-        .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
-      
-      var arc = d3.arc()
-        .innerRadius(0)
-        .outerRadius(radius);
+        waffleGroup = svg.append('g');
 
-      var pie = d3.pie()
-        .value(function(d) { return d.count; })
-        .sort(null);
-
-      var path = waffleGroup.selectAll('path')
-        .data(pie(dataset))
-        .enter()
-        .append('path')
-        .attr('d', arc)
-        .attr('fill', function(d, i) {
-          return color(d.data.label);
-        })
-        .transition()
-        .ease(d3.easeExpInOut)
-        .duration(750)
-        .attrTween("d", tweenPie);
-
-      function tweenPie(b) {
-        var i = d3.interpolate({startAngle: 0.1*Math.PI, endAngle: 0.1*Math.PI}, b);
-        return function(t) { return arc(i(t)); };
-        };
+        const circles = waffleGroup.selectAll('circle')
+          .data(dataset)
+          .enter().append('circle')
+          .attr("r", unitSize)
+          .attr("fill", function(d) {
+              return color(d.label);
+          })
+          .attr("cx", function(d, i)
+          {
+              col = i % xNumOfUnits;
+              var x = (col * (unitSize * 2)) + (col); 
+              return x + 10;
+          })
+          .attr("cy", function(d, i) {
+              //group n squares for column
+              row = Math.floor(i / xNumOfUnits);
+              return (row * (unitSize * 2)) + (row + 10);
+          });
+        
     }
   }
 });
