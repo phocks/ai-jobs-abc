@@ -1,6 +1,6 @@
 const Fuse = require('fuse.js'); // Nice and fuzzy search
 const autoComplete = require('js-autocomplete'); // Better autocomplete
-const Vue = require('vue'); // Handles reactivity 
+const Vue = require('vue/dist/vue.min.js'); // Use vue/dist/vue.min.j version to suppress debug msg
 const d3 = require('d3'); // Pretty drawings
 
 const template = require('./template');
