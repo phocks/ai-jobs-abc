@@ -12,7 +12,7 @@ module.exports = `<div class='parent'>
   <div class="row">
     <div class="one-half column">
       <waffle-chart v-bind:percent="percentLessSusceptible" ref="waffleLess"></waffle-chart>
-      <pie-chart v-bind:percent="percentLessSusceptible" ref="waffleLess"></pie-chart>
+      <!-- <pie-chart v-bind:percent="percentLessSusceptible" ref="waffleLess"></pie-chart> -->
       
       <p><strong>{{ percentLessSusceptible }}%</strong> of work time on tasks that are <strong>less</strong> susceptible to automation.</p>
 
@@ -30,7 +30,7 @@ module.exports = `<div class='parent'>
     <div class="one-half column">
 
       <waffle-chart v-bind:percent="percentMoreSusceptible" ref="waffleMore"></waffle-chart>
-      <pie-chart v-bind:percent="percentMoreSusceptible" ref="waffleMore"></pie-chart>
+      <!-- <pie-chart v-bind:percent="percentMoreSusceptible" ref="waffleMore"></pie-chart> -->
 
       <p><strong>{{ percentMoreSusceptible }}%</strong> of work time on tasks that are <strong>more</strong> susceptible to automation.</p>
 

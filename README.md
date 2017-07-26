@@ -1,7 +1,10 @@
-# ai-jobs-abc
+# interactive-jobs-automation
 
-A project generated from [aunty](https://github.com/abcnews/aunty)'s `basic-story` template.
+An online tool that displays information about how different jobs may be automated in the future.
 
-## Authors
+This project generated from [aunty](https://github.com/abcnews/aunty)'s `basic-story` template.
+
+## Contributors
 
 - Joshua Byrd ([phocks@gmail.com](mailto:phocks@gmail.com))
+- Nathan Hoad
