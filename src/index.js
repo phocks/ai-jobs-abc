@@ -290,11 +290,21 @@ const data = jobs.automationData
   });
 
 
-automationList.selectAll('div')
+const outerListDiv = automationList.selectAll('div')
   .data(data) 
-  .enter().append('div')
+  .enter()
+  .append('div')
   .attr('class', 'parent-bar')
   .style('background-color', '#B05154')
+  .style('cursor', 'pointer')
+  .on("click", (groupData) => {
+    selectGroup(groupData);
+    const searchInput = document.getElementById('job-search');
+    searchInput.value = groupData.groupTitle;
+    window.scrollTo(0,searchInput.offsetTop);
+});
+
+outerListDiv
   .append('div')
   .style('width', (d) => d.percentLessSusceptible + '%')
   .style('background-color', '#1B7A7D')
@@ -302,19 +312,12 @@ automationList.selectAll('div')
   .style('white-space', 'nowrap')
   .style('padding', '1px 5px')
   .style('color', 'white')
-  .style('cursor', 'pointer')
   .text(function (d) {
     return d.groupTitle;
-}).on("click", (groupData) => {
-    selectGroup(groupData);
-    const searchInput = document.getElementById('job-search');
-    searchInput.value = groupData.groupTitle;
-    window.scrollTo(0,searchInput.offsetTop);
 });
 
   d3.select("button.ascending").on("click", () => { reorder('ascending') } );
   d3.select("button.descending").on("click", () => { reorder('descending') } );
-
 
 
   function reorder (sortOrder) {
