@@ -127,6 +127,75 @@ Vue.component('pie-chart', {
   }
 });
 
+Vue.component('waffle-chart', {
+  props: ['percent'],
+  template: '<div class="waffle-chart"></div>',
+  mounted () {
+    this.drawWaffle(this.percent);
+  },
+  watch: {
+    percent: function (value) {
+      this.drawWaffle(value);
+    }
+  },
+  methods: {
+    drawWaffle (percent) {
+      // Make a data set of 100 units
+      const dataset = [];
+
+      for (let i = 0; i < percent; i++) {
+        dataset.push({ label: 'Less', count: i + 1})
+      }
+
+      for (let i = 0; i < (100 - percent); i++) {
+        dataset.push({ label: 'More', count: +percent + i + 1})
+      }
+
+      var chartWidth = 210;
+      var chartHeight = 210;
+      var radius = Math.min(chartWidth, radius) / 2;
+
+      // Setup for waffle
+      var xNumOfUnits = 10,
+        yNumOfUnits = 10,
+        unitSize = 10,
+        gap = 1;
+
+      var color = d3.scaleOrdinal(['#3C6998', 'aquamarine']); // or transparent: rgba(0, 0, 0, 0.0)
+
+      // Get rid of the one already there
+      d3.select(this.$el).selectAll("svg").remove();
+
+      var svg = d3.select(this.$el)
+        .append('svg')
+        .attr('width', +chartWidth)
+        .attr('height', +chartHeight)
+
+        waffleGroup = svg.append('g');
+
+        const circles = waffleGroup.selectAll('circle')
+          .data(dataset)
+          .enter().append('circle')
+          .attr("r", unitSize)
+          .attr("fill", function(d) {
+              return color(d.label);
+          })
+          .attr("cx", function(d, i)
+          {
+              col = i % xNumOfUnits;
+              var x = (col * (unitSize * 2)) + (col); 
+              return x + 10;
+          })
+          .attr("cy", function(d, i) {
+              //group n squares for column
+              row = Math.floor(i / xNumOfUnits);
+              return (row * (unitSize * 2)) + (row + 10);
+          });
+        
+    }
+  }
+});
+
 
 // Create our autoComplete instance
 const complete = new autoComplete({
