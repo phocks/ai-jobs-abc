@@ -3,6 +3,8 @@ const autoComplete = require('js-autocomplete'); // Better autocomplete
 const Vue = require('vue/dist/vue.min.js'); // Use vue/dist/vue.min.j version to suppress debug msg
 const d3 = require('d3'); // Pretty drawings
 
+console.log('hello');
+
 const template = require('./template');
 
 // Declare a few globals
