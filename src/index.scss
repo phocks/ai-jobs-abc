@@ -207,7 +207,24 @@ ul#automation-list {
   color: #1B7A7D;
 }
 
-.group-title {
-  font-size: 18px;
+#app h2.job-title {
   font-weight: bold;
+  text-align: center;
+  font-size: 30px;
+  color: #333;
+  margin-bottom: 4px;
+  font-family: "ABCSerif","Book Antiqua","Palatino Linotype",Palatino,serif;
+}
+
+#app .group-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  font-family: "ABCSerif","Book Antiqua","Palatino Linotype",Palatino,serif;
+}
+
+#ai-jobs-automation {
+  font-family: "ABCSans","Interval Sans Pro",Arial,Helvetica,sans-serif;
+  font-size: 18px;
 }

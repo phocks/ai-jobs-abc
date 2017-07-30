@@ -3,8 +3,6 @@ const autoComplete = require('js-autocomplete'); // Better autocomplete
 const Vue = require('vue/dist/vue.min.js'); // Use vue/dist/vue.min.j version to suppress debug msg
 const d3 = require('d3'); // Pretty drawings
 
-console.log('hello');
-
 const template = require('./template');
 
 // Declare a few globals
@@ -12,7 +10,7 @@ let anzscoLookup,
     fuse;
 
 // Inject our template
-const placeholder = document.querySelector('#ai-jobs-abc');
+const placeholder = document.querySelector('#ai-jobs-automation');
 placeholder.innerHTML = template;
 
 // const placeholderData = placeholder.dataset.data;
@@ -63,6 +61,86 @@ const app = new Vue({
     moreTasks: [],
   }
 });
+
+
+// Create our autoComplete instance
+const complete = new autoComplete({
+  selector: '#job-search',
+  minChars: 1,
+  delay: 150,
+  source: function(term, suggest) {
+    term = term.toLowerCase();
+
+    const fuseResult = fuse.search(term);
+
+    // Limit number of results to a sensible number
+    let suggestionCount = (fuseResult.length > maxResults ) ? suggestionCount = maxResults : fuseResult.length;
+
+    const fuseMatches = [];
+      for (let i = 0; i < suggestionCount; i++) {
+        fuseMatches.push(fuseResult[i].code + " " + fuseResult[i].title);
+      }
+
+      suggest(fuseMatches);
+  },
+  renderItem: function (item, search) {
+    search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); // Escape special characters
+    var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi"); // Highlight?
+
+    // Remove title code from data
+    item = item.replace(/\s+\(S\)|\s\(P\)|\s\(A\)|\s\(N\)|\snec/g, "");
+
+    // Return the element
+    return '<div \
+      class="autocomplete-suggestion" \
+      search-code="' + item.substr(0,3) + '" \
+      data-val="' + item.substring(7) + '">' + 
+      item.substring(7).replace(re, "<b>$1</b>") + 
+        '</div>';
+  },
+  onSelect: function(e, term, itemEl) {
+    const anzsco = itemEl.getAttribute('search-code');
+    const jobTitle = itemEl.getAttribute('data-val');
+    const selectedGroupData = anzscoLookup[anzsco];
+
+    selectGroup(selectedGroupData, jobTitle);
+  }
+});
+
+
+function selectGroup (selectedGroupData, jobTitle) {
+    // Update Vue data - will reactively show up in browser
+    app.jobTitle = jobTitle;
+    app.groupTitle = selectedGroupData.groupTitle;
+
+    // Check if percentages are the same and redraw
+    if (app.percentLessSusceptible === selectedGroupData.percentLessSusceptible &&
+        app.percentMoreSusceptible === selectedGroupData.percentMoreSusceptible) {
+          app.$refs.pieLess.drawPie(selectedGroupData.percentLessSusceptible);
+          app.$refs.pieMore.drawPie(selectedGroupData.percentMoreSusceptible);
+        } 
+    else {
+      app.percentLessSusceptible = selectedGroupData.percentLessSusceptible;
+      app.percentMoreSusceptible = selectedGroupData.percentMoreSusceptible;
+    } 
+
+    // Clear the lists for next search
+    app.lessTasks = [];
+    app.moreTasks = [];
+
+    app.lessTasks.push(selectedGroupData.taskLessAffected1);
+    if (selectedGroupData.taskLessAffected2)
+      app.lessTasks.push(selectedGroupData.taskLessAffected2);
+
+    app.moreTasks.push(selectedGroupData.taskMoreAffected1);
+    if (selectedGroupData.taskMoreAffected2)
+      app.moreTasks.push(selectedGroupData.taskMoreAffected2);
+
+    // Render the comparison chart
+    if (app.groupTitle) {
+      comparisonChart.classed('hidden', false);
+    }
+}
 
 
 // D3 seeems to play well with Vue components 
@@ -153,17 +231,19 @@ Vue.component('waffle-chart', {
         dataset.push({ label: 'More', count: +percent + i + 1})
       }
 
-      var chartWidth = 210;
-      var chartHeight = 210;
+      var chartWidth = 290;
+      var chartHeight = 230;
       var radius = Math.min(chartWidth, radius) / 2;
 
       // Setup for waffle
       var xNumOfUnits = 10,
         yNumOfUnits = 10,
-        unitSize = 10,
+        unitSize = 6,
         gap = 1;
 
-      var color = d3.scaleOrdinal(['#3C6998', 'aquamarine']); // or transparent: rgba(0, 0, 0, 0.0)
+      var color = d3.scaleOrdinal(['#FF9F00', 'rgba(0, 0, 0, 0.0)']); 
+      // or transparent: rgba(0, 0, 0, 0.0) 
+      // or this '#3C6998'
 
       // Get rid of the one already there
       d3.select(this.$el).selectAll("svg").remove();
@@ -178,103 +258,40 @@ Vue.component('waffle-chart', {
         const circles = waffleGroup.selectAll('circle')
           .data(dataset)
           .enter().append('circle')
-          .attr("r", unitSize)
+          .attr("r", function (d) {
+            if (d.label === "More") 
+              return unitSize - 1;
+            else
+              return unitSize;
+          })
           .attr("fill", function(d) {
-              return color(d.label);
+            return color(d.label);
+          })
+          .attr('stroke', function (d) {
+            if (d.label == "More")
+              return 'rgba(0, 0, 0, 0.3)';
+            else
+              return 'rgba(0, 0, 0, 0.0)';
           })
           .attr("cx", function(d, i)
           {
               col = i % xNumOfUnits;
-              var x = (col * (unitSize * 2)) + (col); 
-              return x + 10;
+              var x = (col * (unitSize * 2 + gap)) + (col + unitSize); 
+              return x;
           })
           .attr("cy", function(d, i) {
               //group n squares for column
               row = Math.floor(i / xNumOfUnits);
-              return (row * (unitSize * 2)) + (row + 10);
+              return (row * (unitSize * 2 + gap)) + (row + unitSize);
           });
-        
+
+      const percentText = svg.append('g')
+          .append('text')
+          .attr('fill', 'black')
+          .text('hello');
     }
   }
 });
-
-
-// Create our autoComplete instance
-const complete = new autoComplete({
-  selector: '#job-search',
-  minChars: 1,
-  delay: 150,
-  source: function(term, suggest) {
-    term = term.toLowerCase();
-
-    const fuseResult = fuse.search(term);
-
-    // Limit number of results to a sensible number
-    let suggestionCount = (fuseResult.length > maxResults ) ? suggestionCount = maxResults : fuseResult.length;
-
-    const fuseMatches = [];
-      for (let i = 0; i < suggestionCount; i++) {
-        fuseMatches.push(fuseResult[i].code + " " + fuseResult[i].title);
-      }
-
-      suggest(fuseMatches);
-  },
-  renderItem: function (item, search) {
-    search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); // Escape special characters
-    var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi"); // Highlight?
-
-    // Remove title code from data
-    item = item.replace(/\s+\(S\)|\s\(P\)|\s\(A\)|\s\(N\)|\snec/g, "");
-
-    // Return the element
-    return '<div \
-      class="autocomplete-suggestion" \
-      search-code="' + item.substr(0,3) + '" \
-      data-val="' + item.substring(7) + '">' + 
-      item.substring(7).replace(re, "<b>$1</b>") + 
-        '</div>';
-  },
-  onSelect: function(e, term, item) {
-      const anzsco = item.getAttribute('search-code');
-      const selectedGroupData = anzscoLookup[anzsco];
-
-      selectGroup(selectedGroupData);
-  }
-});
-
-
-function selectGroup (selectedGroupData) {
-    // Update Vue data - will reactively show up in browser
-    app.groupTitle = selectedGroupData.groupTitle;
-
-    // Check if percentages are the same and redraw
-    if (app.percentLessSusceptible === selectedGroupData.percentLessSusceptible &&
-        app.percentMoreSusceptible === selectedGroupData.percentMoreSusceptible) {
-          app.$refs.pieLess.drawPie(selectedGroupData.percentLessSusceptible);
-          app.$refs.pieMore.drawPie(selectedGroupData.percentMoreSusceptible);
-        } 
-    else {
-      app.percentLessSusceptible = selectedGroupData.percentLessSusceptible;
-      app.percentMoreSusceptible = selectedGroupData.percentMoreSusceptible;
-    } 
-
-    // Clear the lists for next search
-    app.lessTasks = [];
-    app.moreTasks = [];
-
-    app.lessTasks.push(selectedGroupData.taskLessAffected1);
-    if (selectedGroupData.taskLessAffected2)
-      app.lessTasks.push(selectedGroupData.taskLessAffected2);
-
-    app.moreTasks.push(selectedGroupData.taskMoreAffected1);
-    if (selectedGroupData.taskMoreAffected2)
-      app.moreTasks.push(selectedGroupData.taskMoreAffected2);
-
-    // Render the comparison chart
-    if (app.groupTitle) {
-      comparisonChart.classed('hidden', false);
-    }
-}
 
 
 

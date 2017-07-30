@@ -1,4 +1,4 @@
-module.exports = `<div class='parent'>
+module.exports = `<div class='ai-jobs'>
 <div id="search-group">
   <label for='job-search'>Search for your job title: </label>
   <input id='job-search'/>
@@ -7,27 +7,14 @@ module.exports = `<div class='parent'>
 <!-- Our Reactive Vue App -->
 <div id="app" v-if="groupTitle" v-cloak>
 
+  <h2 class="job-title">{{ jobTitle }}</h2>
   <div class="group-title">{{ groupTitle }} spend...</div>
 
   <div class="row">
     <div class="one-half column">
-      <waffle-chart v-bind:percent="percentLessSusceptible" ref="waffleLess"></waffle-chart>
-      <!-- <pie-chart v-bind:percent="percentLessSusceptible" ref="waffleLess"></pie-chart> -->
       
-      <p><strong>{{ percentLessSusceptible }}%</strong> of work time on tasks that are <strong>less</strong> susceptible to automation.</p>
 
-      <div v-if="lessTasks[0]" id="tasks-less">
-        <p>Some typical things <strong>{{ groupTitle }}</strong> do that are <b>less affected</b> by automation are:</p>
 
-        <ul id="less-tasks">
-          <li v-for="item in lessTasks">
-            {{ item }}
-          </li>
-        </ul>
-
-      </div>
-    </div>
-    <div class="one-half column">
 
       <waffle-chart v-bind:percent="percentMoreSusceptible" ref="waffleMore"></waffle-chart>
       <!-- <pie-chart v-bind:percent="percentMoreSusceptible" ref="waffleMore"></pie-chart> -->
@@ -43,9 +30,31 @@ module.exports = `<div class='parent'>
         </li>
       </ul>
 
+      </div>
+
+
+    </div>
+    <div class="one-half column">
+
+
+      <waffle-chart v-bind:percent="percentLessSusceptible" ref="waffleLess"></waffle-chart>
+      <!-- <pie-chart v-bind:percent="percentLessSusceptible" ref="waffleLess"></pie-chart> -->
+      
+      <p><strong>{{ percentLessSusceptible }}%</strong> of work time on tasks that are <strong>less</strong> susceptible to automation.</p>
+
+      <div v-if="lessTasks[0]" id="tasks-less">
+        <p>Some typical things <strong>{{ groupTitle }}</strong> do that are <b>less affected</b> by automation are:</p>
+
+        <ul id="less-tasks">
+          <li v-for="item in lessTasks">
+            {{ item }}
+          </li>
+        </ul>
+
+      </div>
+      
     </div>
   </div>
-</div>
 
 </div>
 
