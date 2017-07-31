@@ -289,12 +289,16 @@ Vue.component('waffle-chart', {
       const percentText = svg.append('text')
         .attr('x', chartWidth * 0.55)
         .attr('y', chartHeight / 2)
-        .style('font-size', '64px')
+        .style('font-size', '75px')
         .style('font-weight', 'bold')
         .style('fill', '#FF9F00')
-        .style('stroke', '#777')
+        .style('stroke', '#888')
         .style('dominant-baseline', 'central')
-        .html(percent + '%');
+        .html(percent)
+        .append('tspan')
+        .style('font-size', '50px')
+        .style('baseline-shift', '9px')
+        .text('%');
     }
   }
 });
