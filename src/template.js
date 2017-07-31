@@ -60,7 +60,7 @@ module.exports = `<div class='ai-jobs'>
 
 
 
-<div id="automation-comparison-chart">
+<!-- <div id="automation-comparison-chart">
   <h2>Automation comparison</h2>
   <p>When we take a look at all the employment groups we see that...</p>
   <div class="sort-buttons">
@@ -74,6 +74,6 @@ module.exports = `<div class='ai-jobs'>
     <div class="less-key">Less susceptible</div>
   </div>
   <div id="automation-list"></div>
-</div>
+</div> -->
 
 </div>`
