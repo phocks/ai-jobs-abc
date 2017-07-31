@@ -208,27 +208,27 @@ Vue.component('pie-chart', {
 });
 
 Vue.component('waffle-chart', {
-  props: ['percent'],
+  props: ['percent', 'section'],
   template: '<div class="waffle-chart"></div>',
   mounted () {
-    this.drawWaffle(this.percent);
+    this.drawWaffle(this.percent, this.section);
   },
   watch: {
     percent: function (value) {
-      this.drawWaffle(value);
+      this.drawWaffle(value, this.section);
     }
   },
   methods: {
-    drawWaffle (percent) {
+    drawWaffle (percent, section) {
       // Make a data set of 100 units
       const dataset = [];
 
       for (let i = 0; i < percent; i++) {
-        dataset.push({ label: 'Less', count: i + 1})
+        dataset.push({ label: 'more', count: i + 1})
       }
 
       for (let i = 0; i < (100 - percent); i++) {
-        dataset.push({ label: 'More', count: +percent + i + 1})
+        dataset.push({ label: 'less', count: +percent + i + 1})
       }
 
       var chartWidth = 290;
@@ -241,7 +241,10 @@ Vue.component('waffle-chart', {
         unitSize = 6,
         gap = 1;
 
-      var color = d3.scaleOrdinal(['#FF9F00', 'rgba(0, 0, 0, 0.0)']); 
+      if (section === "more")
+        var color = d3.scaleOrdinal(['#FF9F00', 'rgba(0, 0, 0, 0.0)', '#BC6B00']);
+      else
+        var color = d3.scaleOrdinal(['rgba(0, 0, 0, 0.0)', '#2E94C1', '#006987']);
       // or transparent: rgba(0, 0, 0, 0.0) 
       // or this '#3C6998'
 
@@ -259,19 +262,37 @@ Vue.component('waffle-chart', {
         .data(dataset)
         .enter().append('circle')
         .attr("r", function (d) {
-          if (d.label === "More") 
-            return unitSize - 0.5;
-          else
-            return unitSize;
+            switch (section) {
+              case 'less':
+                if (d.label === "more") 
+                  return unitSize - 0.5;
+                else
+                  return unitSize;
+                break;
+              case 'more':
+                if (d.label === "less") 
+                  return unitSize - 0.5;
+                else
+                  return unitSize;
+            }
         })
         .attr("fill", function(d) {
           return color(d.label);
         })
         .attr('stroke', function (d) {
-          if (d.label == "More")
-            return 'rgba(0, 0, 0, 0.3)';
-          else
-            return 'rgba(0, 0, 0, 0.0)';
+          switch (section) {
+            case 'less':
+              if (d.label == "more")
+                return 'rgba(0, 0, 0, 0.3)';
+              else
+                return 'rgba(0, 0, 0, 0.0)';
+              break;
+            case 'more': 
+              if (d.label == "less")
+                return 'rgba(0, 0, 0, 0.3)';
+              else
+                return 'rgba(0, 0, 0, 0.0)';
+            }
         })
         .attr("cx", function(d, i)
         {
@@ -285,16 +306,20 @@ Vue.component('waffle-chart', {
             return (row * (unitSize * 2 + gap)) + (row + unitSize);
         });
 
-
       const percentText = svg.append('text')
-        .attr('x', chartWidth * 0.55)
+        .attr('x', chartWidth / 2 + 8)
         .attr('y', chartHeight / 2)
         .style('font-size', '75px')
         .style('font-weight', 'bold')
-        .style('fill', '#FF9F00')
-        .style('stroke', '#888')
+        .style('fill', function () { return color(section) })
+        .style('stroke', function() { return color(section + "Outline")})
         .style('dominant-baseline', 'central')
-        .html(percent)
+        .text(function () {
+          if (section === 'more')
+            return percent;
+          else
+            return 100 - percent;
+        })
         .append('tspan')
         .style('font-size', '50px')
         .style('baseline-shift', '9px')
