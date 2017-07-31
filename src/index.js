@@ -232,7 +232,7 @@ Vue.component('waffle-chart', {
       }
 
       var chartWidth = 290;
-      var chartHeight = 230;
+      var chartHeight = 140;
       var radius = Math.min(chartWidth, radius) / 2;
 
       // Setup for waffle
@@ -253,42 +253,48 @@ Vue.component('waffle-chart', {
         .attr('width', +chartWidth)
         .attr('height', +chartHeight)
 
-        waffleGroup = svg.append('g');
+      waffleGroup = svg.append('g');
 
-        const circles = waffleGroup.selectAll('circle')
-          .data(dataset)
-          .enter().append('circle')
-          .attr("r", function (d) {
-            if (d.label === "More") 
-              return unitSize - 1;
-            else
-              return unitSize;
-          })
-          .attr("fill", function(d) {
-            return color(d.label);
-          })
-          .attr('stroke', function (d) {
-            if (d.label == "More")
-              return 'rgba(0, 0, 0, 0.3)';
-            else
-              return 'rgba(0, 0, 0, 0.0)';
-          })
-          .attr("cx", function(d, i)
-          {
-              col = i % xNumOfUnits;
-              var x = (col * (unitSize * 2 + gap)) + (col + unitSize); 
-              return x;
-          })
-          .attr("cy", function(d, i) {
-              //group n squares for column
-              row = Math.floor(i / xNumOfUnits);
-              return (row * (unitSize * 2 + gap)) + (row + unitSize);
-          });
+      const circles = waffleGroup.selectAll('circle')
+        .data(dataset)
+        .enter().append('circle')
+        .attr("r", function (d) {
+          if (d.label === "More") 
+            return unitSize - 0.5;
+          else
+            return unitSize;
+        })
+        .attr("fill", function(d) {
+          return color(d.label);
+        })
+        .attr('stroke', function (d) {
+          if (d.label == "More")
+            return 'rgba(0, 0, 0, 0.3)';
+          else
+            return 'rgba(0, 0, 0, 0.0)';
+        })
+        .attr("cx", function(d, i)
+        {
+            col = i % xNumOfUnits;
+            var x = (col * (unitSize * 2 + gap)) + (col + unitSize);
+            return x;
+        })
+        .attr("cy", function(d, i) {
+            //group n squares for column
+            row = Math.floor(i / xNumOfUnits);
+            return (row * (unitSize * 2 + gap)) + (row + unitSize);
+        });
 
-      const percentText = svg.append('g')
-          .append('text')
-          .attr('fill', 'black')
-          .text('hello');
+
+      const percentText = svg.append('text')
+        .attr('x', chartWidth * 0.55)
+        .attr('y', chartHeight / 2)
+        .style('font-size', '64px')
+        .style('font-weight', 'bold')
+        .style('fill', '#FF9F00')
+        .style('stroke', '#777')
+        .style('dominant-baseline', 'central')
+        .html(percent + '%');
     }
   }
 });
