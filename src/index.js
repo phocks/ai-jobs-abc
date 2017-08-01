@@ -232,15 +232,16 @@ Vue.component('waffle-chart', {
         dataset.push({ label: 'less', count: +percent + i + 1})
       }
 
-      var chartWidth = 290;
-      var chartHeight = 140;
-      var radius = Math.min(chartWidth, radius) / 2;
 
       // Setup for waffle
       var xNumOfUnits = 10,
         yNumOfUnits = 10,
-        unitSize = 6,
-        gap = 1;
+        unitSize = 5,
+        gap = 2;
+
+      var chartWidth = 300;
+      var chartHeight = ((unitSize * 2) + gap + 1) * 10;
+      var radius = Math.min(chartWidth, radius) / 2;
 
       if (section === "more")
         var color = d3.scaleOrdinal(['#FF9F00', 'rgba(0, 0, 0, 0.0)', '#BC6B00']);
@@ -255,8 +256,7 @@ Vue.component('waffle-chart', {
       var svg = d3.select(this.$el)
         .append('svg')
         .attr('width', '100%')
-        // .attr('width', +chartWidth)
-        // .attr('height', +chartHeight)
+        // Make scalable
         .attr('viewBox', `0, 0, ${+chartWidth}, ${+chartHeight}`);
 
       let waffleGroup = svg.append('g');
@@ -310,13 +310,13 @@ Vue.component('waffle-chart', {
         });
 
       const percentText = svg.append('text')
-        .attr('x', chartWidth / 2 + 8)
-        .attr('dy', chartHeight * 0.68)
-        .style('font-size', '75px')
+        .attr('x', chartWidth / 2 - 10)
+        .attr('dy', chartHeight * 0.74)
+        .style('font-size', '90px')
         .style('font-weight', 'bold')
-        .style('fill', function () { return color(section) })
+        .style('fill', color(section) )
         .style('stroke', function() { return color(section + "Outline")})
-        // .style('dominant-baseline', 'text-before-edge')
+        .style('dominant-baseline', 'alphabetical')
         .text(function () {
           if (section === 'more')
             return percent;
@@ -325,10 +325,27 @@ Vue.component('waffle-chart', {
         })
         .append('tspan')
         // .attr('dominant-baseline', 'text-before-edge')
-        .style('font-size', '50px')
-        .attr('dy', '-16px')
+        .style('font-size', '60px')
+        .attr('dy', '-18px')
         .text('%');
     }
+  }
+});
+
+
+
+Vue.component('barcode-chart', {
+  props: ['percent', 'section'],
+  template: '<div class="waffle-chart"></div>',
+  mounted () {
+    this.drawWaffle(this.percent, this.section);
+  },
+  watch: {
+    percent: function (value) {
+      this.drawWaffle(value, this.section);
+    }
+  },
+  methods: {
   }
 });
 
@@ -390,7 +407,7 @@ function drawChart(d3El, data, highlightPosition, yourBarPosition) {
       return Math.floor(chartScale(yourBarPosition)) + '%';
     });
 
-    barcodeGroup.append('text')
+  barcodeGroup.append('text')
     .style('fill', yourBarColor)
     .style('font-size', '11px')
     .style('font-weight', 'bold')
@@ -408,6 +425,12 @@ function drawChart(d3El, data, highlightPosition, yourBarPosition) {
     .attr('height', chartHeight)
     .style('fill', '#f4f4f4');
 
+  barcodeGroup.append('rect')
+    .attr('width', chartScale(highlightPosition) + '%')
+    .attr('height', chartHeight)
+    .style('fill', 'rgba(255, 155, 0, 0.15)');
+
+  // Append grey bars according to data
   barcodeGroup.selectAll('rect')
     .data(data)
     .enter()
@@ -425,9 +448,7 @@ function drawChart(d3El, data, highlightPosition, yourBarPosition) {
     .attr('height', highlightBarHeight)
     .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
     .style('fill', highlightBarColor)
-    .attr('x', function () {
-      return Math.floor(chartScale(highlightPosition)) + '%';
-    });
+    .attr('x', chartScale(highlightPosition) + '%');
 
   barcodeGroup.append('text')
     .style('font-size', '18px')
@@ -437,8 +458,8 @@ function drawChart(d3El, data, highlightPosition, yourBarPosition) {
       return Math.floor(chartScale(highlightPosition)) + '%';
     })
     .attr('dx', 7)
-    .attr('dy', -3)
-    .attr('dominant-baseline', 'text-after-edge')
+    .attr('dy', -8)
+    .attr('dominant-baseline', 'alphabetical')
     .text(highlightPosition + '%');
 }
 
