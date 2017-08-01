@@ -357,19 +357,36 @@ const highlightBarWidth = 3,
   highlightBarHeight = 28;
   highlightBarColor = 'rgba(255, 159, 0, 1.0)';
 
+const yourBarWidth = 3,
+  yourBarHeight = 32,
+  yourBarColor = 'rgba(195, 51, 127, 1.0)';
+
 const chartScale = d3.scaleLinear()
     .domain([0, 100])
     .range([0, 100]); // fallback to percentage as x indicator
 
-function drawChart(data, highlightPosition) {
+function drawChart(data, highlightPosition, yourBarPosition) {
   var svgEl = barcodeChart
     .append('svg')
     .attr('width', chartWidth)
     .attr('height', chartHeight * 2);
 
-  barcodeGroup = svgEl.append('g')
+  const barcodeGroup = svgEl.append('g')
     .attr('transform', 'translate(0, ' + chartHeight / 2 + ')');
 
+  // Render a bar that represents Your Job that you chose
+  const yourBar = barcodeGroup.append('rect')
+    .attr('width', yourBarWidth)
+    .attr('height', yourBarHeight)
+    .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
+    .style('fill', yourBarColor)
+    .attr('x', function () {
+      return Math.floor(chartScale(yourBarPosition)) + '%';
+    })
+    .attr('rx', 1)
+    .attr('ry', 1);
+
+  // The background bar
   barcodeGroup.append('rect')
     .attr('width', chartWidth)
     .attr('height', chartHeight)
@@ -386,6 +403,7 @@ function drawChart(data, highlightPosition) {
       return Math.floor(chartScale(d.percentMoreSusceptible)) + "%";
     });
 
+  // Render a bar for comparison
   var highlightBar = barcodeGroup.append('rect')
     .attr('width', highlightBarWidth)
     .attr('height', highlightBarHeight)
@@ -393,11 +411,13 @@ function drawChart(data, highlightPosition) {
     .style('fill', highlightBarColor)
     .attr('x', function () {
       return Math.floor(chartScale(highlightPosition)) + '%';
-    });
+    })
+    .attr('rx', 1)
+    .attr('ry', 1);
 }
 
 
-drawChart(data, 66);
+drawChart(data, 69, 23);
 
 
 
