@@ -333,72 +333,121 @@ Vue.component('waffle-chart', {
 
 
 // A D3 chart comparison of job automation
-comparisonChart = d3.select('#automation-comparison-chart');
-automationList = d3.select('#automation-list');
+const comparisonChart = d3.select('#automation-comparison-chart');
+const automationList = d3.select('#automation-list');
+const barcodeChart = d3.select('#barcode-chart');
 
-comparisonChart.classed('hidden', true);
-
+// comparisonChart.classed('hidden', true);
 
 
 const data = jobs.automationData
   .sort(function (a, b) {
     return d3.ascending(a.groupTitle, b.groupTitle);
+    // return d3.ascending(a.percentMoreSusceptible, b.percentMoreSusceptible);
   });
 
 
-const outerListDiv = automationList.selectAll('div')
-  .data(data) 
-  .enter()
-  .append('div')
-  .attr('class', 'parent-bar')
-  .style('background-color', '#B05154')
-  .style('cursor', 'pointer')
-  .on("click", (groupData) => {
-    selectGroup(groupData);
-    const searchInput = document.getElementById('job-search');
-    searchInput.value = groupData.groupTitle;
-    window.scrollTo(0,searchInput.offsetTop);
-});
+// Let's build a barcode chart
+const chartWidth = '100%',
+  chartHeight = 24,
+  barWidth = 2, // chartWidth / 100;
+  barColor = 'rgba(0, 0, 0, 0.1)';
 
-outerListDiv
-  .append('div')
-  .style('width', (d) => d.percentLessSusceptible + '%')
-  .style('background-color', '#1B7A7D')
-  .style('margin-bottom', '1px')
-  .style('white-space', 'nowrap')
-  .style('padding', '1px 5px')
-  .style('color', 'white')
-  .text(function (d) {
-    return d.groupTitle;
-});
+const highlightBarWidth = 3,
+  highlightBarHeight = 28;
+  highlightBarColor = 'rgba(0, 161, 230, 1.0)';
 
-  d3.select("button.ascending").on("click", () => { reorder('ascending') } );
-  d3.select("button.descending").on("click", () => { reorder('descending') } );
+const chartScale = d3.scaleLinear()
+    .domain([0, 100])
+    .range([0, 100]); // fallback to percentage as x indicator
+
+console.log(chartScale(50));
+
+function drawChart(data) {
+  var svgEl = barcodeChart
+    .append('svg')
+    .attr('width', chartWidth)
+    .attr('height', chartHeight * 2);
+
+  barcodeGroup = svgEl.append('g')
+    .attr('transform', 'translate(0, ' + chartHeight / 2 + ')');
+
+  barcodeGroup.append('rect')
+    .attr('width', chartWidth)
+    .attr('height', chartHeight)
+    .style('fill', '#f4f4f4');
+
+  barcodeGroup.selectAll('rect')
+    .data(data)
+    .enter()
+    .append('rect')
+    .attr('width', barWidth)
+    .attr('height', chartHeight)
+    .style('fill', barColor)
+    .attr('x', function (d, i) {
+      return Math.floor(chartScale(d.percentMoreSusceptible)) + "%";
+    });
+}
 
 
-  function reorder (sortOrder) {
-    d3.selectAll('div.parent-bar')
-    .sort(function (a, b) {
-      switch (sortOrder) {
-        case "ascending":
-          // Prevent unpredictable behaviour when values are identical
-          if (a.percentLessSusceptible !== b.percentLessSusceptible)
-            return d3.ascending(a.percentLessSusceptible, b.percentLessSusceptible);
-          else
-            return a.groupTitle.localeCompare(b.groupTitle);
-          break;
-        case "descending":
-          if (a.percentLessSusceptible !== b.percentLessSusceptible)
-            return d3.descending(a.percentLessSusceptible, b.percentLessSusceptible);
-          else
-            return a.groupTitle.localeCompare(b.groupTitle);
-      }
-    })
-  };
+drawChart(data);
 
 
 
-// automationChart.text("Automation is cool");
+
+
+// const outerListDiv = automationList.selectAll('div')
+//   .data(data) 
+//   .enter()
+//   .append('div')
+//   .attr('class', 'parent-bar')
+//   .style('background-color', '#B05154')
+//   .style('cursor', 'pointer')
+//   .on("click", (groupData) => {
+//     selectGroup(groupData);
+//     const searchInput = document.getElementById('job-search');
+//     searchInput.value = groupData.groupTitle;
+//     window.scrollTo(0,searchInput.offsetTop);
+// });
+
+// outerListDiv
+//   .append('div')
+//   .style('width', (d) => d.percentLessSusceptible + '%')
+//   .style('background-color', '#1B7A7D')
+//   .style('margin-bottom', '1px')
+//   .style('white-space', 'nowrap')
+//   .style('padding', '1px 5px')
+//   .style('color', 'white')
+//   .text(function (d) {
+//     return d.groupTitle;
+// });
+
+//   d3.select("button.ascending").on("click", () => { reorder('ascending') } );
+//   d3.select("button.descending").on("click", () => { reorder('descending') } );
+
+//   reorder('ascending');
+
+
+//   function reorder (sortOrder) {
+//     d3.selectAll('div.parent-bar')
+//     .sort(function (a, b) {
+//       switch (sortOrder) {
+//         case "ascending":
+//           // Prevent unpredictable behaviour when values are identical
+//           if (a.percentLessSusceptible !== b.percentLessSusceptible)
+//             return d3.ascending(a.percentLessSusceptible, b.percentLessSusceptible);
+//           else
+//             return a.groupTitle.localeCompare(b.groupTitle);
+//           break;
+//         case "descending":
+//           if (a.percentLessSusceptible !== b.percentLessSusceptible)
+//             return d3.descending(a.percentLessSusceptible, b.percentLessSusceptible);
+//           else
+//             return a.groupTitle.localeCompare(b.groupTitle);
+//       }
+//     })
+//   };
+
 
 
 

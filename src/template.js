@@ -60,24 +60,25 @@ module.exports = `<div class='ai-jobs'>
     </div>
   </div>
 
-</div>
+</div> <!-- end Vue app -->
 
 
 
-<!-- <div id="automation-comparison-chart">
-  <h2>Automation comparison</h2>
-  <p>When we take a look at all the employment groups we see that...</p>
-  <div class="sort-buttons">
+ <div id="automation-comparison-chart">
+  <p>Let's have a look at how our jobs compare...</p>
+  <!-- <div class="sort-buttons">
     Order by: 
     <button class="ascending">Most susceptible</button>
     <button class="descending">Least susceptible</button>
-  </div>
+  </div> -->
+
+  <div id="barcode-chart"></div>
 
   <div class="chart-container">
-    <div class="more-key">More susceptible</div> 
-    <div class="less-key">Less susceptible</div>
+    <div class="more-key">More susceptible <span class="arrow">&rarr;</span></div> 
+    <div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>
   </div>
   <div id="automation-list"></div>
-</div> -->
+</div> 
 
 </div>`
