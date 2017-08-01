@@ -355,15 +355,13 @@ const chartWidth = '100%',
 
 const highlightBarWidth = 3,
   highlightBarHeight = 28;
-  highlightBarColor = 'rgba(0, 161, 230, 1.0)';
+  highlightBarColor = 'rgba(255, 159, 0, 1.0)';
 
 const chartScale = d3.scaleLinear()
     .domain([0, 100])
     .range([0, 100]); // fallback to percentage as x indicator
 
-console.log(chartScale(50));
-
-function drawChart(data) {
+function drawChart(data, highlightPosition) {
   var svgEl = barcodeChart
     .append('svg')
     .attr('width', chartWidth)
@@ -387,10 +385,19 @@ function drawChart(data) {
     .attr('x', function (d, i) {
       return Math.floor(chartScale(d.percentMoreSusceptible)) + "%";
     });
+
+  var highlightBar = barcodeGroup.append('rect')
+    .attr('width', highlightBarWidth)
+    .attr('height', highlightBarHeight)
+    .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
+    .style('fill', highlightBarColor)
+    .attr('x', function () {
+      return Math.floor(chartScale(highlightPosition)) + '%';
+    });
 }
 
 
-drawChart(data);
+drawChart(data, 66);
 
 
 
