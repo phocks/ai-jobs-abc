@@ -11,7 +11,7 @@ module.exports = `<div class='ai-jobs'>
   <div class="group-title">{{ groupTitle }} spend...</div>
 
   <div class="row">
-    <div class="one-half column">
+    <div class="section-more">
       
 
 
@@ -34,7 +34,11 @@ module.exports = `<div class='ai-jobs'>
 
 
     </div>
-    <div class="one-half column">
+    <div class="section-less">
+
+    <div class="mid-text"><strong>So that means that</strong></div>
+
+    <div class="group-title">{{ groupTitle }} spend...</div>
 
 
       <waffle-chart v-bind:percent="percentMoreSusceptible" section="less" ref="waffleLess"></waffle-chart>

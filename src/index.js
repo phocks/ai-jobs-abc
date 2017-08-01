@@ -144,68 +144,68 @@ function selectGroup (selectedGroupData, jobTitle) {
 
 
 // D3 seeems to play well with Vue components 
-Vue.component('pie-chart', {
-  props: ['percent'],
-  template: '<div class="pie-chart"></div>',
-  mounted () {
-    this.drawPie(this.percent);
-  },
-  watch: {
-    percent: function (value) {
-      this.drawPie(value);
-    }
-  },
-  methods: {
-    drawPie (percent) {
-      var dataset = [
-        { label: 'Less', count: percent },
-        { label: 'More', count: 100 - percent }
-      ];
+// Vue.component('pie-chart', {
+//   props: ['percent'],
+//   template: '<div class="pie-chart"></div>',
+//   mounted () {
+//     this.drawPie(this.percent);
+//   },
+//   watch: {
+//     percent: function (value) {
+//       this.drawPie(value);
+//     }
+//   },
+//   methods: {
+//     drawPie (percent) {
+//       var dataset = [
+//         { label: 'Less', count: percent },
+//         { label: 'More', count: 100 - percent }
+//       ];
 
-      var width = 200;
-      var height = 200;
-      var radius = Math.min(width, height) / 2;
+//       var width = 200;
+//       var height = 200;
+//       var radius = Math.min(width, height) / 2;
 
-      var color = d3.scaleOrdinal(['#3C6998', 'rgba(0, 0, 0, 0.0)']);
+//       var color = d3.scaleOrdinal(['#3C6998', 'rgba(0, 0, 0, 0.0)']);
 
-      // Get rid of the one already there
-      d3.select(this.$el).selectAll("svg").remove();
+//       // Get rid of the one already there
+//       d3.select(this.$el).selectAll("svg").remove();
 
-      var svg = d3.select(this.$el)
-        .append('svg')
-        .attr('width', +width)
-        .attr('height', +height)
-        .append('g')
-        .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+//       var svg = d3.select(this.$el)
+//         .append('svg')
+//         .attr('width', +width)
+//         .attr('height', +height)
+//         .append('g')
+//         .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
       
-      var arc = d3.arc()
-        .innerRadius(0)
-        .outerRadius(radius);
+//       var arc = d3.arc()
+//         .innerRadius(0)
+//         .outerRadius(radius);
 
-      var pie = d3.pie()
-        .value(function(d) { return d.count; })
-        .sort(null);
+//       var pie = d3.pie()
+//         .value(function(d) { return d.count; })
+//         .sort(null);
 
-      var path = svg.selectAll('path')
-        .data(pie(dataset))
-        .enter()
-        .append('path')
-        .attr('d', arc)
-        .attr('fill', function(d, i) {
-          return color(d.data.label);
-        })
-        .transition()
-        .ease(d3.easeExpInOut)
-        .duration(750)
-        .attrTween("d", tweenPie);
+//       var path = svg.selectAll('path')
+//         .data(pie(dataset))
+//         .enter()
+//         .append('path')
+//         .attr('d', arc)
+//         .attr('fill', function(d, i) {
+//           return color(d.data.label);
+//         })
+//         .transition()
+//         .ease(d3.easeExpInOut)
+//         .duration(750)
+//         .attrTween("d", tweenPie);
 
-      function tweenPie(b) {
-        var i = d3.interpolate({startAngle: 0.1*Math.PI, endAngle: 0.1*Math.PI}, b);
-        return function(t) { return arc(i(t)); };
-        };
-    }
-  }
-});
+//       function tweenPie(b) {
+//         var i = d3.interpolate({startAngle: 0.1*Math.PI, endAngle: 0.1*Math.PI}, b);
+//         return function(t) { return arc(i(t)); };
+//         };
+//     }
+//   }
+// });
 
 Vue.component('waffle-chart', {
   props: ['percent', 'section'],
@@ -253,8 +253,10 @@ Vue.component('waffle-chart', {
 
       var svg = d3.select(this.$el)
         .append('svg')
-        .attr('width', +chartWidth)
-        .attr('height', +chartHeight)
+        .attr('width', '100%')
+        // .attr('width', +chartWidth)
+        // .attr('height', +chartHeight)
+        .attr('viewBox', `0, 0, ${+chartWidth}, ${+chartHeight}`);
 
       waffleGroup = svg.append('g');
 
@@ -322,7 +324,7 @@ Vue.component('waffle-chart', {
         })
         .append('tspan')
         .style('font-size', '50px')
-        .style('baseline-shift', '9px')
+        .attr('dy', '-12px')
         .text('%');
     }
   }

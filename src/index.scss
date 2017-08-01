@@ -179,6 +179,11 @@ input {
   // padding: 18px 0 0;
 }
 
+.waffle-chart svg {
+  margin: auto;
+  max-width: 500px;
+}
+
 #app {
   padding-top: 1em;
 }
@@ -215,6 +220,8 @@ ul#automation-list {
   color: #333;
   margin-bottom: 4px;
   font-family: "ABCSerif","Book Antiqua","Palatino Linotype",Palatino,serif;
+  text-transform: initial;
+  line-height: 1.5;
 }
 
 #app .group-title {
@@ -240,4 +247,13 @@ ul#automation-list {
 
 #ai-jobs-automation .less-highlighter {
   background-color: #C1E0EA;
+}
+
+#ai-jobs-automation .mid-text {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  font-family: "ABCSerif","Book Antiqua","Palatino Linotype",Palatino,serif;
+  margin-bottom: 0.4em;
 }
