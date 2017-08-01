@@ -311,12 +311,12 @@ Vue.component('waffle-chart', {
 
       const percentText = svg.append('text')
         .attr('x', chartWidth / 2 + 8)
-        .attr('y', chartHeight / 2)
+        .attr('dy', chartHeight * 0.68)
         .style('font-size', '75px')
         .style('font-weight', 'bold')
         .style('fill', function () { return color(section) })
         .style('stroke', function() { return color(section + "Outline")})
-        .style('dominant-baseline', 'central')
+        // .style('dominant-baseline', 'text-before-edge')
         .text(function () {
           if (section === 'more')
             return percent;
@@ -324,8 +324,9 @@ Vue.component('waffle-chart', {
             return 100 - percent;
         })
         .append('tspan')
+        // .attr('dominant-baseline', 'text-before-edge')
         .style('font-size', '50px')
-        .attr('dy', '-12px')
+        .attr('dy', '-16px')
         .text('%');
     }
   }
@@ -366,8 +367,12 @@ const chartScale = d3.scaleLinear()
     .domain([0, 100])
     .range([0, 100]); // fallback to percentage as x indicator
 
-function drawChart(data, highlightPosition, yourBarPosition) {
-  var svgEl = barcodeChart
+
+drawChart(barcodeChart, data, 76, 23);
+
+
+function drawChart(d3El, data, highlightPosition, yourBarPosition) {
+  var svgEl = d3El
     .append('svg')
     .attr('width', chartWidth)
     .attr('height', chartHeight * 3);
@@ -384,6 +389,18 @@ function drawChart(data, highlightPosition, yourBarPosition) {
     .attr('x', function () {
       return Math.floor(chartScale(yourBarPosition)) + '%';
     });
+
+    barcodeGroup.append('text')
+    .style('fill', yourBarColor)
+    .style('font-size', '11px')
+    .style('font-weight', 'bold')
+    .attr('text-anchor', 'middle')
+    .attr('x', function () {
+      return Math.floor(chartScale(yourBarPosition)) + '%';
+    })
+    .attr('y', yourBarHeight)
+    .attr('dominant-baseline', 'text-before-edge')
+    .text('Your job');
 
   // The background bar
   barcodeGroup.append('rect')
@@ -411,10 +428,21 @@ function drawChart(data, highlightPosition, yourBarPosition) {
     .attr('x', function () {
       return Math.floor(chartScale(highlightPosition)) + '%';
     });
+
+  barcodeGroup.append('text')
+    .style('font-size', '18px')
+    .style('font-weight', 'bold')
+    .attr('text-anchor', 'middle')
+    .attr('x', function () {
+      return Math.floor(chartScale(highlightPosition)) + '%';
+    })
+    .attr('dx', 7)
+    .attr('dy', -3)
+    .attr('dominant-baseline', 'text-after-edge')
+    .text(highlightPosition + '%');
 }
 
-// (data, yellowHighlight, purpleYourJob)
-drawChart(data, 69, 23);
+
 
 
 

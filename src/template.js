@@ -41,9 +41,13 @@ module.exports = `<div class='ai-jobs'>
     <div class="group-title">{{ groupTitle }} spend...</div>
 
 
-      <waffle-chart v-bind:percent="percentMoreSusceptible" section="less" ref="waffleLess"></waffle-chart>
-      <!-- <pie-chart v-bind:percent="percentLessSusceptible" ref="waffleLess"></pie-chart> -->
-      
+      <waffle-chart 
+        v-bind:percent="percentMoreSusceptible" 
+        section="less" 
+        ref="waffleLess">
+      </waffle-chart>
+
+
       <p><strong>{{ percentLessSusceptible }}%</strong> of work time on tasks that are&nbsp;<strong class="less-highlighter"> less susceptible </strong>&nbsp;to automation.</p>
 
       <div v-if="lessTasks[0]" id="tasks-less">
