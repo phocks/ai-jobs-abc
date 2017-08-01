@@ -11,10 +11,8 @@
     "start": "npm install && aunty serve --debug"
   },
   "devDependencies": {
-    "@abcnews/aunty": "2.2.x"
-  },
-  "aunty": {
-    "type": "basic-story"
+    "@abcnews/aunty": "^3.0.0",
+    "@abcnews/webpacker": "^0.4.0"
   },
   "dependencies": {
     "d3": "^4.9.1",

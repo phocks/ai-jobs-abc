@@ -3,6 +3,7 @@ const autoComplete = require('js-autocomplete'); // Better autocomplete
 const Vue = require('vue/dist/vue.min.js'); // Use vue/dist/vue.min.j version to suppress debug msg
 const d3 = require('d3'); // Pretty drawings
 
+require('./index.scss');
 const template = require('./template');
 
 // Declare a few globals
@@ -258,7 +259,7 @@ Vue.component('waffle-chart', {
         // .attr('height', +chartHeight)
         .attr('viewBox', `0, 0, ${+chartWidth}, ${+chartHeight}`);
 
-      waffleGroup = svg.append('g');
+      let waffleGroup = svg.append('g');
 
       const circles = waffleGroup.selectAll('circle')
         .data(dataset)
@@ -298,13 +299,13 @@ Vue.component('waffle-chart', {
         })
         .attr("cx", function(d, i)
         {
-            col = i % xNumOfUnits;
+            let col = i % xNumOfUnits;
             var x = (col * (unitSize * 2 + gap)) + (col + unitSize);
             return x;
         })
         .attr("cy", function(d, i) {
             //group n squares for column
-            row = Math.floor(i / xNumOfUnits);
+            let row = Math.floor(i / xNumOfUnits);
             return (row * (unitSize * 2 + gap)) + (row + unitSize);
         });
 
@@ -353,9 +354,9 @@ const chartWidth = '100%',
   barWidth = 2, // chartWidth / 100;
   barColor = 'rgba(0, 0, 0, 0.1)';
 
-const highlightBarWidth = 3,
-  highlightBarHeight = 28;
-  highlightBarColor = 'rgba(255, 159, 0, 1.0)';
+const highlightBarWidth = 3;
+const highlightBarHeight = 28;
+const highlightBarColor = 'rgba(255, 159, 0, 1.0)';
 
 const yourBarWidth = 3,
   yourBarHeight = 32,
