@@ -370,10 +370,10 @@ function drawChart(data, highlightPosition, yourBarPosition) {
   var svgEl = barcodeChart
     .append('svg')
     .attr('width', chartWidth)
-    .attr('height', chartHeight * 2);
+    .attr('height', chartHeight * 3);
 
   let barcodeGroup = svgEl.append('g')
-    .attr('transform', 'translate(0, ' + chartHeight / 2 + ')');
+    .attr('transform', 'translate(0, ' + chartHeight + ')');
 
   // Render a bar that represents Your Job that you chose
   const yourBar = barcodeGroup.append('rect')
@@ -383,9 +383,7 @@ function drawChart(data, highlightPosition, yourBarPosition) {
     .style('fill', yourBarColor)
     .attr('x', function () {
       return Math.floor(chartScale(yourBarPosition)) + '%';
-    })
-    .attr('rx', 1)
-    .attr('ry', 1);
+    });
 
   // The background bar
   barcodeGroup.append('rect')
@@ -412,12 +410,10 @@ function drawChart(data, highlightPosition, yourBarPosition) {
     .style('fill', highlightBarColor)
     .attr('x', function () {
       return Math.floor(chartScale(highlightPosition)) + '%';
-    })
-    .attr('rx', 1)
-    .attr('ry', 1);
+    });
 }
 
-
+// (data, yellowHighlight, purpleYourJob)
 drawChart(data, 69, 23);
 
 
