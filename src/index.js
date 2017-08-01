@@ -371,7 +371,7 @@ function drawChart(data, highlightPosition, yourBarPosition) {
     .attr('width', chartWidth)
     .attr('height', chartHeight * 2);
 
-  const barcodeGroup = svgEl.append('g')
+  let barcodeGroup = svgEl.append('g')
     .attr('transform', 'translate(0, ' + chartHeight / 2 + ')');
 
   // Render a bar that represents Your Job that you chose
