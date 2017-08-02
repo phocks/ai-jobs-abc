@@ -94,12 +94,12 @@ module.exports = `<div class='ai-jobs'>
     <button class="descending">Least susceptible</button>
   </div> -->
 
-  <!-- <div id="barcode-chart"></div>
+   <!-- <div id="barcode-chart"></div> -->
 
-  <div class="chart-key-container">
+   <div class="chart-key-container">
     <div class="more-key">More susceptible <span class="arrow">&rarr;</span></div> 
     <div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>
-  </div> -->
+  </div>  
 
   <div id="automation-list"></div>
 </div> 
