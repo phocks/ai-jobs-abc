@@ -197,11 +197,12 @@ ul#automation-list {
 }
 
 
-.chart-container {
+.chart-key-container {
   position: relative;
+  top: -0.7em;
 }
 
-.chart-container .more-key {
+.chart-key-container .more-key {
   // font-weight: bold;
   // color: #B05154;
   font-size: 11px;
@@ -210,14 +211,14 @@ ul#automation-list {
   right: 1px;
 }
 
-.chart-container .less-key {
+.chart-key-container .less-key {
   // font-weight: bold;
   // color: #1B7A7D;
   color: #737373;
   font-size: 11px;
 }
 
-.chart-container .arrow {
+.chart-key-container .arrow {
   font-size: 16px;
   position: relative;
   top: 1px;
