@@ -563,7 +563,7 @@ const yourBar = barcodeGroup.append('rect')
   .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
   .style('fill', yourBarColor)
   .attr('x', function (d) {
-    return Math.floor(chartScale(34)) + '%';
+    return Math.floor(chartScale(12)) + '%';
   });
 
 
@@ -573,7 +573,7 @@ barcodeGroup.append('text')
   .style('font-weight', 'bold')
   .attr('text-anchor', 'middle')
   .attr('x', function () {
-    return Math.floor(chartScale(34)) + '%';
+    return Math.floor(chartScale(12)) + '%';
   })
   .attr('y', yourBarHeight)
   .attr('dominant-baseline', 'text-before-edge')
