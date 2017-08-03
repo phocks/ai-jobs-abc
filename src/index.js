@@ -620,15 +620,26 @@ function renderYourBarToComparison (yourJobPercent) {
   d3.selectAll('.your-bar').remove();
   d3.selectAll('.your-text').remove();
 
-   barcodeGroup.append('rect')
+  // Hack to get the illusion of going "behind" bar
+  barcodeGroup.append('rect')
     .classed('your-bar', true)
     .attr('width', yourBarWidth)
-    .attr('height', yourBarHeight)
+    .attr('height', 2)
     .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
     .style('fill', yourBarColor)
     .attr('x', function (d) {
       return Math.floor(chartScale(yourJobPercent)) + '%';
     });
+
+    barcodeGroup.append('rect')
+      .classed('your-bar', true)
+      .attr('width', yourBarWidth)
+      .attr('height', 6)
+      .attr('transform', 'translate(0, 24)')
+      .style('fill', yourBarColor)
+      .attr('x', function (d) {
+        return Math.floor(chartScale(yourJobPercent)) + '%';
+      });
 
   barcodeGroup.append('text')
   .classed('your-text', true)

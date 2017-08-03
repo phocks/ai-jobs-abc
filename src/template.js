@@ -104,7 +104,7 @@ module.exports = `<div class='ai-jobs'>
 
   <hr>
 
-  <!-- <automation-comparison v-bind:your-job-percent="percentMoreSusceptible"></automation-comparison> -->
+   <!-- <automation-comparison v-bind:your-job-percent="percentMoreSusceptible"></automation-comparison>  -->
 
 </div> <!-- end Vue app -->
 
@@ -125,7 +125,7 @@ module.exports = `<div class='ai-jobs'>
     <div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>
   </div>  
 
-   <div id="automation-list"></div> 
+    <div id="automation-list"></div>  
 </div> 
 
 </div>`
