@@ -4,6 +4,8 @@ module.exports = `<div class='ai-jobs'>
   <input id='job-search'/>
 </div>
 
+
+
 <!-- Our Reactive Vue App -->
 <div id="app" v-if="groupTitle" v-cloak>
 
@@ -12,11 +14,12 @@ module.exports = `<div class='ai-jobs'>
 
   <div class="row">
     <div class="section-more">
-      
 
-
-
-      <waffle-chart v-bind:percent="percentMoreSusceptible" section="more" ref="waffleMore"></waffle-chart>
+      <waffle-chart 
+        v-bind:percent="percentMoreSusceptible" 
+        section="more" 
+        ref="waffleMore">
+      </waffle-chart>
       <!-- <pie-chart v-bind:percent="percentMoreSusceptible" ref="waffleMore"></pie-chart> -->
 
       <p><strong>{{ percentMoreSusceptible }}%</strong> of work time on tasks that are&nbsp;<strong class="more-highlighter"> more susceptible </strong>&nbsp;to automation.</p>
@@ -34,16 +37,18 @@ module.exports = `<div class='ai-jobs'>
 
 
     </div>
+
     <div class="section-less">
 
-    <div class="mid-text"><strong>So that means that</strong></div>
+      <div class="mid-text"><strong>So that means that</strong></div>
+      <div class="group-title">{{ groupTitle }} spend...</div>
 
-    <div class="group-title">{{ groupTitle }} spend...</div>
+      <waffle-chart 
+        v-bind:percent="percentMoreSusceptible" 
+        section="less" 
+        ref="waffleLess">
+      </waffle-chart>
 
-
-      <waffle-chart v-bind:percent="percentMoreSusceptible" section="less" ref="waffleLess"></waffle-chart>
-      <!-- <pie-chart v-bind:percent="percentLessSusceptible" ref="waffleLess"></pie-chart> -->
-      
       <p><strong>{{ percentLessSusceptible }}%</strong> of work time on tasks that are&nbsp;<strong class="less-highlighter"> less susceptible </strong>&nbsp;to automation.</p>
 
       <div v-if="lessTasks[0]" id="tasks-less">
@@ -56,9 +61,26 @@ module.exports = `<div class='ai-jobs'>
         </ul>
 
       </div>
-      
+    </div> <!-- end section-less -->
+
+    <p>As you can see below blah blah can automate about half their work tasks.</p>
+
+    <div class="barcode-chart">
+      <barcode-chart v-bind:your-job-percent="percentMoreSusceptible" highlight-percent="55">
+      </barcode-chart>
     </div>
-  </div>
+
+    <p>But blah blah's susceptibility to automation is very low.</p>
+
+    <div class="barcode-chart">
+      <barcode-chart v-bind:your-job-percent="percentMoreSusceptible" highlight-percent="8">
+      </barcode-chart>
+    </div>
+
+    <hr>
+
+
+  </div> <!-- end row -->
 
 </div> <!-- end Vue app -->
 
@@ -72,12 +94,13 @@ module.exports = `<div class='ai-jobs'>
     <button class="descending">Least susceptible</button>
   </div> -->
 
-  <div id="barcode-chart"></div>
+   <!-- <div id="barcode-chart"></div> -->
 
-  <div class="chart-container">
+   <div class="chart-key-container">
     <div class="more-key">More susceptible <span class="arrow">&rarr;</span></div> 
     <div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>
-  </div>
+  </div>  
+
   <div id="automation-list"></div>
 </div> 
 
