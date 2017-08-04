@@ -62,6 +62,7 @@ const app = new Vue({
     moreTasks: [],
     shareURL: encodeURIComponent(window.location.href),
     shareText: '',
+    reactionMessage: '',
   }
 });
 
@@ -125,8 +126,21 @@ function selectGroup (selectedGroupData, jobTitle) {
     // else {
       app.percentMoreSusceptible = selectedGroupData.percentMoreSusceptible;
       app.percentLessSusceptible = selectedGroupData.percentLessSusceptible;
-    // } 
+    // }
 
+    // Set emotive message displayed to user
+    if (selectedGroupData.percentMoreSusceptible <= 20)
+      app.reactionMessage = 'Phew!';
+    if (selectedGroupData.percentMoreSusceptible > 20 && selectedGroupData.percentMoreSusceptible <= 40)
+      app.reactionMessage = 'Hmm...';
+    if (selectedGroupData.percentMoreSusceptible > 40 && selectedGroupData.percentMoreSusceptible <= 60)
+      app.reactionMessage = 'Hmmm...';
+    if (selectedGroupData.percentMoreSusceptible > 60 && selectedGroupData.percentMoreSusceptible <= 80)
+      app.reactionMessage = 'Uh-oh.';
+    if (selectedGroupData.percentMoreSusceptible > 80)
+      app.reactionMessage = 'Whoa!';
+
+    // Message to share on Twitter or Email etc.
     app.shareText = encodeURIComponent(selectedGroupData.percentMoreSusceptible + "% of my job is susceptible to automation. What's yours?");
 
     // Clear the lists for next search
@@ -277,7 +291,6 @@ Vue.component('waffle-chart', {
 });
 
 
-
 Vue.component('barcode-chart', {
   props: ['yourJobPercent', 'highlightPercent'],
   template: `<div class="barcode-chart"></div>`,
@@ -360,7 +373,8 @@ Vue.component('barcode-chart', {
             return Math.floor(chartScale(yourBarPosition)) + '%';
           })
           .attr('y', yourBarHeight)
-          .attr('dominant-baseline', 'text-before-edge')
+          .attr('dominant-baseline', 'alphabetical')
+          .attr('dy', '1em')
           .text('Your job');
 
         // The background bar
@@ -414,177 +428,12 @@ Vue.component('barcode-chart', {
   },
 });
 
-
-Vue.component('automation-comparison', {
-  props: ['yourJobPercent'],
-  template: `<div class="automation-comparison"></div>`,
-  mounted () {
-    this.drawCharts(this.yourJobPercent);
-  },
-  watch: {
-    yourJobPercent: function (changedValue) {
-      this.drawCharts(changedValue);
-    }
-  },
-  methods: {
-    drawCharts (yourJobPercent) {
-      // A D3 chart comparison of job automation
-      // const comparisonChart = d3.select('#automation-comparison-chart');
-      // const automationList = d3.select('#automation-list');
-
-      // Get rid of the barcode chart if one is already there
-      d3.select(this.$el).selectAll("svg").remove();
-      d3.select(this.$el).selectAll("div").remove();
-
-      const automationComparison = d3.select(this.$el)
-
-      const data = jobs.automationData
-        .sort(function (a, b) {
-          return d3.ascending(a.groupTitle, b.groupTitle);
-        });
-
-      const chartWidth = '100%',
-        chartHeight = 24,
-        barWidth = 2, // chartWidth / 100;
-        barColor = 'rgba(0, 0, 0, 0.1)';
-
-      const highlightBarWidth = 3;
-      const highlightBarHeight = 28;
-      const highlightBarColor = 'rgba(255, 159, 0, 1.0)';
-
-      const yourBarWidth = 3,
-        yourBarHeight = 32,
-        yourBarColor = 'rgba(195, 51, 127, 1.0)';
-
-      const chartScale = d3.scaleLinear()
-          .domain([0, 100])
-          .range([0, 100]); // fallback to percentage as x indicator
-
-
-      const jobsInList = automationComparison.selectAll('div')
-        .data(data) 
-        .enter()
-        .append('div')
-        .attr('class', 'job-group-title')
-        .style('font-size', '15px')
-        .text(function (d) {
-          return d.groupTitle;
-        })
-
-      //   .style('cursor', 'pointer')
-      //   .on("click", (groupData) => {
-      //     selectGroup(groupData);
-      //     const searchInput = document.getElementById('job-search');
-      //     searchInput.value = groupData.groupTitle;
-      //     window.scrollTo(0,searchInput.offsetTop);
-      // });
-
-
-      const svgEl = jobsInList
-        .append('div')
-        .append('svg')
-        .attr('width', chartWidth)
-        .attr('height', chartHeight * 3);
-
-      let barcodeGroup = svgEl.append('g')
-        .attr('transform', 'translate(0, ' + chartHeight + ')');
-
-      // Render a bar that represents Your Job that you chose
-      const yourBar = barcodeGroup.append('rect')
-        .attr('width', yourBarWidth)
-        .attr('height', yourBarHeight)
-        .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
-        .style('fill', yourBarColor)
-        .attr('x', function (d) {
-          return Math.floor(chartScale(yourJobPercent)) + '%';
-        });
-
-
-      barcodeGroup.append('text')
-        .style('fill', yourBarColor)
-        .style('font-size', '11px')
-        .style('font-weight', 'bold')
-        .attr('text-anchor', 'middle')
-        .attr('x', function () {
-          return Math.floor(chartScale(yourJobPercent)) + '%';
-        })
-        .attr('y', yourBarHeight)
-        .attr('dominant-baseline', 'text-before-edge')
-        .text('Your job');
-
-      // The background bar
-      barcodeGroup.append('rect')
-        .attr('width', chartWidth)
-        .attr('height', chartHeight)
-        .style('fill', '#f4f4f4');
-
-      // Comparison transparent fill
-      barcodeGroup.append('rect')
-        .attr('width', (d) => { return chartScale(d.percentMoreSusceptible) + '%' })
-        .attr('height', chartHeight)
-        .style('fill', 'rgba(255, 155, 0, 0.15)');
-
-      // Append grey bars according to data
-      barcodeGroup.selectAll('rect')
-        .data(data)
-        .enter()
-        .append('rect')
-        .attr('width', barWidth)
-        .attr('height', chartHeight)
-        .style('fill', barColor)
-        .attr('x', function (d, i) {
-          return Math.floor(chartScale(d.percentMoreSusceptible)) + "%";
-        });
-
-      // Comparison bars
-      barcodeGroup.append('rect')
-        .classed('target', true)
-        .attr('width', highlightBarWidth)
-        .attr('height', highlightBarHeight)
-        .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
-        .style('fill', highlightBarColor)
-        .attr('x', (d) => { return chartScale(d.percentMoreSusceptible) + '%' });
-
-      barcodeGroup.append('text')
-        .style('font-size', '13px')
-        .style('font-weight', '900')
-        .attr('text-anchor', 'middle')
-        .attr('x', (d) => { return chartScale(d.percentMoreSusceptible) + '%' })
-        .attr('dx', 7)
-        .attr('dy', -7)
-        .attr('dominant-baseline', 'alphabetical')
-        .text((d) => { return d.percentMoreSusceptible + '%' });
-
-
-      reorder('ascending');
-
-
-      function reorder (sortOrder) {
-        d3.selectAll('div.job-group-title')
-        .sort(function (a, b) {
-          switch (sortOrder) {
-            case "ascending":
-              // Prevent unpredictable behaviour when values are identical
-              if (a.percentLessSusceptible !== b.percentLessSusceptible)
-                return d3.ascending(a.percentLessSusceptible, b.percentLessSusceptible);
-              else
-                return a.groupTitle.localeCompare(b.groupTitle);
-              break;
-            case "descending":
-              if (a.percentLessSusceptible !== b.percentLessSusceptible)
-                return d3.descending(a.percentLessSusceptible, b.percentLessSusceptible);
-              else
-                return a.groupTitle.localeCompare(b.groupTitle);
-          }
-        })
-      };
-    },
-  },
-});
+// 
 
 
 
 // A D3 chart comparison of job automation
+// Loads at start
 const comparisonChart = d3.select('#automation-comparison-chart');
 const automationList = d3.select('#automation-list');
 // const barcodeChart = d3.select('#barcode-chart');
@@ -935,3 +784,175 @@ function reorder (sortOrder) {
 //     .classed('chart-key-container', true)
 //     .html('<div class="more-key">More susceptible <span class="arrow">&rarr;</span></div><div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>');
 // };
+
+
+
+
+
+// No longer using because too intensive rendering 1000s of elements every time
+// Vue.component('automation-comparison', {
+//   props: ['yourJobPercent'],
+//   template: `<div class="automation-comparison"></div>`,
+//   mounted () {
+//     this.drawCharts(this.yourJobPercent);
+//   },
+//   watch: {
+//     yourJobPercent: function (changedValue) {
+//       this.drawCharts(changedValue);
+//     }
+//   },
+//   methods: {
+//     drawCharts (yourJobPercent) {
+//       // A D3 chart comparison of job automation
+//       // const comparisonChart = d3.select('#automation-comparison-chart');
+//       // const automationList = d3.select('#automation-list');
+
+//       // Get rid of the barcode chart if one is already there
+//       d3.select(this.$el).selectAll("svg").remove();
+//       d3.select(this.$el).selectAll("div").remove();
+
+//       const automationComparison = d3.select(this.$el)
+
+//       const data = jobs.automationData
+//         .sort(function (a, b) {
+//           return d3.ascending(a.groupTitle, b.groupTitle);
+//         });
+
+//       const chartWidth = '100%',
+//         chartHeight = 24,
+//         barWidth = 2, // chartWidth / 100;
+//         barColor = 'rgba(0, 0, 0, 0.1)';
+
+//       const highlightBarWidth = 3;
+//       const highlightBarHeight = 28;
+//       const highlightBarColor = 'rgba(255, 159, 0, 1.0)';
+
+//       const yourBarWidth = 3,
+//         yourBarHeight = 32,
+//         yourBarColor = 'rgba(195, 51, 127, 1.0)';
+
+//       const chartScale = d3.scaleLinear()
+//           .domain([0, 100])
+//           .range([0, 100]); // fallback to percentage as x indicator
+
+
+//       const jobsInList = automationComparison.selectAll('div')
+//         .data(data) 
+//         .enter()
+//         .append('div')
+//         .attr('class', 'job-group-title')
+//         .style('font-size', '15px')
+//         .text(function (d) {
+//           return d.groupTitle;
+//         })
+
+//       //   .style('cursor', 'pointer')
+//       //   .on("click", (groupData) => {
+//       //     selectGroup(groupData);
+//       //     const searchInput = document.getElementById('job-search');
+//       //     searchInput.value = groupData.groupTitle;
+//       //     window.scrollTo(0,searchInput.offsetTop);
+//       // });
+
+
+//       const svgEl = jobsInList
+//         .append('div')
+//         .append('svg')
+//         .attr('width', chartWidth)
+//         .attr('height', chartHeight * 3);
+
+//       let barcodeGroup = svgEl.append('g')
+//         .attr('transform', 'translate(0, ' + chartHeight + ')');
+
+//       // Render a bar that represents Your Job that you chose
+//       const yourBar = barcodeGroup.append('rect')
+//         .attr('width', yourBarWidth)
+//         .attr('height', yourBarHeight)
+//         .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
+//         .style('fill', yourBarColor)
+//         .attr('x', function (d) {
+//           return Math.floor(chartScale(yourJobPercent)) + '%';
+//         });
+
+
+//       barcodeGroup.append('text')
+//         .style('fill', yourBarColor)
+//         .style('font-size', '11px')
+//         .style('font-weight', 'bold')
+//         .attr('text-anchor', 'middle')
+//         .attr('x', function () {
+//           return Math.floor(chartScale(yourJobPercent)) + '%';
+//         })
+//         .attr('y', yourBarHeight)
+//         .attr('dominant-baseline', 'text-before-edge')
+//         .text('Your job');
+
+//       // The background bar
+//       barcodeGroup.append('rect')
+//         .attr('width', chartWidth)
+//         .attr('height', chartHeight)
+//         .style('fill', '#f4f4f4');
+
+//       // Comparison transparent fill
+//       barcodeGroup.append('rect')
+//         .attr('width', (d) => { return chartScale(d.percentMoreSusceptible) + '%' })
+//         .attr('height', chartHeight)
+//         .style('fill', 'rgba(255, 155, 0, 0.15)');
+
+//       // Append grey bars according to data
+//       barcodeGroup.selectAll('rect')
+//         .data(data)
+//         .enter()
+//         .append('rect')
+//         .attr('width', barWidth)
+//         .attr('height', chartHeight)
+//         .style('fill', barColor)
+//         .attr('x', function (d, i) {
+//           return Math.floor(chartScale(d.percentMoreSusceptible)) + "%";
+//         });
+
+//       // Comparison bars
+//       barcodeGroup.append('rect')
+//         .classed('target', true)
+//         .attr('width', highlightBarWidth)
+//         .attr('height', highlightBarHeight)
+//         .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
+//         .style('fill', highlightBarColor)
+//         .attr('x', (d) => { return chartScale(d.percentMoreSusceptible) + '%' });
+
+//       barcodeGroup.append('text')
+//         .style('font-size', '13px')
+//         .style('font-weight', '900')
+//         .attr('text-anchor', 'middle')
+//         .attr('x', (d) => { return chartScale(d.percentMoreSusceptible) + '%' })
+//         .attr('dx', 7)
+//         .attr('dy', -7)
+//         .attr('dominant-baseline', 'alphabetical')
+//         .text((d) => { return d.percentMoreSusceptible + '%' });
+
+
+//       reorder('ascending');
+
+
+//       function reorder (sortOrder) {
+//         d3.selectAll('div.job-group-title')
+//         .sort(function (a, b) {
+//           switch (sortOrder) {
+//             case "ascending":
+//               // Prevent unpredictable behaviour when values are identical
+//               if (a.percentLessSusceptible !== b.percentLessSusceptible)
+//                 return d3.ascending(a.percentLessSusceptible, b.percentLessSusceptible);
+//               else
+//                 return a.groupTitle.localeCompare(b.groupTitle);
+//               break;
+//             case "descending":
+//               if (a.percentLessSusceptible !== b.percentLessSusceptible)
+//                 return d3.descending(a.percentLessSusceptible, b.percentLessSusceptible);
+//               else
+//                 return a.groupTitle.localeCompare(b.groupTitle);
+//           }
+//         })
+//       };
+//     },
+//   },
+// });
