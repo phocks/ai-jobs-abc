@@ -551,7 +551,8 @@ function renderYourBarToComparison (yourJobPercent) {
       return Math.floor(chartScale(yourJobPercent)) + '%';
     })
     .attr('y', yourBarHeight)
-    .attr('dominant-baseline', 'text-before-edge')
+    .attr('dominant-baseline', 'alphabetical')
+    .attr('dy', '1em')
     .text('Your job');
 }
 
