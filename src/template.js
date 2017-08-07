@@ -203,19 +203,24 @@ module.exports = `<div class='ai-jobs'>
   <h2>Explore all jobs</h2>
 
 
-  <div class="buttons">
-    <button class="ascending selected notransition">Most susceptible</button>
-    <button class="descending margin notransition">Least susceptible</button>
-    <button class="atoz margin notransition">A-Z</button>
-  </div>
-
-
-   <div class="chart-key-container" aria-hidden="true">
-    <div class="more-key">More susceptible <span class="arrow">&rarr;</span></div> 
-    <div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>
-  </div>
+  <div class="sort-wrapper" id="sort-wrapper">
+    <div class="sort-header">
+      <div class="sort-detail">
+        <div class="buttons">
+          <button class="ascending selected notransition">Most susceptible</button>
+          <button class="descending margin notransition">Least susceptible</button>
+          <button class="atoz margin notransition">A-Z</button>
+        </div>
+        
+        <div class="chart-key-container" aria-hidden="true">
+          <div class="more-key">More susceptible <span class="arrow">&rarr;</span></div> 
+          <div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>
+        </div>
+      </div>
+    </div>
 
     <div id="automation-list"></div>
+  </div>
 
   <a name="method"></a>
   <h2>How did you get this data?</h2>

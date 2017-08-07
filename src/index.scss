@@ -309,3 +309,29 @@ ul#automation-list {
   -o-transition: none !important;
   transition: none !important;
 }
+
+
+.sort-wrapper {
+  position: relative;
+}
+
+.sort-header {
+  padding-top: 5px;
+  transition: all 0.5s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.sort-header.is-fixed {
+  position: fixed;
+  top: 0;
+  left: 0; 
+  width: 100%;
+  background: rgba(255,255,255,0.8);
+  border-bottom: 1px solid #eee;
+  box-shadow: inset 0 -5px 30px rgba(255,255,255,0.8);
+}
+
+.sort-detail {
+  max-width: 700px;
+  margin: auto;
+}

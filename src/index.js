@@ -664,6 +664,34 @@ function reorder (sortOrder) {
   })
 };
 
+
+window.addEventListener('scroll', function () {
+  // The actual box to check
+  const sortWrapper = document.getElementById('sort-wrapper');
+
+  // The thing that gets attached
+  const sortHeader = document.querySelector('#sort-wrapper .sort-header');
+
+  // Check if we should attach it
+  const bounds = sortWrapper.getBoundingClientRect();
+  if (bounds.top < 0) {
+    sortHeader.className = 'sort-header is-fixed';
+    sortWrapper.style.setProperty('padding-top', sortHeader.getBoundingClientRect().height + 'px');
+  } else {
+    sortHeader.className = 'sort-header';
+    sortWrapper.style.setProperty('padding-top', '0');
+  }
+
+  if (bounds.bottom < 0) {
+    sortHeader.style.setProperty('opacity', 0);
+  } else {
+    sortHeader.style.setProperty('opacity', 1);
+  }
+});
+
+
+
+
 // outerListDiv
 //   .append('div')
 //   .style('width', (d) => d.percentLessSusceptible + '%')
