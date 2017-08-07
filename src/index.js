@@ -29,7 +29,7 @@ const maxResults = 32;
 const jobs = require('./job-data.json');
 
 const jobList = jobs.jobList;
-const automationData = jobs.automationData2;
+const automationData = jobs.automationData;
 
 // Create a lookup object for searching by code eg. anzscolookup[111]
 anzscoLookup = {};
@@ -150,13 +150,11 @@ function selectGroup (selectedGroupData, jobTitle) {
     app.comparisonMessage = 'more susceptible to';
 
   // Message to share on Twitter or Email etc.
-  app.shareText = encodeURIComponent(selectedGroupData.percentMoreSusceptible + "% of my job is susceptible to automation. Want to find out your result?");
+  app.shareText = encodeURIComponent(selectedGroupData.percentMoreSusceptible + "% of my job is susceptible to automation. What's your result?");
 
   // Clear the lists for next search
   app.lessTasks = [];
   app.moreTasks = [];
-
-  console.log(selectedGroupData);
 
   // app.lessTasks.push(selectedGroupData.taskLessAffected1);
   // if (selectedGroupData.taskLessAffected2)
@@ -176,6 +174,7 @@ function selectGroup (selectedGroupData, jobTitle) {
   if (app.groupTitle) {
     comparisonChart.classed('hidden', false);
   }
+
 }
 
 
@@ -283,24 +282,24 @@ Vue.component('waffle-chart', {
         });
 
       const topText = svg.append('text')
-        .attr('x', chartWidth - 150)
+        .attr('x', chartWidth - 80)
         .attr('dy', chartHeight - 95)
-        .style('font-size', '18px')
+        .style('font-size', '24px')
         .style('font-weight', '900')
         .style('fill', color(section) )
         // .style('stroke', function() { return color(section + "Outline")})
-        // .style('text-anchor', 'middle')
+        .style('text-anchor', 'middle')
         .style('dominant-baseline', 'alphabetical')
         .text(text);
 
       const percentText = svg.append('text')
-        .attr('x', chartWidth -155)
+        .attr('x', chartWidth -80)
         .attr('dy', chartHeight - 27)
-        .style('font-size', '80px')
+        .style('font-size', '76px')
         .style('font-weight', '900')
         .style('fill', color(section) )
         // .style('stroke', function() { return color(section + "Outline")})
-        // .style('text-anchor', 'middle')
+        .style('text-anchor', 'middle')
         .style('dominant-baseline', 'alphabetical')
         .text(function () {
           if (section === 'more')
@@ -355,11 +354,11 @@ Vue.component('barcode-chart', {
         barWidth = 2, // chartWidth / 100;
         barColor = 'rgba(0, 0, 0, 0.1)';
 
-      const highlightBarWidth = 3;
+      const highlightBarWidth = 2;
       const highlightBarHeight = 28;
       const highlightBarColor = 'rgba(255, 159, 0, 1.0)';
 
-      const yourBarWidth = 3,
+      const yourBarWidth = 2,
         yourBarHeight = 32,
         yourBarColor = 'rgba(189, 80, 72, 1.0)';
 
@@ -494,11 +493,11 @@ const chartWidth = '100%',
   barWidth = 2, // chartWidth / 100;
   barColor = 'rgba(0, 0, 0, 0.1)';
 
-const highlightBarWidth = 3;
+const highlightBarWidth = 2;
 const highlightBarHeight = 28;
 const highlightBarColor = 'rgba(255, 159, 0, 1.0)';
 
-const yourBarWidth = 3,
+const yourBarWidth = 2,
   yourBarHeight = 32,
   yourBarColor = 'rgba(189, 80, 72, 1.0)';
 
@@ -676,6 +675,15 @@ window.addEventListener('scroll', function () {
   // The thing that gets attached
   const sortHeader = document.querySelector('#sort-wrapper .sort-header');
 
+  // Check for Nav-Bar
+  if (!document.querySelector(".Nav-bar.is-hiding")) {
+    sortHeader.style.setProperty('padding-top', "50px");
+  } else {
+    sortHeader.style.setProperty('padding-top', "5px");
+  }
+
+  // console.log(navBar);
+
   // Check if we should attach it
   const bounds = sortWrapper.getBoundingClientRect();
   if (bounds.top < 0) {
@@ -687,9 +695,13 @@ window.addEventListener('scroll', function () {
   }
 
   if (bounds.bottom < 0) {
-    sortHeader.style.setProperty('opacity', 0);
+    sortHeader.style.setProperty('opacity', "0.0");
+    sortHeader.style.setProperty('visibility', "hidden");
+    sortHeader.style.setProperty('pointer-events', "none");
   } else {
-    sortHeader.style.setProperty('opacity', 1);
+    sortHeader.style.setProperty('opacity', "1.0");
+    sortHeader.style.setProperty('visibility', "visible");
+    sortHeader.style.setProperty('pointer-events', "auto");
   }
 });
 

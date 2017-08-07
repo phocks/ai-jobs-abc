@@ -10,7 +10,6 @@ module.exports = `<div class='ai-jobs'>
 
 <!-- Our Reactive Vue App -->
 <div id="app" class="u-richtext" v-if="groupTitle" v-cloak>
-
   <h2 class="job-title">{{ jobTitle }}</h2>
   <div class="group-title">{{ groupTitle }}</div>
 
@@ -104,7 +103,7 @@ module.exports = `<div class='ai-jobs'>
   <p>Still, there’s no doubt AI will put some jobs at risk, and Charlton says the most critical thing is how Australian governments and businesses respond to the need to transform large sections of the workforce.</p>
 
   <h2>How does my job compare to other occupations?</h2>
-  <p>Here’s how&nbsp;<strong class="your-job-text"> {{ groupTitle }} </strong>&nbsp;sit on the scale of all job groups. It’s&nbsp;<strong class="your-highlighter"> {{ comparisonMessage }} </strong>&nbsp;automation compared to many other occupations.</p>
+  <p>Here’s how&nbsp;<strong class="your-job-text"> {{ groupTitle }} </strong>&nbsp;sit on the scale of all job groups. It’s <strong class="">{{ comparisonMessage }}</strong> automation compared to many other occupations.</p>
 
   <barcode-chart v-bind:your-job-percent="percentMoreSusceptible" v-bind:highlight-percent="percentMoreSusceptible"></barcode-chart>
 
