@@ -134,7 +134,7 @@ function selectGroup (selectedGroupData, jobTitle) {
   if (app.percentMoreSusceptible <= 20)
     app.reactionMessage = 'Phew, only';
   else if (app.percentMoreSusceptible > 20 && app.percentMoreSusceptible <= 40)
-    app.reactionMessage = 'Hmm, that‘s';
+    app.reactionMessage = 'Hmm, that’s';
   else if (app.percentMoreSusceptible > 40 && app.percentMoreSusceptible <= 60)
     app.reactionMessage = 'Not bad, that’s';
   else if (app.percentMoreSusceptible > 60 && app.percentMoreSusceptible <= 80)

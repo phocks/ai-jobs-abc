@@ -59,7 +59,7 @@ $pad: 20px;
 //   // padding: 20px;
 // }
 
-input {
+#ai-jobs-automation input {
   box-sizing: border-box;
   border: none;
   outline: none;
@@ -70,7 +70,10 @@ input {
   margin: 5px auto;
   display: block;
   font-size: 18px;
+  max-width: 92%;
 }
+
+
 
 div.Header {
   margin-bottom: 0;
@@ -293,6 +296,10 @@ ul#automation-list {
     color: rgba(77, 110, 171, 1.0);
     font-size: 32px;
     font-weight: bold;
+  }
+  .source-link {
+    font-size: 14px;
+    text-align: right;
   }
 }
 
