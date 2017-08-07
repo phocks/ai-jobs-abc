@@ -1,31 +1,34 @@
 module.exports = `<div class='ai-jobs'>
-<div id="search-group">
-  <label for='job-search'>Search for your job title: </label>
-  <input id='job-search'/>
+<div id="search-group" class="u-richtext u-full">
+<div class="u-layout">
+  <h2 class="search-header">Search for your job:</h2>
+  <input id='job-search' onclick="this.focus();this.select()" autofocus/>
+</div>
 </div>
 
 
 
 <!-- Our Reactive Vue App -->
-<div id="app" v-if="groupTitle" v-cloak>
+<div id="app" class="u-richtext" v-if="groupTitle" v-cloak>
 
   <h2 class="job-title">{{ jobTitle }}</h2>
   <div class="group-title">{{ groupTitle }}</div>
 
-  <div class="reaction-message">“{{ reactionMessage }}”</div>
+  <!-- <div class="reaction-message">“{{ reactionMessage }}”</div> -->
 
   <div class="section-more">
 
     <waffle-chart 
       v-bind:percent="percentMoreSusceptible" 
       section="more" 
+      v-bind:text="reactionMessage"
       ref="waffleMore">
     </waffle-chart>
     <!-- <pie-chart v-bind:percent="percentMoreSusceptible" ref="waffleMore"></pie-chart> -->
 
-    <p><strong>{{ percentMoreSusceptible }}%</strong> of your job is&nbsp;<strong class="more-highlighter"> more susceptible </strong>&nbsp;to automation.</p>
+    <p class="more-result"><strong>{{ percentMoreSusceptible }}%</strong> of your job is&nbsp;<strong class="more-highlighter"> more susceptible </strong>&nbsp;to automation.</p>
 
-    <div v-if="moreTasks[0]" id="tasks-more">
+    <div v-if="moreTasks[0]" id="tasks-more" class="u-richtext">
       <p>Some of your tasks that are easier to automate are...</p>
 
       <ul id="more-tasks">
@@ -64,20 +67,21 @@ module.exports = `<div class='ai-jobs'>
 
   <div class="section-less">
 
-  <p>That leaves...</p>
+  <!-- <p class="mid-text">That leaves...</p> -->
 
     <!-- <div class="mid-text"><strong>That leaves</strong></div> -->
     <!-- <div class="group-title">{{ groupTitle }} spend...</div> -->
 
     <waffle-chart 
       v-bind:percent="percentMoreSusceptible" 
-      section="less" 
+      section="less"
+      text="That leaves"
       ref="waffleLess">
     </waffle-chart>
 
-    <p><strong>{{ percentLessSusceptible }}%</strong> of work time on tasks that are&nbsp;<strong class="less-highlighter"> less susceptible </strong>&nbsp;to automation.</p>
+    <p class="less-result"><strong>{{ percentLessSusceptible }}%</strong> of work time on tasks that are&nbsp;<strong class="less-highlighter"> less susceptible </strong>&nbsp;to automation.</p>
 
-    <div v-if="lessTasks[0]" id="tasks-less">
+    <div v-if="lessTasks[0]" id="tasks-less" class="u-richtext">
       <p>That&rsquo;s when you&rsquo;re doing things like...</p>
 
       <ul id="less-tasks">
@@ -89,11 +93,18 @@ module.exports = `<div class='ai-jobs'>
     </div>
   </div> <!-- end section-less -->
 
-  <h3>How does that compare to other occupations?</h3>
-  <p>Here’s how Architects, Designers, Planners and Surveyors sit on the scale of all job groups. It’s [key phrase] automation compared to many other occupations.</p>
+  <h2>How does that compare to other occupations?</h2>
+  <p>Here’s how&nbsp;<strong class="more-highlighter"> {{ groupTitle }} </strong>&nbsp;sit on the scale of all job groups. It’s&nbsp;<strong class="your-highlighter"> {{ comparisonMessage }} </strong>&nbsp;automation compared to many other occupations.</p>
 
-  <h3>Who faces the biggest risk of automation?</h3>
+  <barcode-chart v-bind:your-job-percent="percentMoreSusceptible" v-bind:highlight-percent="percentMoreSusceptible"></barcode-chart>
+
+  <h2>Who faces the biggest risk of automation?</h2>
   <p>The Australian workers whose jobs are most susceptible to automation work in construction, trades, food prep, and cleaning.</p>
+
+  <div class="chart-key-container">
+    <div class="more-key">More susceptible <span class="arrow">&rarr;</span></div> 
+    <div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>
+  </div>
 
   <div class="barcode-title">Construction and Mining Labourers</div>
   <div class="barcode-chart">
@@ -125,10 +136,17 @@ module.exports = `<div class='ai-jobs'>
     </barcode-chart>
   </div>
 
-  <div class="spacer"></div>
+  
 
-  <h3>Who faces the lowest risk of automation?</h3>
+  <h2>Who faces the lowest risk of automation?</h2>
   <p>The Australian workers whose jobs are least susceptible to automation work as project managers, insurance agents, real estate agents, engineers and IT managers.</p>
+
+  
+
+  <div class="chart-key-container">
+    <div class="more-key">More susceptible <span class="arrow">&rarr;</span></div> 
+    <div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>
+  </div>
 
   <div class="barcode-title">Contract, Program and Project Administrators</div>
   <div class="barcode-chart">
@@ -168,20 +186,21 @@ module.exports = `<div class='ai-jobs'>
 
 
 
- <div id="automation-comparison-chart">
-  <h3>Explore all jobs</h3>
-  <!-- <div class="sort-buttons">
-    Order by: 
-    <button class="ascending">Most susceptible</button>
-    <button class="descending">Least susceptible</button>
-  </div> -->
+ <div id="automation-comparison-chart" class="u-richtext">
+  <h2>Explore all jobs</h2>
 
-   <!-- <div id="barcode-chart"></div> -->
+
+  <div class="buttons">
+    <button class="ascending selected notransition">Most susceptible</button>
+    <button class="descending margin notransition">Least susceptible</button>
+    <button class="atoz margin notransition">A-Z</button>
+  </div>
+
 
    <div class="chart-key-container">
     <div class="more-key">More susceptible <span class="arrow">&rarr;</span></div> 
     <div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>
-  </div>  
+  </div>
 
     <div id="automation-list"></div>  
 </div> 

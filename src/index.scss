@@ -1,5 +1,9 @@
-
 $pad: 20px;
+
+// Narricle overrides
+[class*="u-richtext"]>* {
+  font-family: "ABCSans","Interval Sans Pro",Arial,Helvetica,sans-serif;
+}
 
 
 // js-autocomplete styles
@@ -10,6 +14,7 @@ $pad: 20px;
   border-top: 0; 
   background: #fff; 
   box-shadow: -1px 1px 3px rgba(0,0,0,.1);
+  font-size: 18px;
 
   /* core styles should not be changed */
   position: absolute;
@@ -21,9 +26,9 @@ $pad: 20px;
   box-sizing: border-box;
 }
 .autocomplete-suggestion { 
-  position: relative; 
-  padding: 0 .6em; 
-  line-height: 23px; 
+  position: relative;
+  padding: 0 .6em;
+  line-height: 28px;
   white-space: nowrap; 
   overflow: hidden; 
   text-overflow: ellipsis; 
@@ -32,7 +37,7 @@ $pad: 20px;
 }
 .autocomplete-suggestion b { 
   font-weight: normal; 
-  color: #1f8dd6; 
+  color: #D2635B; 
 }
 .autocomplete-suggestion.selected { 
   background: #f0f0f0; 
@@ -46,27 +51,30 @@ $pad: 20px;
 
 
 
-.parent {
-  // background-color: rgba(255, 255, 255, 0.2);
-  // margin: 50px 0;
-  margin: 50px auto;
-  max-width: 700px;
-  // padding: 20px;
-}
+// .parent {
+//   // background-color: rgba(255, 255, 255, 0.2);
+//   // margin: 50px 0;
+//   margin: 50px auto;
+//   max-width: 700px;
+//   // padding: 20px;
+// }
 
 input {
   box-sizing: border-box;
   border: none;
   outline: none;
-  background-color: #ecf0f1;
-  padding: 10px;
+  background-color: #f9f9f9;
+  padding: 10px 10px;
   color: #333;
   border: 0;
-  margin: 5px 0;
+  margin: 5px auto;
   display: block;
-  width: 100%;
+  font-size: 18px;
 }
 
+div.Header {
+  margin-bottom: 0;
+}
 
 
 // Hide Vue stuff until Vue is loaded
@@ -76,14 +84,14 @@ input {
 
 
 .waffle-chart, .pie-chart {
-  margin: 38px 0 36px;
+  margin: 2rem 0 0;
   text-align: center;
   // padding: 18px 0 0;
 }
 
 .waffle-chart svg {
   margin: auto;
-  max-width: 500px;
+  // max-width: 500px;
 }
 
 #app {
@@ -100,8 +108,10 @@ ul#automation-list {
 
 
 .chart-key-container {
+  // margin-top: 1.5em;
   position: relative;
-  top: -0.7em;
+  top: 0.7em;
+  margin-bottom: 1.5em;;
 }
 
 .chart-key-container .more-key {
@@ -145,8 +155,9 @@ ul#automation-list {
   font-family: "ABCSerif","Book Antiqua","Palatino Linotype",Palatino,serif;
 }
 
+
 #ai-jobs-automation .spacer {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 #ai-jobs-automation {
@@ -154,21 +165,33 @@ ul#automation-list {
   font-size: 18px;
 }
 
-#ai-jobs-automation ul {
-  padding-left: 20px;
-  margin: 18px 0;
-}
+// #ai-jobs-automation ul {
+//   padding-left: 20px;
+//   margin: 18px 0;
+//   list-style-type: square;
+//   list-style-position: outside;
+//   list-style-image: none;
+// }
+
+// #ai-jobs-automation ul li {
+//   background: none;
+//   padding: 0;
+// }
 
 #ai-jobs-automation p {
   margin: 18px 0;
 }
 
 #ai-jobs-automation .more-highlighter {
-  background-color: #FFE0B9;
+  background-color: rgba(210, 99, 92, 0.2);
 }
 
 #ai-jobs-automation .less-highlighter {
-  background-color: #C1E0EA;
+  background-color: rgba(77, 110, 171, 0.2);
+}
+
+#ai-jobs-automation .your-highlighter {
+  background-color: rgba(255, 159, 0, 0.2);
 }
 
 #ai-jobs-automation .mid-text {
@@ -200,10 +223,82 @@ ul#automation-list {
   text-align: center;
   font-size: 48px;
   font-weight: 900;
-  color: rgb(195, 51, 127);
+  color: #333;
 }
 
 #ai-jobs-automation .barcode-title {
   font-size: 16px;
+  margin-bottom: 0;
+  // font-weight: bold;
+}
+
+#ai-jobs-automation .buttons {
+  display: flex;
+  justify-content: flex-end;
+  height: 3rem;
+}
+
+#ai-jobs-automation #search-group {
+    background-color: #D2635B;
+    padding: 1.5rem 0 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+#ai-jobs-automation h2.search-header {
+  color: white;
   font-weight: bold;
+}
+
+
+
+#ai-jobs-automation {
+  .buttons button {
+    outline:none;
+    flex: 1 1 2.3125rem;
+    width: 2.3125rem;
+    background-color: #ddd;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    transition: filter .25s;
+    color: #333333;
+    font-size: 12px;
+    font-weight: bold;
+    background: #eee;
+    // padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+  }
+
+  .buttons button.margin {
+    margin-left: 3px;
+  }
+  .buttons button.selected {
+    background-color: #757575;
+    color: white;
+  }
+  .your-job-text {
+    color: rgba(189, 80, 72, 1.0);
+  }
+  p.more-result {
+    color: rgba(189, 80, 72, 1.0);
+    font-size: 32px;
+    font-weight: bold;
+  }
+  p.less-result {
+    color: rgba(77, 110, 171, 1.0);
+    font-size: 32px;
+    font-weight: bold;
+  }
+}
+
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
 }

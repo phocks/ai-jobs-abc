@@ -63,6 +63,7 @@ const app = new Vue({
     shareURL: encodeURIComponent(window.location.href),
     shareText: '',
     reactionMessage: '',
+    comparisonMessage: '',
   }
 });
 
@@ -112,73 +113,83 @@ const complete = new autoComplete({
 });
 
 
-function selectGroup (selectedGroupData, jobTitle) {
-    // Update Vue data - will reactively show up in browser
-    app.jobTitle = jobTitle;
-    app.groupTitle = selectedGroupData.groupTitle;
+function selectGroup (selectedGroupData, jobTitle) {  
+  // Update Vue data - will reactively show up in browser
+  app.jobTitle = jobTitle;
+  app.groupTitle = selectedGroupData.groupTitle;
 
-    // Check if percentages are the same and redraw
-    // if (app.percentLessSusceptible === selectedGroupData.percentLessSusceptible &&
-    //     app.percentMoreSusceptible === selectedGroupData.percentMoreSusceptible) {
-    //       app.$refs.pieLess.drawPie(selectedGroupData.percentLessSusceptible);
-    //       app.$refs.pieMore.drawPie(selectedGroupData.percentMoreSusceptible);
-    //     } 
-    // else {
-      app.percentMoreSusceptible = selectedGroupData.percentMoreSusceptible;
-      app.percentLessSusceptible = selectedGroupData.percentLessSusceptible;
-    // }
+  // Check if percentages are the same and redraw
+  // if (app.percentLessSusceptible === selectedGroupData.percentLessSusceptible &&
+  //     app.percentMoreSusceptible === selectedGroupData.percentMoreSusceptible) {
+  //       app.$refs.pieLess.drawPie(selectedGroupData.percentLessSusceptible);
+  //       app.$refs.pieMore.drawPie(selectedGroupData.percentMoreSusceptible);
+  //     } 
+  // else {
+    app.percentMoreSusceptible = +selectedGroupData.percentMoreSusceptible;
+    app.percentLessSusceptible = +selectedGroupData.percentLessSusceptible;
+  // }
 
-    // Set emotive message displayed to user
-    if (selectedGroupData.percentMoreSusceptible <= 20)
-      app.reactionMessage = 'Phew!';
-    if (selectedGroupData.percentMoreSusceptible > 20 && selectedGroupData.percentMoreSusceptible <= 40)
-      app.reactionMessage = 'Hmm...';
-    if (selectedGroupData.percentMoreSusceptible > 40 && selectedGroupData.percentMoreSusceptible <= 60)
-      app.reactionMessage = 'Hmmm...';
-    if (selectedGroupData.percentMoreSusceptible > 60 && selectedGroupData.percentMoreSusceptible <= 80)
-      app.reactionMessage = 'Uh-oh.';
-    if (selectedGroupData.percentMoreSusceptible > 80)
-      app.reactionMessage = 'Whoa!';
 
-    // Message to share on Twitter or Email etc.
-    app.shareText = encodeURIComponent(selectedGroupData.percentMoreSusceptible + "% of my job is susceptible to automation. What's yours?");
+  // Set emotive message displayed to user
+  if (app.percentMoreSusceptible <= 20)
+    app.reactionMessage = 'Phew, only';
+  else if (app.percentMoreSusceptible > 20 && app.percentMoreSusceptible <= 40)
+    app.reactionMessage = 'Hmm, that‘s';
+  else if (app.percentMoreSusceptible > 40 && app.percentMoreSusceptible <= 60)
+    app.reactionMessage = 'Not bad, that’s';
+  else if (app.percentMoreSusceptible > 60 && app.percentMoreSusceptible <= 80)
+    app.reactionMessage = 'Uh-oh, that’s';
+  else if (app.percentMoreSusceptible > 80)
+    app.reactionMessage = 'Whoa!';
 
-    // Clear the lists for next search
-    app.lessTasks = [];
-    app.moreTasks = [];
 
-    app.lessTasks.push(selectedGroupData.taskLessAffected1);
-    if (selectedGroupData.taskLessAffected2)
-      app.lessTasks.push(selectedGroupData.taskLessAffected2);
+  // Set comparison message to display
+  if (selectedGroupData.percentMoreSusceptible <= 35)
+    app.comparisonMessage = 'less susceptible to';
+  else if (selectedGroupData.percentMoreSusceptible > 35 && selectedGroupData.percentMoreSusceptible <= 65)
+    app.comparisonMessage = 'in the middle ground on';
+  else if (selectedGroupData.percentMoreSusceptible > 65)
+    app.comparisonMessage = 'more susceptible to';
 
-    app.moreTasks.push(selectedGroupData.taskMoreAffected1);
-    if (selectedGroupData.taskMoreAffected2)
-      app.moreTasks.push(selectedGroupData.taskMoreAffected2);
+  // Message to share on Twitter or Email etc.
+  app.shareText = encodeURIComponent(selectedGroupData.percentMoreSusceptible + "% of my job is susceptible to automation. Want to find out your result?");
 
-    renderYourBarToComparison(app.percentMoreSusceptible);
+  // Clear the lists for next search
+  app.lessTasks = [];
+  app.moreTasks = [];
 
-    // Render the comparison chart
-    if (app.groupTitle) {
-      comparisonChart.classed('hidden', false);
-    }
+  app.lessTasks.push(selectedGroupData.taskLessAffected1);
+  if (selectedGroupData.taskLessAffected2)
+    app.lessTasks.push(selectedGroupData.taskLessAffected2);
+
+  app.moreTasks.push(selectedGroupData.taskMoreAffected1);
+  if (selectedGroupData.taskMoreAffected2)
+    app.moreTasks.push(selectedGroupData.taskMoreAffected2);
+
+  renderYourBarToComparison(app.percentMoreSusceptible);
+
+  // Render the comparison chart
+  if (app.groupTitle) {
+    comparisonChart.classed('hidden', false);
+  }
 }
 
 
 
 
 Vue.component('waffle-chart', {
-  props: ['percent', 'section'],
+  props: ['percent', 'section', 'text'],
   template: '<div class="waffle-chart"></div>',
   mounted () {
-    this.drawWaffle(this.percent, this.section);
+    this.drawWaffle(this.percent, this.section, this.text);
   },
   watch: {
     percent: function (value) {
-      this.drawWaffle(value, this.section);
+      this.drawWaffle(value, this.section, this.text);
     }
   },
   methods: {
-    drawWaffle (percent, section) {
+    drawWaffle (percent, section, text) {
       // Make a data set of 100 units
       const dataset = [];
 
@@ -202,9 +213,9 @@ Vue.component('waffle-chart', {
       var radius = Math.min(chartWidth, radius) / 2;
 
       if (section === "more")
-        var color = d3.scaleOrdinal(['#FF9F00', 'rgba(0, 0, 0, 0.0)', '#BC6B00']);
+        var color = d3.scaleOrdinal(['#D2635B', 'rgba(0, 0, 0, 0.0)', '#BC6B00']);
       else
-        var color = d3.scaleOrdinal(['rgba(0, 0, 0, 0.0)', '#2E94C1', '#006987']);
+        var color = d3.scaleOrdinal(['rgba(0, 0, 0, 0.0)', '#4D6EAB', '#006987']);
       // or transparent: rgba(0, 0, 0, 0.0) 
       // or this '#3C6998'
 
@@ -267,14 +278,25 @@ Vue.component('waffle-chart', {
             return (row * (unitSize * 2 + gap)) + (row + unitSize);
         });
 
-      const percentText = svg.append('text')
-        .attr('x', chartWidth * 0.72)
-        .attr('dy', chartHeight * 0.72)
-        .style('font-size', '80px')
-        .style('font-weight', 'bold')
+      const topText = svg.append('text')
+        .attr('x', chartWidth - 150)
+        .attr('dy', chartHeight - 95)
+        .style('font-size', '18px')
+        .style('font-weight', '900')
         .style('fill', color(section) )
-        .style('stroke', function() { return color(section + "Outline")})
-        .style('text-anchor', 'middle')
+        // .style('stroke', function() { return color(section + "Outline")})
+        // .style('text-anchor', 'middle')
+        .style('dominant-baseline', 'alphabetical')
+        .text(text);
+
+      const percentText = svg.append('text')
+        .attr('x', chartWidth -155)
+        .attr('dy', chartHeight - 27)
+        .style('font-size', '80px')
+        .style('font-weight', '900')
+        .style('fill', color(section) )
+        // .style('stroke', function() { return color(section + "Outline")})
+        // .style('text-anchor', 'middle')
         .style('dominant-baseline', 'alphabetical')
         .text(function () {
           if (section === 'more')
@@ -335,7 +357,7 @@ Vue.component('barcode-chart', {
 
       const yourBarWidth = 3,
         yourBarHeight = 32,
-        yourBarColor = 'rgba(195, 51, 127, 1.0)';
+        yourBarColor = 'rgba(189, 80, 72, 1.0)';
 
       const chartScale = d3.scaleLinear()
           .domain([0, 100])
@@ -353,29 +375,6 @@ Vue.component('barcode-chart', {
 
         let barcodeGroup = svgEl.append('g')
           .attr('transform', 'translate(0, ' + chartHeight + ')');
-
-        // Render a bar that represents Your Job that you chose
-        const yourBar = barcodeGroup.append('rect')
-          .attr('width', yourBarWidth)
-          .attr('height', yourBarHeight)
-          .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
-          .style('fill', yourBarColor)
-          .attr('x', function () {
-            return Math.floor(chartScale(yourBarPosition)) + '%';
-          });
-
-        barcodeGroup.append('text')
-          .style('fill', yourBarColor)
-          .style('font-size', '11px')
-          .style('font-weight', 'bold')
-          .attr('text-anchor', 'middle')
-          .attr('x', function () {
-            return Math.floor(chartScale(yourBarPosition)) + '%';
-          })
-          .attr('y', yourBarHeight)
-          .attr('dominant-baseline', 'alphabetical')
-          .attr('dy', '1em')
-          .text('Your job');
 
         // The background bar
         barcodeGroup.append('rect')
@@ -420,15 +419,55 @@ Vue.component('barcode-chart', {
           .attr('dominant-baseline', 'alphabetical')
           .text(highlightPosition + '%');
 
-        barcodeChart.append('div')
-          .classed('chart-key-container', true)
-          .html('<div class="more-key">More susceptible <span class="arrow">&rarr;</span></div><div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>');
+        // Render a bar that represents Your Job that you chose
+        // const yourBar = barcodeGroup.append('rect')
+        //   .attr('width', yourBarWidth)
+        //   .attr('height', yourBarHeight)
+        //   .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
+        //   .style('fill', yourBarColor)
+        //   .attr('x', function () {
+        //     return Math.floor(chartScale(yourBarPosition)) + '%';
+        //   });
+        barcodeGroup.append('rect')
+          .classed('your-bar', true)
+          .attr('width', yourBarWidth)
+          .attr('height', 2)
+          .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
+          .style('fill', yourBarColor)
+          .attr('x', function (d) {
+            return Math.floor(chartScale(yourJobPercent)) + '%';
+          });
+
+        barcodeGroup.append('rect')
+          .classed('your-bar', true)
+          .attr('width', yourBarWidth)
+          .attr('height', 6)
+          .attr('transform', 'translate(0, 24)')
+          .style('fill', yourBarColor)
+          .attr('x', function (d) {
+            return Math.floor(chartScale(yourJobPercent)) + '%';
+          });
+
+        barcodeGroup.append('text')
+          .style('fill', yourBarColor)
+          .style('font-size', '11px')
+          .style('font-weight', '900')
+          .attr('text-anchor', 'middle')
+          .attr('x', function () {
+            return Math.floor(chartScale(yourBarPosition)) + '%';
+          })
+          .attr('y', yourBarHeight)
+          .attr('dominant-baseline', 'alphabetical')
+          .attr('dy', '1em')
+          .text('Your job');
+
+        // barcodeChart.append('div')
+        //   .classed('chart-key-container', true)
+        //   .html('<div class="more-key">More susceptible <span class="arrow">&rarr;</span></div><div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>');
       };
     },
   },
 });
-
-// 
 
 
 
@@ -442,9 +481,9 @@ comparisonChart.classed('hidden', true);
 
 
 const data = jobs.automationData
-  .sort(function (a, b) {
-    return d3.ascending(a.groupTitle, b.groupTitle);
-  });
+  // .sort(function (a, b) {
+  //   return d3.ascending(a.groupTitle, b.groupTitle);
+  // });
 
 const chartWidth = '100%',
   chartHeight = 24,
@@ -457,7 +496,7 @@ const highlightBarColor = 'rgba(255, 159, 0, 1.0)';
 
 const yourBarWidth = 3,
   yourBarHeight = 32,
-  yourBarColor = 'rgba(195, 51, 127, 1.0)';
+  yourBarColor = 'rgba(189, 80, 72, 1.0)';
 
 const chartScale = d3.scaleLinear()
     .domain([0, 100])
@@ -480,15 +519,15 @@ function renderYourBarToComparison (yourJobPercent) {
       return Math.floor(chartScale(yourJobPercent)) + '%';
     });
 
-    barcodeGroup.append('rect')
-      .classed('your-bar', true)
-      .attr('width', yourBarWidth)
-      .attr('height', 6)
-      .attr('transform', 'translate(0, 24)')
-      .style('fill', yourBarColor)
-      .attr('x', function (d) {
-        return Math.floor(chartScale(yourJobPercent)) + '%';
-      });
+  barcodeGroup.append('rect')
+    .classed('your-bar', true)
+    .attr('width', yourBarWidth)
+    .attr('height', 6)
+    .attr('transform', 'translate(0, 24)')
+    .style('fill', yourBarColor)
+    .attr('x', function (d) {
+      return Math.floor(chartScale(yourJobPercent)) + '%';
+    });
 
   barcodeGroup.append('text')
   .classed('your-text', true)
@@ -581,6 +620,26 @@ barcodeGroup.append('text')
 
 reorder('ascending');
 
+// Hacky way of doing this. Will fix if I get time.
+d3.select("button.ascending").on("click", () => { 
+  d3.select("button.ascending").classed('selected', true);
+  d3.select("button.descending").classed('selected', false);
+  d3.select("button.atoz").classed('selected', false);
+  reorder('ascending');
+} );
+d3.select("button.descending").on("click", () => { 
+  d3.select("button.ascending").classed('selected', false);
+  d3.select("button.descending").classed('selected', true);
+  d3.select("button.atoz").classed('selected', false);
+  reorder('descending');
+} );
+d3.select("button.atoz").on("click", () => {
+  d3.select("button.ascending").classed('selected', false);
+  d3.select("button.descending").classed('selected', false);
+  d3.select("button.atoz").classed('selected', true);
+  reorder('atoz');
+});
+
 
 function reorder (sortOrder) {
   d3.selectAll('div.job-group-title')
@@ -598,6 +657,9 @@ function reorder (sortOrder) {
           return d3.descending(a.percentLessSusceptible, b.percentLessSusceptible);
         else
           return a.groupTitle.localeCompare(b.groupTitle);
+      break;
+      case "atoz":
+          return a.groupTitle.localeCompare(b.groupTitle);
     }
   })
 };
@@ -614,8 +676,7 @@ function reorder (sortOrder) {
 //     return d.groupTitle;
 // });
 
-  // d3.select("button.ascending").on("click", () => { reorder('ascending') } );
-  // d3.select("button.descending").on("click", () => { reorder('descending') } );
+
 
 
 
