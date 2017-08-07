@@ -229,10 +229,11 @@ ul#automation-list {
   color: #333;
 }
 
-#ai-jobs-automation .barcode-title {
+#ai-jobs-automation .barcode-title,
+#ai-jobs-automation .job-group-title {
   font-size: 16px;
   margin-bottom: 0;
-  // font-weight: bold;
+  font-weight: normal;
 }
 
 #ai-jobs-automation .buttons {
@@ -311,14 +312,18 @@ ul#automation-list {
     p.more-result {
     font-size: 28px;
   }
-  p.less-result {
-    font-size: 28px;
-  }
+    p.less-result {
+      font-size: 28px;
+    }
   }
   .source-link {
     font-size: 14px;
     text-align: right;
   }
+  .barcode-chart {
+    margin-bottom: 0.5rem;
+  }
+
 }
 
 .notransition {
@@ -353,4 +358,12 @@ ul#automation-list {
 .sort-detail {
   max-width: 700px;
   margin: auto;
+  padding: 5px 5px 0 5px 
+}
+
+a.anchor {
+    display: block;
+    position: relative;
+    top: -120px;
+    visibility: hidden;
 }

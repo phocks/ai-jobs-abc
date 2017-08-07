@@ -88,7 +88,7 @@ module.exports = `<div class='ai-jobs'>
     </div>
 
     <div class="source-link">
-      *<a href="#method">Where did you get this data?</a>
+      * <a href="#method">Where did you get this data?</a>
     </div>
 
   </div> <!-- end section-less -->
@@ -96,7 +96,7 @@ module.exports = `<div class='ai-jobs'>
   
 
   <h2>What does this mean for my job?</h2>
-  <p>Economist Andrew Charlton, who led the AlphaBeta team that created this dataset, says that over the next 30 years, automation will affect every job in Australia — but not always in the ways you might expect.</p>
+  <p>Economist Andrew Charlton, who led the AlphaBeta team that created this dataset, says that over the next 30 years, automation will <strong>affect every job in Australia</strong> — but not always in the ways you might expect.</p>
   <p>It’s not all about machines destroying jobs, he says.</p>
   <p>“It’s not so much about what jobs will we do, but how will we do our jobs,” he explains. “Everyone will do their job differently, working with machines over the next 20 years.</p>
   <p>“For example, a retail worker will spend nine hours less on physical and routine tasks like stocking shelves and processing goods at the checkout, and nine hours more on tasks like helping customers to find what they want and providing them with advice.”</p>
@@ -115,31 +115,31 @@ module.exports = `<div class='ai-jobs'>
     <div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>
   </div>
 
-  <div class="barcode-title">Construction and Mining Labourers</div>
+  <h3 class="barcode-title">Construction and Mining Labourers</h3>
   <div class="barcode-chart">
     <barcode-chart v-bind:your-job-percent="percentMoreSusceptible" highlight-percent="86">
     </barcode-chart>
   </div>
 
-  <div class="barcode-title">Glaziers, Plasterers and Tilers</div>
+  <h3 class="barcode-title">Glaziers, Plasterers and Tilers</h3>
   <div class="barcode-chart">
     <barcode-chart v-bind:your-job-percent="percentMoreSusceptible" highlight-percent="85">
     </barcode-chart>
   </div>
 
-  <div class="barcode-title">Floor Finishers and Painting Trades Workers</div>
+  <h3 class="barcode-title">Floor Finishers and Painting Trades Workers</h3>
   <div class="barcode-chart">
     <barcode-chart v-bind:your-job-percent="percentMoreSusceptible" highlight-percent="84">
     </barcode-chart>
   </div>
 
-  <div class="barcode-title">Food Preparation Assistants</div>
+  <h3 class="barcode-title">Food Preparation Assistants</h3>
   <div class="barcode-chart">
     <barcode-chart v-bind:your-job-percent="percentMoreSusceptible" highlight-percent="84">
     </barcode-chart>
   </div>
 
-  <div class="barcode-title">Cleaners and Laundry Workers</div>
+  <h3 class="barcode-title">Cleaners and Laundry Workers</h3>
   <div class="barcode-chart">
     <barcode-chart v-bind:your-job-percent="percentMoreSusceptible" highlight-percent="77">
     </barcode-chart>
@@ -157,31 +157,31 @@ module.exports = `<div class='ai-jobs'>
     <div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>
   </div>
 
-  <div class="barcode-title">Contract, Program and Project Administrators</div>
+  <h3 class="barcode-title">Contract, Program and Project Administrators</h3>
   <div class="barcode-chart">
     <barcode-chart v-bind:your-job-percent="percentMoreSusceptible" highlight-percent="7">
     </barcode-chart>
   </div>
 
-  <div class="barcode-title">Insurance Agents and Sales Representatives</div>
+  <h3 class="barcode-title">Insurance Agents and Sales Representatives</h3>
   <div class="barcode-chart">
     <barcode-chart v-bind:your-job-percent="percentMoreSusceptible" highlight-percent="7">
     </barcode-chart>
   </div>
 
-  <div class="barcode-title">Real Estate Sales Agents</div>
+  <h3 class="barcode-title">Real Estate Sales Agents</h3>
   <div class="barcode-chart">
     <barcode-chart v-bind:your-job-percent="percentMoreSusceptible" highlight-percent="9">
     </barcode-chart>
   </div>
 
-  <div class="barcode-title">Engineering Professionals</div>
+  <h3 class="barcode-title">Engineering Professionals</h3>
   <div class="barcode-chart">
     <barcode-chart v-bind:your-job-percent="percentMoreSusceptible" highlight-percent="10">
     </barcode-chart>
   </div>
 
-  <div class="barcode-title">ICT Managers</div>
+  <h3 class="barcode-title">ICT Managers</h3>
   <div class="barcode-chart">
     <barcode-chart v-bind:your-job-percent="percentMoreSusceptible" highlight-percent="12">
     </barcode-chart>
@@ -198,8 +198,7 @@ module.exports = `<div class='ai-jobs'>
  <div id="automation-comparison-chart" class="u-richtext">
   <h2>Explore all jobs</h2>
 
-
-  <div class="sort-wrapper" id="sort-wrapper">
+  <div class="sort-wrapper" id="sort-wrapper" aria-label="Use these buttons to control sort order">
     <div class="sort-header">
       <div class="sort-detail">
         <div class="buttons">
@@ -218,7 +217,7 @@ module.exports = `<div class='ai-jobs'>
     <div id="automation-list"></div>
   </div>
 
-  <a name="method"></a>
+  <a class="anchor" name="method"></a>
   <h2>How did you get this data?</h2>
   <p>Economic modelling firm AlphaBeta conducted an analysis to figure out how difficult it would be to automate each type of job in Australia, in a research project that was funded by Google.</p>
   It’s a huge task, and not simple. The project was led by economist Andrew Charlton, a former adviser to Kevin Rudd.</p>

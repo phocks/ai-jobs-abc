@@ -150,7 +150,7 @@ function selectGroup (selectedGroupData, jobTitle) {
     app.comparisonMessage = 'more susceptible to';
 
   // Message to share on Twitter or Email etc.
-  app.shareText = encodeURIComponent(selectedGroupData.percentMoreSusceptible + "% of my job is susceptible to automation. What's your result?");
+  app.shareText = encodeURIComponent(selectedGroupData.percentMoreSusceptible + "% of my job is susceptible to automation. Could a robot do your job? Find out here");
 
   // Clear the lists for next search
   app.lessTasks = [];
@@ -560,7 +560,7 @@ function renderYourBarToComparison (yourJobPercent) {
 const jobsInList = automationList.selectAll('div')
   .data(data) 
   .enter()
-  .append('div')
+  .append('h3')
   .attr('class', 'job-group-title')
   .style('font-size', '15px')
   .text(function (d) {
@@ -654,7 +654,7 @@ d3.select("button.atoz").on("click", () => {
 
 
 function reorder (sortOrder) {
-  d3.selectAll('div.job-group-title')
+  d3.selectAll('h3.job-group-title')
   .sort(function (a, b) {
     switch (sortOrder) {
       case "ascending":
@@ -684,14 +684,12 @@ window.addEventListener('scroll', function () {
   // The thing that gets attached
   const sortHeader = document.querySelector('#sort-wrapper .sort-header');
 
-  // Check for Nav-Bar
+  // Check for Nav-Bar and push buttons down
   if (!document.querySelector(".Nav-bar.is-hiding")) {
-    sortHeader.style.setProperty('padding-top', "50px");
+    sortHeader.style.setProperty('padding-top', "45px");
   } else {
-    sortHeader.style.setProperty('padding-top', "5px");
+    sortHeader.style.setProperty('padding-top', "0px");
   }
-
-  // console.log(navBar);
 
   // Check if we should attach it
   const bounds = sortWrapper.getBoundingClientRect();
@@ -703,7 +701,7 @@ window.addEventListener('scroll', function () {
     sortWrapper.style.setProperty('padding-top', '0');
   }
 
-  if (bounds.bottom < 0) {
+  if (bounds.bottom - 160 < 0) {
     sortHeader.style.setProperty('opacity', "0.0");
     sortHeader.style.setProperty('visibility', "hidden");
     sortHeader.style.setProperty('pointer-events', "none");
