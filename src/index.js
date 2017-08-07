@@ -29,7 +29,7 @@ const maxResults = 32;
 const jobs = require('./job-data.json');
 
 const jobList = jobs.jobList;
-const automationData = jobs.automationData;
+const automationData = jobs.automationData2;
 
 // Create a lookup object for searching by code eg. anzscolookup[111]
 anzscoLookup = {};
@@ -158,13 +158,19 @@ function selectGroup (selectedGroupData, jobTitle) {
   app.lessTasks = [];
   app.moreTasks = [];
 
-  app.lessTasks.push(selectedGroupData.taskLessAffected1);
-  if (selectedGroupData.taskLessAffected2)
-    app.lessTasks.push(selectedGroupData.taskLessAffected2);
+  console.log(selectedGroupData);
 
-  app.moreTasks.push(selectedGroupData.taskMoreAffected1);
-  if (selectedGroupData.taskMoreAffected2)
-    app.moreTasks.push(selectedGroupData.taskMoreAffected2);
+  // app.lessTasks.push(selectedGroupData.taskLessAffected1);
+  // if (selectedGroupData.taskLessAffected2)
+  //   app.lessTasks.push(selectedGroupData.taskLessAffected2);
+
+  // app.moreTasks.push(selectedGroupData.taskMoreAffected1);
+  // if (selectedGroupData.taskMoreAffected2)
+  //   app.moreTasks.push(selectedGroupData.taskMoreAffected2);
+
+  app.lessTasks = selectedGroupData.lessAffected;
+  app.moreTasks = selectedGroupData.moreAffected;
+  
 
   renderYourBarToComparison(app.percentMoreSusceptible);
 
