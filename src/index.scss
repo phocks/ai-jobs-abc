@@ -97,13 +97,13 @@ div.Header {
   // max-width: 500px;
 }
 
-#app {
-  padding-top: 1em;
-}
+// #app {
+//   padding-top: 1em;
+// }
 
-#app h2 {
-  font-size: 28px;
-}
+// #app h2 {
+//   font-size: 28px;
+// }
 
 ul#automation-list {
     list-style: none;
@@ -142,7 +142,7 @@ ul#automation-list {
 #app h2.job-title {
   font-weight: bold;
   text-align: center;
-  font-size: 30px;
+  // font-size: 30px;
   color: #333;
   margin-bottom: 4px;
   font-family: "ABCSerif","Book Antiqua","Palatino Linotype",Palatino,serif;
@@ -325,6 +325,10 @@ ul#automation-list {
   }
   ol {
     margin-left: 1rem;
+  }
+  h2 {
+    margin-top: 2.25rem;
+    margin-bottom: 1.8rem;
   }
 }
 
