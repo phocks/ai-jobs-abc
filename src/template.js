@@ -14,8 +14,6 @@ module.exports = `<div class='ai-jobs'>
   <h2 class="job-title">{{ jobTitle }}</h2>
   <div class="group-title">{{ groupTitle }}</div>
 
-  <!-- <div class="reaction-message">“{{ reactionMessage }}”</div> -->
-
   <div class="section-more">
 
     <waffle-chart 
@@ -24,9 +22,8 @@ module.exports = `<div class='ai-jobs'>
       v-bind:text="reactionMessage"
       ref="waffleMore">
     </waffle-chart>
-    <!-- <pie-chart v-bind:percent="percentMoreSusceptible" ref="waffleMore"></pie-chart> -->
 
-    <p class="more-result"><strong>{{ percentMoreSusceptible }}%</strong> of your job is&nbsp;<strong class="more-highlighter"> more susceptible </strong>&nbsp;to automation.</p>
+    <p class="more-result">of your job is more susceptible to automation.</p>
 
     <div v-if="moreTasks[0]" id="tasks-more" class="u-richtext">
       <p>Some of your tasks that are easier to automate are...</p>
@@ -79,7 +76,7 @@ module.exports = `<div class='ai-jobs'>
       ref="waffleLess">
     </waffle-chart>
 
-    <p class="less-result"><strong>{{ percentLessSusceptible }}%</strong> of work time on tasks that are&nbsp;<strong class="less-highlighter"> less susceptible </strong>&nbsp;to automation.</p>
+    <p class="less-result">of work time on tasks that are less susceptible to automation.</p>
 
     <div v-if="lessTasks[0]" id="tasks-less" class="u-richtext">
       <p>That&rsquo;s when you&rsquo;re doing things like...</p>

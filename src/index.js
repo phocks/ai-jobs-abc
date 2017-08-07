@@ -131,16 +131,14 @@ function selectGroup (selectedGroupData, jobTitle) {
 
 
   // Set emotive message displayed to user
-  if (app.percentMoreSusceptible <= 20)
+  if (app.percentMoreSusceptible <= 25)
     app.reactionMessage = 'Phew, only';
-  else if (app.percentMoreSusceptible > 20 && app.percentMoreSusceptible <= 40)
-    app.reactionMessage = 'Hmm, that’s';
-  else if (app.percentMoreSusceptible > 40 && app.percentMoreSusceptible <= 60)
-    app.reactionMessage = 'Not bad, that’s';
+  else if (app.percentMoreSusceptible > 25 && app.percentMoreSusceptible <= 60)
+    app.reactionMessage = 'Hmm,';
   else if (app.percentMoreSusceptible > 60 && app.percentMoreSusceptible <= 80)
-    app.reactionMessage = 'Uh-oh, that’s';
+    app.reactionMessage = 'Gosh,';
   else if (app.percentMoreSusceptible > 80)
-    app.reactionMessage = 'Whoa!';
+    app.reactionMessage = 'Whoa,';
 
 
   // Set comparison message to display
@@ -168,8 +166,8 @@ function selectGroup (selectedGroupData, jobTitle) {
   // if (selectedGroupData.taskMoreAffected2)
   //   app.moreTasks.push(selectedGroupData.taskMoreAffected2);
 
-  app.lessTasks = selectedGroupData.lessAffected;
-  app.moreTasks = selectedGroupData.moreAffected;
+  app.lessTasks = selectedGroupData.lessAffected.slice(0,6);
+  app.moreTasks = selectedGroupData.moreAffected.slice(0,6);
   
 
   renderYourBarToComparison(app.percentMoreSusceptible);
