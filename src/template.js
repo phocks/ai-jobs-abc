@@ -1,7 +1,7 @@
 module.exports = `<div class='ai-jobs'>
 <div id="search-group" class="u-richtext u-full">
 <div class="u-layout">
-  <h2 class="search-header">Search for your job:</h2>
+  <h2 class="search-header no-margin-top">Search for your job:</h2>
   <input id='job-search' onclick="this.focus();this.select()" aria-label="Search for your job. Start typing then choose an option from the list below"/>
 </div>
 </div>
