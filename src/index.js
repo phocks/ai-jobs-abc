@@ -173,6 +173,8 @@ function selectGroup (selectedGroupData, jobTitle) {
   // Render the comparison chart
   if (app.groupTitle) {
     comparisonChart.classed('hidden', false);
+
+    subscriptionCard.classed('hidden', false);
   }
 
 }
@@ -480,7 +482,14 @@ const comparisonChart = d3.select('#automation-comparison-chart');
 const automationList = d3.select('#automation-list');
 // const barcodeChart = d3.select('#barcode-chart');
 
+const subscriptionCard = d3.select("div.card.card-ids, .embed-wysiwyg");
+
+// console.log(subscriptionCard);
+
 comparisonChart.classed('hidden', true);
+
+// We also want to hide the subscription card too in the article from Core
+subscriptionCard.classed('hidden', true);
 
 
 const data = jobs.automationData
