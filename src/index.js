@@ -708,7 +708,10 @@ window.addEventListener('scroll', function () {
   const bounds = sortWrapper.getBoundingClientRect();
   if (bounds.top < 0) {
     sortHeader.className = 'sort-header is-fixed';
-    sortWrapper.style.setProperty('padding-top', sortHeader.getBoundingClientRect().height + 'px');
+    
+    // if (sortWrapper.style.getPropertyValue('padding-top') !== "105px")
+    //   console.log(sortWrapper.style.getPropertyValue('padding-top'));
+    //   sortWrapper.style.setProperty('padding-top', sortHeader.getBoundingClientRect().height + 'px');
 
     // Check for Nav-Bar and push buttons down
     if (!document.querySelector(".Nav-bar.is-hiding")) {

@@ -49,16 +49,6 @@ $pad: 20px;
 }
 
 
-
-
-// .parent {
-//   // background-color: rgba(255, 255, 255, 0.2);
-//   // margin: 50px 0;
-//   margin: 50px auto;
-//   max-width: 700px;
-//   // padding: 20px;
-// }
-
 #ai-jobs-automation input {
   box-sizing: border-box;
   border: none;
@@ -94,16 +84,8 @@ div.Header {
 
 .waffle-chart svg {
   margin: auto;
-  // max-width: 500px;
 }
 
-// #app {
-//   padding-top: 1em;
-// }
-
-// #app h2 {
-//   font-size: 28px;
-// }
 
 ul#automation-list {
     list-style: none;
@@ -111,15 +93,12 @@ ul#automation-list {
 
 
 .chart-key-container {
-  // margin-top: 1.5em;
   position: relative;
   top: 0.7em;
   margin-bottom: 1.5em;;
 }
 
 .chart-key-container .more-key {
-  // font-weight: bold;
-  // color: #B05154;
   font-size: 11px;
   color: #737373;
   position: absolute;
@@ -127,8 +106,6 @@ ul#automation-list {
 }
 
 .chart-key-container .less-key {
-  // font-weight: bold;
-  // color: #1B7A7D;
   color: #737373;
   font-size: 11px;
 }
