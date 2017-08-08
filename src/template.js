@@ -8,7 +8,7 @@ module.exports = `<div class='ai-jobs'>
 
 
 
-<!-- Our Reactive Vue App -->
+<!-- Our App -->
 <div id="app" class="u-richtext" v-if="groupTitle" v-cloak>
   <h2 class="job-title">{{ jobTitle }}</h2>
   <div class="group-title">{{ groupTitle }}</div>
@@ -62,11 +62,6 @@ module.exports = `<div class='ai-jobs'>
   </div>
 
   <div class="section-less">
-
-  <!-- <p class="mid-text">That leaves...</p> -->
-
-    <!-- <div class="mid-text"><strong>That leaves</strong></div> -->
-    <!-- <div class="group-title">{{ groupTitle }} spend...</div> -->
 
     <waffle-chart 
       v-bind:percent="percentMoreSusceptible" 
@@ -189,9 +184,8 @@ module.exports = `<div class='ai-jobs'>
 
   <hr>
 
-   <!-- <automation-comparison v-bind:your-job-percent="percentMoreSusceptible"></automation-comparison>  -->
 
-</div> <!-- end Vue app -->
+</div>
 
 
 

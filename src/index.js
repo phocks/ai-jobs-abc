@@ -14,16 +14,8 @@ let anzscoLookup,
 const placeholder = document.querySelector('#ai-jobs-automation');
 placeholder.innerHTML = template;
 
-// const placeholderData = placeholder.dataset.data;
-// console.log(placeholder.dataset);
 
 const maxResults = 32;
-
-// Let's try to load the JSON asynchronously - maybe use Promises later
-// Loading async failed cross site headers so falling back to requiring json
-// loadJSON(function(response) {
-// Parse JSON string into object
-// const jobs = JSON.parse(response);
 
 // Pull in the data
 const jobs = require('./job-data.json');
@@ -48,7 +40,7 @@ const fuseOptions = {
 
 fuse = new Fuse(jobList, fuseOptions);
 const fuseResult = fuse.search('query');
-//  });
+
 
 
 // Create our Vue instance
@@ -118,16 +110,9 @@ function selectGroup (selectedGroupData, jobTitle) {
   app.jobTitle = jobTitle;
   app.groupTitle = selectedGroupData.groupTitle;
 
-  // Check if percentages are the same and redraw
-  // if (app.percentLessSusceptible === selectedGroupData.percentLessSusceptible &&
-  //     app.percentMoreSusceptible === selectedGroupData.percentMoreSusceptible) {
-  //       app.$refs.pieLess.drawPie(selectedGroupData.percentLessSusceptible);
-  //       app.$refs.pieMore.drawPie(selectedGroupData.percentMoreSusceptible);
-  //     } 
-  // else {
-    app.percentMoreSusceptible = +selectedGroupData.percentMoreSusceptible;
-    app.percentLessSusceptible = +selectedGroupData.percentLessSusceptible;
-  // }
+  app.percentMoreSusceptible = +selectedGroupData.percentMoreSusceptible;
+  app.percentLessSusceptible = +selectedGroupData.percentLessSusceptible;
+
 
 
   // Set emotive message displayed to user
@@ -156,15 +141,6 @@ function selectGroup (selectedGroupData, jobTitle) {
   app.lessTasks = [];
   app.moreTasks = [];
 
-  // app.lessTasks.push(selectedGroupData.taskLessAffected1);
-  // if (selectedGroupData.taskLessAffected2)
-  //   app.lessTasks.push(selectedGroupData.taskLessAffected2);
-
-  // app.moreTasks.push(selectedGroupData.taskMoreAffected1);
-  // if (selectedGroupData.taskMoreAffected2)
-  //   app.moreTasks.push(selectedGroupData.taskMoreAffected2);
-
-  
 
   app.lessTasks = shuffleArray(selectedGroupData.lessAffected);
   app.moreTasks = shuffleArray(selectedGroupData.moreAffected);
@@ -195,7 +171,6 @@ function selectGroup (selectedGroupData, jobTitle) {
 
     subscriptionCard.classed('hidden', false);
   }
-
 }
 
 
@@ -240,8 +215,6 @@ Vue.component('waffle-chart', {
         var color = d3.scaleOrdinal(['#D2635B', 'rgba(0, 0, 0, 0.0)', '#BC6B00']);
       else
         var color = d3.scaleOrdinal(['rgba(0, 0, 0, 0.0)', '#4D6EAB', '#006987']);
-      // or transparent: rgba(0, 0, 0, 0.0) 
-      // or this '#3C6998'
 
       // Get rid of the one already there
       d3.select(this.$el).selectAll("svg").remove();
@@ -351,16 +324,12 @@ Vue.component('barcode-chart', {
   methods: {
     drawBarcode (yourJobPercent, highlightPercent) {
       // A D3 chart comparison of job automation
-      // const comparisonChart = d3.select('#automation-comparison-chart');
-      // const automationList = d3.select('#automation-list');
 
       // Get rid of the barcode chart if one is already there
       d3.select(this.$el).selectAll("svg").remove();
       d3.select(this.$el).selectAll("div").remove();
 
       const barcodeChart = d3.select(this.$el)
-
-      // comparisonChart.classed('hidden', true);
 
 
       const data = jobs.automationData
@@ -444,14 +413,6 @@ Vue.component('barcode-chart', {
           .text(highlightPosition + '%');
 
         // Render a bar that represents Your Job that you chose
-        // const yourBar = barcodeGroup.append('rect')
-        //   .attr('width', yourBarWidth)
-        //   .attr('height', yourBarHeight)
-        //   .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
-        //   .style('fill', yourBarColor)
-        //   .attr('x', function () {
-        //     return Math.floor(chartScale(yourBarPosition)) + '%';
-        //   });
         barcodeGroup.append('rect')
           .classed('your-bar', true)
           .attr('width', yourBarWidth)
@@ -484,10 +445,6 @@ Vue.component('barcode-chart', {
           .attr('dominant-baseline', 'alphabetical')
           .attr('dy', '1em')
           .text('Your job');
-
-        // barcodeChart.append('div')
-        //   .classed('chart-key-container', true)
-        //   .html('<div class="more-key">More susceptible <span class="arrow">&rarr;</span></div><div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>');
       };
     },
   },
@@ -512,9 +469,6 @@ subscriptionCard.classed('hidden', true);
 
 
 const data = jobs.automationData
-  // .sort(function (a, b) {
-  //   return d3.ascending(a.groupTitle, b.groupTitle);
-  // });
 
 const chartWidth = '100%',
   chartHeight = 24,
@@ -586,14 +540,6 @@ const jobsInList = automationList.selectAll('div')
   .text(function (d) {
     return d.groupTitle;
   })
-  
-//   .style('cursor', 'pointer')
-//   .on("click", (groupData) => {
-//     selectGroup(groupData);
-//     const searchInput = document.getElementById('job-search');
-//     searchInput.value = groupData.groupTitle;
-//     window.scrollTo(0,searchInput.offsetTop);
-// });
 
 
 const svgEl = jobsInList
@@ -708,10 +654,6 @@ window.addEventListener('scroll', function () {
   const bounds = sortWrapper.getBoundingClientRect();
   if (bounds.top < 0) {
     sortHeader.className = 'sort-header is-fixed';
-    
-    // if (sortWrapper.style.getPropertyValue('padding-top') !== "105px")
-    //   console.log(sortWrapper.style.getPropertyValue('padding-top'));
-    //   sortWrapper.style.setProperty('padding-top', sortHeader.getBoundingClientRect().height + 'px');
 
     // Check for Nav-Bar and push buttons down
     if (!document.querySelector(".Nav-bar.is-hiding")) {

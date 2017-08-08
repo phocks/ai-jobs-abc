@@ -79,7 +79,6 @@ div.Header {
 .waffle-chart, .pie-chart {
   margin: 2rem 0 0;
   text-align: center;
-  // padding: 18px 0 0;
 }
 
 .waffle-chart svg {
@@ -119,7 +118,6 @@ ul#automation-list {
 #app h2.job-title {
   font-weight: bold;
   text-align: center;
-  // font-size: 30px;
   color: #333;
   margin-bottom: 4px;
   font-family: "ABCSerif","Book Antiqua","Palatino Linotype",Palatino,serif;
@@ -144,19 +142,6 @@ ul#automation-list {
   font-family: "ABCSans","Interval Sans Pro",Arial,Helvetica,sans-serif;
   font-size: 18px;
 }
-
-// #ai-jobs-automation ul {
-//   padding-left: 20px;
-//   margin: 18px 0;
-//   list-style-type: square;
-//   list-style-position: outside;
-//   list-style-image: none;
-// }
-
-// #ai-jobs-automation ul li {
-//   background: none;
-//   padding: 0;
-// }
 
 #ai-jobs-automation p {
   margin: 18px 0;
@@ -338,7 +323,6 @@ ul#automation-list {
   background: rgba(255,255,255,0.8);
   border-bottom: 1px solid #eee;
   box-shadow: inset 0 -5px 30px rgba(255,255,255,0.8);
-  // padding-top: 50px;
 }
 
 .sort-detail {
