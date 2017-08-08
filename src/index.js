@@ -171,6 +171,11 @@ function selectGroup (selectedGroupData, jobTitle) {
 
     subscriptionCard.classed('hidden', false);
   }
+
+  // Bugfix for Android Chrome where keyboard doesn't disappear
+  setTimeout(function () {
+    document.getElementById('job-search').blur();
+  }, 1000);
 }
 
 
@@ -456,11 +461,7 @@ Vue.component('barcode-chart', {
 // Loads at start
 const comparisonChart = d3.select('#automation-comparison-chart');
 const automationList = d3.select('#automation-list');
-// const barcodeChart = d3.select('#barcode-chart');
-
 const subscriptionCard = d3.select("div.card.card-ids, .embed-wysiwyg");
-
-// console.log(subscriptionCard);
 
 comparisonChart.classed('hidden', true);
 

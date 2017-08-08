@@ -1,10 +1,7 @@
-$pad: 20px;
-
 // Narricle overrides
 [class*="u-richtext"]>* {
   font-family: "ABCSans","Interval Sans Pro",Arial,Helvetica,sans-serif;
 }
-
 
 // js-autocomplete styles
 .autocomplete-suggestions {
@@ -48,7 +45,6 @@ $pad: 20px;
   display: none;
 }
 
-
 #ai-jobs-automation input {
   box-sizing: border-box;
   border: none;
@@ -63,18 +59,14 @@ $pad: 20px;
   max-width: 92%;
 }
 
-
-
 div.Header {
   margin-bottom: 0;
 }
-
 
 // Hide Vue stuff until Vue is loaded
 [v-cloak] {
   display: none;
 }
-
 
 .waffle-chart, .pie-chart {
   margin: 2rem 0 0;
@@ -89,7 +81,6 @@ div.Header {
 ul#automation-list {
     list-style: none;
 }
-
 
 .chart-key-container {
   position: relative;
@@ -132,7 +123,6 @@ ul#automation-list {
   color: #333;
   font-family: "ABCSerif","Book Antiqua","Palatino Linotype",Palatino,serif;
 }
-
 
 #ai-jobs-automation .spacer {
   margin-bottom: 1.5rem;
@@ -215,8 +205,6 @@ ul#automation-list {
   color: white;
   font-weight: bold;
 }
-
-
 
 #ai-jobs-automation {
   .buttons button {
