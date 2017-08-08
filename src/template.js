@@ -196,7 +196,7 @@ module.exports = `<div class='ai-jobs'>
 
 
  <div id="automation-comparison-chart" class="u-richtext">
-  <h2>Explore all jobs</h2>
+  <h2 class="no-margin-top">Explore all jobs</h2>
 
   <div class="sort-wrapper" id="sort-wrapper" aria-label="Use these buttons to control sort order">
     <div class="sort-header">

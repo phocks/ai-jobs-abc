@@ -164,8 +164,27 @@ function selectGroup (selectedGroupData, jobTitle) {
   // if (selectedGroupData.taskMoreAffected2)
   //   app.moreTasks.push(selectedGroupData.taskMoreAffected2);
 
-  app.lessTasks = selectedGroupData.lessAffected.slice(0,6);
-  app.moreTasks = selectedGroupData.moreAffected.slice(0,6);
+  
+
+  app.lessTasks = shuffleArray(selectedGroupData.lessAffected);
+  app.moreTasks = shuffleArray(selectedGroupData.moreAffected);
+
+  /**
+   * Randomize array element order in-place.
+   * Using Durstenfeld shuffle algorithm.
+   */
+  function shuffleArray(array) {
+      for (var i = array.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+      }
+      return array;
+  }
+
+  app.lessTasks = app.lessTasks.slice(0,6);
+  app.moreTasks = app.moreTasks.slice(0,6);
   
 
   renderYourBarToComparison(app.percentMoreSusceptible);
@@ -677,7 +696,7 @@ function reorder (sortOrder) {
   })
 };
 
-
+// Snap reorder buttons to top of screen on scroll
 window.addEventListener('scroll', function () {
   // The actual box to check
   const sortWrapper = document.getElementById('sort-wrapper');
@@ -685,21 +704,23 @@ window.addEventListener('scroll', function () {
   // The thing that gets attached
   const sortHeader = document.querySelector('#sort-wrapper .sort-header');
 
-  // Check for Nav-Bar and push buttons down
-  if (!document.querySelector(".Nav-bar.is-hiding")) {
-    sortHeader.style.setProperty('padding-top', "45px");
-  } else {
-    sortHeader.style.setProperty('padding-top', "0px");
-  }
-
   // Check if we should attach it
   const bounds = sortWrapper.getBoundingClientRect();
   if (bounds.top < 0) {
     sortHeader.className = 'sort-header is-fixed';
     sortWrapper.style.setProperty('padding-top', sortHeader.getBoundingClientRect().height + 'px');
+
+    // Check for Nav-Bar and push buttons down
+    if (!document.querySelector(".Nav-bar.is-hiding")) {
+      sortHeader.style.setProperty('padding-top', "45px");
+    } else {
+      sortHeader.style.setProperty('padding-top', "0");
+    }
+
   } else {
     sortHeader.className = 'sort-header';
     sortWrapper.style.setProperty('padding-top', '0');
+    sortHeader.style.setProperty('padding-top', "0");
   }
 
   if (bounds.bottom - 160 < 0) {
@@ -712,360 +733,3 @@ window.addEventListener('scroll', function () {
     sortHeader.style.setProperty('pointer-events', "auto");
   }
 });
-
-
-
-
-// outerListDiv
-//   .append('div')
-//   .style('width', (d) => d.percentLessSusceptible + '%')
-//   // .style('background-color', '#1B7A7D')
-//   .style('margin-bottom', '1px')
-//   .style('white-space', 'nowrap')
-//   .style('padding', '1px 5px')
-//   // .style('color', 'white')
-//   .text(function (d) {
-//     return d.groupTitle;
-// });
-
-
-
-
-
-
-
-// Various functions are below here
-// function loadJSON(callback) {   
-//    var xobj = new XMLHttpRequest();
-//        xobj.overrideMimeType("application/json");
-//    xobj.open('GET', placeholderData, true); 
-//    xobj.onreadystatechange = function () {
-//          if (xobj.readyState == 4 && xobj.status == "200") {
-//            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-//            callback(xobj.responseText);
-//          }
-//    };
-//    xobj.send(null);
-// }
-
-
-
-// D3 seeems to play well with Vue components 
-// Vue.component('pie-chart', {
-//   props: ['percent'],
-//   template: '<div class="pie-chart"></div>',
-//   mounted () {
-//     this.drawPie(this.percent);
-//   },
-//   watch: {
-//     percent: function (value) {
-//       this.drawPie(value);
-//     }
-//   },
-//   methods: {
-//     drawPie (percent) {
-//       var dataset = [
-//         { label: 'Less', count: percent },
-//         { label: 'More', count: 100 - percent }
-//       ];
-
-//       var width = 200;
-//       var height = 200;
-//       var radius = Math.min(width, height) / 2;
-
-//       var color = d3.scaleOrdinal(['#3C6998', 'rgba(0, 0, 0, 0.0)']);
-
-//       // Get rid of the one already there
-//       d3.select(this.$el).selectAll("svg").remove();
-
-//       var svg = d3.select(this.$el)
-//         .append('svg')
-//         .attr('width', +width)
-//         .attr('height', +height)
-//         .append('g')
-//         .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
-      
-//       var arc = d3.arc()
-//         .innerRadius(0)
-//         .outerRadius(radius);
-
-//       var pie = d3.pie()
-//         .value(function(d) { return d.count; })
-//         .sort(null);
-
-//       var path = svg.selectAll('path')
-//         .data(pie(dataset))
-//         .enter()
-//         .append('path')
-//         .attr('d', arc)
-//         .attr('fill', function(d, i) {
-//           return color(d.data.label);
-//         })
-//         .transition()
-//         .ease(d3.easeExpInOut)
-//         .duration(750)
-//         .attrTween("d", tweenPie);
-
-//       function tweenPie(b) {
-//         var i = d3.interpolate({startAngle: 0.1*Math.PI, endAngle: 0.1*Math.PI}, b);
-//         return function(t) { return arc(i(t)); };
-//         };
-//     }
-//   }
-// });
-
-
-
-// drawChart(barcodeChart, data, 77, 23);
-
-
-// function drawChart(d3El, data, highlightPosition, yourBarPosition) {
-//   var svgEl = d3El
-//     .append('svg')
-//     .attr('width', chartWidth)
-//     .attr('height', chartHeight * 3);
-
-//   let barcodeGroup = svgEl.append('g')
-//     .attr('transform', 'translate(0, ' + chartHeight + ')');
-
-//   // Render a bar that represents Your Job that you chose
-//   const yourBar = barcodeGroup.append('rect')
-//     .attr('width', yourBarWidth)
-//     .attr('height', yourBarHeight)
-//     .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
-//     .style('fill', yourBarColor)
-//     .attr('x', function () {
-//       return Math.floor(chartScale(yourBarPosition)) + '%';
-//     });
-
-//   barcodeGroup.append('text')
-//     .style('fill', yourBarColor)
-//     .style('font-size', '11px')
-//     .style('font-weight', 'bold')
-//     .attr('text-anchor', 'middle')
-//     .attr('x', function () {
-//       return Math.floor(chartScale(yourBarPosition)) + '%';
-//     })
-//     .attr('y', yourBarHeight)
-//     .attr('dominant-baseline', 'text-before-edge')
-//     .text('Your job');
-
-//   // The background bar
-//   barcodeGroup.append('rect')
-//     .attr('width', chartWidth)
-//     .attr('height', chartHeight)
-//     .style('fill', '#f4f4f4');
-
-//   barcodeGroup.append('rect')
-//     .attr('width', chartScale(highlightPosition) + '%')
-//     .attr('height', chartHeight)
-//     .style('fill', 'rgba(255, 155, 0, 0.15)');
-
-//   // Append grey bars according to data
-//   barcodeGroup.selectAll('rect')
-//     .data(data)
-//     .enter()
-//     .append('rect')
-//     .attr('width', barWidth)
-//     .attr('height', chartHeight)
-//     .style('fill', barColor)
-//     .attr('x', function (d, i) {
-//       return Math.floor(chartScale(d.percentMoreSusceptible)) + "%";
-//     });
-
-//   // Render a bar for comparison
-//   var highlightBar = barcodeGroup.append('rect')
-//     .attr('width', highlightBarWidth)
-//     .attr('height', highlightBarHeight)
-//     .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
-//     .style('fill', highlightBarColor)
-//     .attr('x', chartScale(highlightPosition) + '%');
-
-//   barcodeGroup.append('text')
-//     .style('font-size', '18px')
-//     .style('font-weight', 'bold')
-//     .attr('text-anchor', 'middle')
-//     .attr('x', function () {
-//       return Math.floor(chartScale(highlightPosition)) + '%';
-//     })
-//     .attr('dx', 7)
-//     .attr('dy', -7)
-//     .attr('dominant-baseline', 'alphabetical')
-//     .text(highlightPosition + '%');
-
-//   barcodeChart.append('div')
-//     .classed('chart-key-container', true)
-//     .html('<div class="more-key">More susceptible <span class="arrow">&rarr;</span></div><div class="less-key"><span class="arrow">&larr;</span> Less susceptible</div>');
-// };
-
-
-
-
-
-// No longer using because too intensive rendering 1000s of elements every time
-// Vue.component('automation-comparison', {
-//   props: ['yourJobPercent'],
-//   template: `<div class="automation-comparison"></div>`,
-//   mounted () {
-//     this.drawCharts(this.yourJobPercent);
-//   },
-//   watch: {
-//     yourJobPercent: function (changedValue) {
-//       this.drawCharts(changedValue);
-//     }
-//   },
-//   methods: {
-//     drawCharts (yourJobPercent) {
-//       // A D3 chart comparison of job automation
-//       // const comparisonChart = d3.select('#automation-comparison-chart');
-//       // const automationList = d3.select('#automation-list');
-
-//       // Get rid of the barcode chart if one is already there
-//       d3.select(this.$el).selectAll("svg").remove();
-//       d3.select(this.$el).selectAll("div").remove();
-
-//       const automationComparison = d3.select(this.$el)
-
-//       const data = jobs.automationData
-//         .sort(function (a, b) {
-//           return d3.ascending(a.groupTitle, b.groupTitle);
-//         });
-
-//       const chartWidth = '100%',
-//         chartHeight = 24,
-//         barWidth = 2, // chartWidth / 100;
-//         barColor = 'rgba(0, 0, 0, 0.1)';
-
-//       const highlightBarWidth = 3;
-//       const highlightBarHeight = 28;
-//       const highlightBarColor = 'rgba(255, 159, 0, 1.0)';
-
-//       const yourBarWidth = 3,
-//         yourBarHeight = 32,
-//         yourBarColor = 'rgba(195, 51, 127, 1.0)';
-
-//       const chartScale = d3.scaleLinear()
-//           .domain([0, 100])
-//           .range([0, 100]); // fallback to percentage as x indicator
-
-
-//       const jobsInList = automationComparison.selectAll('div')
-//         .data(data) 
-//         .enter()
-//         .append('div')
-//         .attr('class', 'job-group-title')
-//         .style('font-size', '15px')
-//         .text(function (d) {
-//           return d.groupTitle;
-//         })
-
-//       //   .style('cursor', 'pointer')
-//       //   .on("click", (groupData) => {
-//       //     selectGroup(groupData);
-//       //     const searchInput = document.getElementById('job-search');
-//       //     searchInput.value = groupData.groupTitle;
-//       //     window.scrollTo(0,searchInput.offsetTop);
-//       // });
-
-
-//       const svgEl = jobsInList
-//         .append('div')
-//         .append('svg')
-//         .attr('width', chartWidth)
-//         .attr('height', chartHeight * 3);
-
-//       let barcodeGroup = svgEl.append('g')
-//         .attr('transform', 'translate(0, ' + chartHeight + ')');
-
-//       // Render a bar that represents Your Job that you chose
-//       const yourBar = barcodeGroup.append('rect')
-//         .attr('width', yourBarWidth)
-//         .attr('height', yourBarHeight)
-//         .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
-//         .style('fill', yourBarColor)
-//         .attr('x', function (d) {
-//           return Math.floor(chartScale(yourJobPercent)) + '%';
-//         });
-
-
-//       barcodeGroup.append('text')
-//         .style('fill', yourBarColor)
-//         .style('font-size', '11px')
-//         .style('font-weight', 'bold')
-//         .attr('text-anchor', 'middle')
-//         .attr('x', function () {
-//           return Math.floor(chartScale(yourJobPercent)) + '%';
-//         })
-//         .attr('y', yourBarHeight)
-//         .attr('dominant-baseline', 'text-before-edge')
-//         .text('Your job');
-
-//       // The background bar
-//       barcodeGroup.append('rect')
-//         .attr('width', chartWidth)
-//         .attr('height', chartHeight)
-//         .style('fill', '#f4f4f4');
-
-//       // Comparison transparent fill
-//       barcodeGroup.append('rect')
-//         .attr('width', (d) => { return chartScale(d.percentMoreSusceptible) + '%' })
-//         .attr('height', chartHeight)
-//         .style('fill', 'rgba(255, 155, 0, 0.15)');
-
-//       // Append grey bars according to data
-//       barcodeGroup.selectAll('rect')
-//         .data(data)
-//         .enter()
-//         .append('rect')
-//         .attr('width', barWidth)
-//         .attr('height', chartHeight)
-//         .style('fill', barColor)
-//         .attr('x', function (d, i) {
-//           return Math.floor(chartScale(d.percentMoreSusceptible)) + "%";
-//         });
-
-//       // Comparison bars
-//       barcodeGroup.append('rect')
-//         .classed('target', true)
-//         .attr('width', highlightBarWidth)
-//         .attr('height', highlightBarHeight)
-//         .attr('transform', 'translate(0, ' + '-' + (highlightBarHeight - chartHeight) / 2 + ')')
-//         .style('fill', highlightBarColor)
-//         .attr('x', (d) => { return chartScale(d.percentMoreSusceptible) + '%' });
-
-//       barcodeGroup.append('text')
-//         .style('font-size', '13px')
-//         .style('font-weight', '900')
-//         .attr('text-anchor', 'middle')
-//         .attr('x', (d) => { return chartScale(d.percentMoreSusceptible) + '%' })
-//         .attr('dx', 7)
-//         .attr('dy', -7)
-//         .attr('dominant-baseline', 'alphabetical')
-//         .text((d) => { return d.percentMoreSusceptible + '%' });
-
-
-//       reorder('ascending');
-
-
-//       function reorder (sortOrder) {
-//         d3.selectAll('div.job-group-title')
-//         .sort(function (a, b) {
-//           switch (sortOrder) {
-//             case "ascending":
-//               // Prevent unpredictable behaviour when values are identical
-//               if (a.percentLessSusceptible !== b.percentLessSusceptible)
-//                 return d3.ascending(a.percentLessSusceptible, b.percentLessSusceptible);
-//               else
-//                 return a.groupTitle.localeCompare(b.groupTitle);
-//               break;
-//             case "descending":
-//               if (a.percentLessSusceptible !== b.percentLessSusceptible)
-//                 return d3.descending(a.percentLessSusceptible, b.percentLessSusceptible);
-//               else
-//                 return a.groupTitle.localeCompare(b.groupTitle);
-//           }
-//         })
-//       };
-//     },
-//   },
-// });
