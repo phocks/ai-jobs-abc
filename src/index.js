@@ -141,26 +141,31 @@ function selectGroup (selectedGroupData, jobTitle) {
   app.lessTasks = [];
   app.moreTasks = [];
 
+  // // Testing a shuffle of the tasks perhaps for more variety
+  // app.lessTasks = shuffleArray(selectedGroupData.lessAffected);
+  // app.moreTasks = shuffleArray(selectedGroupData.moreAffected);
 
-  app.lessTasks = shuffleArray(selectedGroupData.lessAffected);
-  app.moreTasks = shuffleArray(selectedGroupData.moreAffected);
+  // /**
+  //  * Randomize array element order in-place.
+  //  * Using Durstenfeld shuffle algorithm.
+  //  */
+  // function shuffleArray(array) {
+  //     for (var i = array.length - 1; i > 0; i--) {
+  //         var j = Math.floor(Math.random() * (i + 1));
+  //         var temp = array[i];
+  //         array[i] = array[j];
+  //         array[j] = temp;
+  //     }
+  //     return array;
+  // }
 
-  /**
-   * Randomize array element order in-place.
-   * Using Durstenfeld shuffle algorithm.
-   */
-  function shuffleArray(array) {
-      for (var i = array.length - 1; i > 0; i--) {
-          var j = Math.floor(Math.random() * (i + 1));
-          var temp = array[i];
-          array[i] = array[j];
-          array[j] = temp;
-      }
-      return array;
-  }
+  // app.lessTasks = app.lessTasks.slice(0,6);
+  // app.moreTasks = app.moreTasks.slice(0,6);
 
-  app.lessTasks = app.lessTasks.slice(0,6);
-  app.moreTasks = app.moreTasks.slice(0,6);
+
+  app.lessTasks = selectedGroupData.lessAffected.slice(0,6);
+  app.moreTasks = selectedGroupData.moreAffected.slice(0,6);
+
   
 
   renderYourBarToComparison(app.percentMoreSusceptible);

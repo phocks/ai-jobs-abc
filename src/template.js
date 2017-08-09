@@ -91,7 +91,7 @@ module.exports = `<div class='ai-jobs'>
   
 
   <h2>What does this mean for my job?</h2>
-  <p>Economist Andrew Charlton, who led the AlphaBeta team that created this dataset, says that over the next 30 years, automation will <strong>affect every job in Australia</strong> — but not always in the ways you might expect.</p>
+  <p>Economist Andrew Charlton, who led the AlphaBeta team that <a href="http://www.alphabeta.com/wp-content/uploads/2017/08/The-Automation-Advantage.pdf">created this dataset</a>, says that over the next 30 years, automation will <strong>affect every job in Australia</strong> — but not always in the ways you might expect.</p>
   <p>It’s not all about machines destroying jobs, he says.</p>
   <p>“It’s not so much about what jobs will we do, but how will we do our jobs,” he explains. “Everyone will do their job differently, working with machines over the next 20 years.</p>
   <p>“For example, a retail worker will spend nine hours less on physical and routine tasks like stocking shelves and processing goods at the checkout, and nine hours more on tasks like helping customers to find what they want and providing them with advice.”</p>
@@ -140,12 +140,10 @@ module.exports = `<div class='ai-jobs'>
     </barcode-chart>
   </div>
 
-  
 
   <h2>Who faces the lowest risk of automation?</h2>
   <p>The Australian workers whose jobs are least susceptible to automation work as project managers, insurance agents, real estate agents, engineers and IT managers.</p>
 
-  
 
   <div class="chart-key-container" aria-hidden="true">
     <div class="more-key">More susceptible <span class="arrow">&rarr;</span></div> 
@@ -213,7 +211,7 @@ module.exports = `<div class='ai-jobs'>
 
   <a class="anchor" name="method"></a>
   <h2>How did you get this data?</h2>
-  <p>Economic modelling firm AlphaBeta conducted an analysis to figure out how difficult it would be to automate each type of job in Australia, in a research project that was funded by Google.</p>
+  <p>Economic modelling firm AlphaBeta <a href="http://www.alphabeta.com/wp-content/uploads/2017/08/The-Automation-Advantage.pdf">conducted an analysis</a> to figure out how difficult it would be to automate each type of job in Australia, in a research project that was funded by Google.</p>
   It’s a huge task, and not simple. The project was led by economist Andrew Charlton, a former adviser to Kevin Rudd.</p>
   <p>“We broke the Australian economy down into 20 billion hours of work,” he explains, “and we asked what does every Australian do with their day, and how does what they do in their job change over the next 15 years.”</p>
   <p>In more detail, here’s the process Charlton and his team stepped through:</p>
