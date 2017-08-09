@@ -233,5 +233,11 @@ module.exports = `<div class='ai-jobs'>
 
 </div> <!-- end hiding until after search -->
 
+<div class="font_preload" style="opacity: 0">
+    <span style="
+      font-family: 'ABCSans','Interval Sans Pro',Arial,Helvetica,sans-serif;
+      font-weight: 900"></span>
+    
+</div>
 
 </div>`
