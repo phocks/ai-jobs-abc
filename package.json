@@ -1,6 +1,6 @@
 {
   "name": "interactive-jobs-automation",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "An online tool that displays information about how different jobs may be automated in the future.",
   "license": "MIT",
   "private": true,
