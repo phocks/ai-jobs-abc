@@ -199,6 +199,9 @@ ul#automation-list {
     padding: 3.3rem 0 2rem;
     text-align: center;
     margin-bottom: 2rem;
+    // Fix Odyssey update
+    margin-left: calc((var(--root-width) / -2) + 50%)!important;
+    width: var(--root-width);
   }
 
 #ai-jobs-automation h2.search-header {
@@ -324,4 +327,8 @@ a.anchor {
   position: relative;
   top: -120px;
   visibility: hidden;
+}
+
+.Header.u-full {
+  margin-bottom: 0;
 }
