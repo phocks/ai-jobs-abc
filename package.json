@@ -24,7 +24,7 @@
     "@abcnews/webpacker": "^0.5.0"
   },
   "dependencies": {
-    "d3": "^4.9.1",
+    "d3": "^7.0.0",
     "fuse.js": "^3.0.5",
     "js-autocomplete": "^1.0.4",
     "vue": "^2.4.1"
