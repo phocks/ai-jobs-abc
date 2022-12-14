@@ -7,23 +7,12 @@
   "contributors": [
     "Joshua Byrd <phocks@gmail.com>"
   ],
-  "aunty": {
-    "deploy": {
-      "contentftp": {
-        "files": "**",
-        "from": "build",
-        "to": "/www/res/sites/news-projects/<name>/<id>"
-      }
-    }
-  },
   "scripts": {
     "start": "npm install && aunty serve --debug"
   },
-  "devDependencies": {
-    "@abcnews/aunty": "^3.1.0",
-    "@abcnews/webpacker": "^0.5.0"
-  },
   "dependencies": {
+    "@abcnews/aunty": "^13.2.2",
+    "@abcnews/env-utils": "^3.1.0",
     "d3": "^4.9.1",
     "fuse.js": "^3.0.5",
     "js-autocomplete": "^1.0.4",
