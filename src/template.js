@@ -1,6 +1,6 @@
 module.exports = `<div class='ai-jobs'>
-<div id="search-group" class="u-richtext u-full">
-<div class="u-layout">
+<div id="search-group" class="">
+<div class="">
   <h2 class="search-header no-margin-top">Search for your job:</h2>
   <input id='job-search' onclick="this.focus();this.select()" aria-label="Search for your job. Start typing then choose an option from the list below"/>
 </div>
@@ -9,7 +9,7 @@ module.exports = `<div class='ai-jobs'>
 
 
 <!-- Our App -->
-<div id="app" class="u-richtext" v-if="groupTitle" v-cloak>
+<div id="app2" class="u-richtext" v-if="groupTitle" v-cloak>
   <h2 class="job-title">{{ jobTitle }}</h2>
   <div class="group-title">{{ groupTitle }}</div>
 
@@ -240,4 +240,4 @@ module.exports = `<div class='ai-jobs'>
     
 </div>
 
-</div>`
+</div>`;

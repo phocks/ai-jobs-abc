@@ -23,6 +23,7 @@
     overflow-y: auto;
     box-sizing: border-box;
   }
+
   .autocomplete-suggestion {
     position: relative;
     padding: 0 0.6em;
@@ -33,10 +34,12 @@
     font-size: 1.02em;
     color: #333;
   }
+
   .autocomplete-suggestion b {
     font-weight: normal;
     color: #d2635b;
   }
+
   .autocomplete-suggestion.selected {
     background: #f0f0f0;
   }
@@ -107,7 +110,7 @@
     top: 1px;
   }
 
-  #app h2.job-title {
+  #app2 h2.job-title {
     font-weight: bold;
     text-align: center;
     color: #333;
@@ -118,7 +121,7 @@
     line-height: 1.5;
   }
 
-  #app .group-title {
+  #app2 .group-title {
     text-align: center;
     font-size: 22px;
     font-weight: bold;
@@ -177,6 +180,11 @@
     border-top: 1px solid #e1e1e1;
   }
 
+  #ai-jobs-automation hr::before {
+    background-color: unset;
+    margin: 0;
+  }
+
   #ai-jobs-automation .reaction-message {
     margin-top: 2rem;
     text-align: center;
@@ -200,7 +208,7 @@
 
   #ai-jobs-automation #search-group {
     background-color: #d2635b;
-    padding: 3.3rem 0 2rem;
+    padding: 3.3rem 0 3.3rem;
     text-align: center;
     margin-bottom: 2rem;
     // Fix Odyssey update
@@ -233,6 +241,18 @@
       border: none;
       cursor: pointer;
       padding: 5px 10px;
+    }
+
+    #search-group {
+      @media (min-width: 980px) {
+        /* CSS rules to apply when the viewport is 980px or wider */
+        width: 140%;
+        margin-left: -20% !important;
+      }
+    }
+
+    #job-search {
+      min-width: 80%;
     }
 
     .buttons button.margin {

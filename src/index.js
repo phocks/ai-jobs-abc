@@ -45,7 +45,7 @@ const main = async () => {
 
   // Create our Vue instance
   const app = new Vue({
-    el: "#app",
+    el: "#app2",
     data: {
       groupTitle: "",
       percentLessSusceptible: "",
